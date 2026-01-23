@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -9,74 +9,75 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Заучивание Корана">
     <meta name="theme-color" content="#007aff">
-    <meta name="description" content="Приложение для изучения арабского алфавита">
+    <meta name="description" content="Приложение для изучения арабского алфавита и правил таджвида">
     
-    <!-- Иконки для PWA -->
-    <link rel="apple-touch-icon" href="icon-192.png">
-    <link rel="icon" type="image/png" href="icon-192.png">
+    <!-- Иконки -->
+    <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+    <link rel="icon" type="image/png" href="assets/icons/icon-192.png">
     <link rel="manifest" href="manifest.json">
     
+    <!-- Стили -->
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/pages/home.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
     <title>Заучивание Корана</title>
-    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>📖 Заучивание Корана</h1>
-        </header>
-        
-        <main class="main-grid">
-            <a href="alphabet.html" class="app-card">
-                <div class="card-icon">ا</div>
-                <h2>Алфавит</h2>
-                <p>28 букв с произношением</p>
-            </a>
-            
-            <a href="#" class="app-card disabled">
-                <div class="card-icon">🕋</div>
-                <h2>Таджвид</h2>
-                <p>Скоро</p>
-            </a>
-            
-            <a href="#" class="app-card disabled">
-                <div class="card-icon">⭐</div>
-                <h2>Суры</h2>
-                <p>Скоро</p>
-            </a>
+    <div class="app-container">
+        <main class="main-content">
+            <div class="home-page">
+                <div class="app-logo" aria-hidden="true">📖</div>
+                <h1 class="app-name">Заучивание Корана</h1>
+                <p class="app-description">
+                    Приложение для изучения арабского алфавита, 
+                    правил таджвида и заучивания коротких сур
+                </p>
+                
+                <div class="features-grid">
+                    <div class="feature-card" data-type="alphabet" role="button" tabindex="0">
+                        <div class="feature-icon">ا</div>
+                        <h3 class="feature-title">Алфавит</h3>
+                        <p class="feature-description">28 букв с произношением и махраджем</p>
+                    </div>
+                    
+                    <div class="feature-card" data-type="tajweed" role="button" tabindex="0">
+                        <div class="feature-icon">🕋</div>
+                        <h3 class="feature-title">Таджвид</h3>
+                        <p class="feature-description">Правила чтения Корана</p>
+                    </div>
+                    
+                    <div class="feature-card" data-type="surahs" role="button" tabindex="0">
+                        <div class="feature-icon">⭐</div>
+                        <h3 class="feature-title">Судры</h3>
+                        <p class="feature-description">Короткие суры для заучивания</p>
+                    </div>
+                </div>
+                
+                <button id="installButton" class="btn btn-primary" style="display: none;">
+                    📱 Установить приложение
+                </button>
+                
+                <div id="iosInstallHint" class="install-hint" style="display: none;">
+                    Для установки на iOS используйте меню "Поделиться" в Safari
+                </div>
+                
+                <footer class="app-footer">
+                    <p>Для изучения Священного Корана</p>
+                    <p style="font-size: 12px; margin-top: 4px; color: var(--color-text-tertiary);">
+                        Версия 1.0.0
+                    </p>
+                </footer>
+            </div>
         </main>
-        
-        <footer>
-            <p>Для изучения Священного Корана</p>
-            <p class="install-hint" id="installHint" style="display: none;">
-                Нажмите 📥 → "На экран «Домой»"
-            </p>
-        </footer>
     </div>
 
-    <script>
-        // Регистрация Service Worker для PWA
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('service-worker.js')
-                    .then(registration => {
-                        console.log('ServiceWorker зарегистрирован');
-                    })
-                    .catch(err => {
-                        console.log('Ошибка регистрации ServiceWorker:', err);
-                    });
-            });
-        }
-        
-        // Показать подсказку об установке
-        window.addEventListener('beforeinstallprompt', (e) => {
-            document.getElementById('installHint').style.display = 'block';
-        });
-        
-        // Подсказка для iOS
-        if (navigator.userAgent.includes('iPhone') || navigator.userAgent.includes('iPad')) {
-            document.getElementById('installHint').style.display = 'block';
-        }
-    </script>
+    <!-- JavaScript -->
+    <script type="module" src="js/app.js"></script>
+    <script type="module" src="js/pages/home-page.js"></script>
 </body>
 </html>
-
