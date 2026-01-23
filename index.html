@@ -9,75 +9,130 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Заучивание Корана">
     <meta name="theme-color" content="#007aff">
-    <meta name="description" content="Приложение для изучения арабского алфавита и правил таджвида">
     
-    <!-- Иконки -->
-    <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
-    <link rel="icon" type="image/png" href="assets/icons/icon-192.png">
+    <!-- Минимальный manifest -->
     <link rel="manifest" href="manifest.json">
     
-    <!-- Стили -->
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/variables.css">
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="css/layout.css">
-    <link rel="stylesheet" href="css/pages/home.css">
-    <link rel="stylesheet" href="css/responsive.css">
-    
     <title>Заучивание Корана</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f2f2f7;
+            height: 100vh;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .logo {
+            font-size: 64px;
+            margin-bottom: 24px;
+        }
+        
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 12px;
+        }
+        
+        .description {
+            font-size: 17px;
+            color: #666;
+            margin-bottom: 40px;
+            max-width: 300px;
+            line-height: 1.4;
+        }
+        
+        .features {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+            max-width: 300px;
+            margin-bottom: 40px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            text-decoration: none;
+            color: #000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .feature-card:active {
+            transform: scale(0.98);
+            background: #f8f9fa;
+        }
+        
+        .feature-icon {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+        
+        .feature-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .feature-desc {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .install-hint {
+            font-size: 14px;
+            color: #007aff;
+            margin-top: 20px;
+            padding: 12px 16px;
+            background: rgba(0, 122, 255, 0.1);
+            border-radius: 12px;
+        }
+        
+        footer {
+            margin-top: 40px;
+            color: #888;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
-    <div class="app-container">
-        <main class="main-content">
-            <div class="home-page">
-                <div class="app-logo" aria-hidden="true">📖</div>
-                <h1 class="app-name">Заучивание Корана</h1>
-                <p class="app-description">
-                    Приложение для изучения арабского алфавита, 
-                    правил таджвида и заучивания коротких сур
-                </p>
-                
-                <div class="features-grid">
-                    <div class="feature-card" data-type="alphabet" role="button" tabindex="0">
-                        <div class="feature-icon">ا</div>
-                        <h3 class="feature-title">Алфавит</h3>
-                        <p class="feature-description">28 букв с произношением и махраджем</p>
-                    </div>
-                    
-                    <div class="feature-card" data-type="tajweed" role="button" tabindex="0">
-                        <div class="feature-icon">🕋</div>
-                        <h3 class="feature-title">Таджвид</h3>
-                        <p class="feature-description">Правила чтения Корана</p>
-                    </div>
-                    
-                    <div class="feature-card" data-type="surahs" role="button" tabindex="0">
-                        <div class="feature-icon">⭐</div>
-                        <h3 class="feature-title">Судры</h3>
-                        <p class="feature-description">Короткие суры для заучивания</p>
-                    </div>
-                </div>
-                
-                <button id="installButton" class="btn btn-primary" style="display: none;">
-                    📱 Установить приложение
-                </button>
-                
-                <div id="iosInstallHint" class="install-hint" style="display: none;">
-                    Для установки на iOS используйте меню "Поделиться" в Safari
-                </div>
-                
-                <footer class="app-footer">
-                    <p>Для изучения Священного Корана</p>
-                    <p style="font-size: 12px; margin-top: 4px; color: var(--color-text-tertiary);">
-                        Версия 1.0.0
-                    </p>
-                </footer>
-            </div>
-        </main>
+    <div class="logo">📖</div>
+    <h1>Заучивание Корана</h1>
+    <p class="description">Изучение арабского алфавита с произношением</p>
+    
+    <div class="features">
+        <a href="pages/alphabet.html" class="feature-card">
+            <div class="feature-icon">ا</div>
+            <div class="feature-title">Арабский алфавит</div>
+            <div class="feature-desc">28 букв с махраджем</div>
+        </a>
     </div>
-
-    <!-- JavaScript -->
-    <script type="module" src="js/app.js"></script>
-    <script type="module" src="js/pages/home-page.js"></script>
+    
+    <div class="install-hint">
+        Для установки на iOS:<br>
+        Нажмите "Поделиться" → "На экран «Домой»"
+    </div>
+    
+    <footer>
+        Для изучения Священного Корана
+    </footer>
 </body>
 </html>
