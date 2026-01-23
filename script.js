@@ -1,18 +1,43 @@
-// Ждем, когда вся страница загрузится
+// Ждем загрузки DOM
 document.addEventListener('DOMContentLoaded', function() {
-    // Находим нашу кнопку и текстовый блок
-    const button = document.getElementById('myButton');
-    const demoText = document.getElementById('demoText');
-
-    // Добавляем действие при нажатии на кнопку
-    button.addEventListener('click', function() {
-        demoText.textContent = 'Ура! Вы нажали кнопку! 🎉';
-        demoText.style.color = '#007aff';
-        demoText.style.fontWeight = 'bold';
-
-        // Можно добавить вибрацию (работает на реальном устройстве)
-        if (navigator.vibrate) {
-            navigator.vibrate(50);
-        }
+    console.log('Приложение "Заучивание Корана" загружено!');
+    
+    // Добавляем эффект клика на карточки
+    const cards = document.querySelectorAll('.card');
+    
+    cards.forEach(card => {
+        card.addEventListener('click', function(e) {
+            // Эффект нажатия
+            this.style.transform = 'scale(0.98)';
+            this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+            
+            // Восстановление через 150ms
+            setTimeout(() => {
+                this.style.transform = '';
+                this.style.boxShadow = '';
+            }, 150);
+        });
+        
+        // Подсказка при наведении
+        card.addEventListener('mouseenter', function() {
+            const title = this.querySelector('h2').textContent;
+            console.log(`Переход к разделу: ${title}`);
+        });
     });
+    
+    // Добавляем информацию о времени загрузки
+    const footer = document.querySelector('.footer');
+    if (footer) {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString('ru-RU', { 
+            hour: '2-digit', 
+            minute: '2-digit' 
+        });
+        const dateElement = document.createElement('div');
+        dateElement.style.marginTop = '8px';
+        dateElement.style.fontSize = '14px';
+        dateElement.style.color = '#aaa';
+        dateElement.textContent = `Время открытия: ${timeString}`;
+        footer.appendChild(dateElement);
+    }
 });
