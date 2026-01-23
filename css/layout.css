@@ -1,1 +1,125 @@
+/* Макеты страниц */
+@import './variables.css';
 
+/* Хедер */
+.app-header {
+    padding: var(--space-sm) var(--space-md);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 0.5px solid var(--color-border-light);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 44px;
+}
+
+.header-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    text-align: center;
+    flex: 1;
+    margin: 0 var(--space-md);
+}
+
+/* Футер */
+.app-footer {
+    padding: var(--space-md);
+    background: var(--color-bg-primary);
+    border-top: 0.5px solid var(--color-border-light);
+    text-align: center;
+    color: var(--color-text-secondary);
+    font-size: 14px;
+}
+
+/* Контейнер контента */
+.content-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--space-md);
+}
+
+.content-padded {
+    padding: var(--space-lg);
+}
+
+/* Навигация */
+.nav-bar {
+    display: flex;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    background: var(--color-bg-primary);
+    border-top: 0.5px solid var(--color-border-light);
+}
+
+.nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-sm);
+    border-radius: var(--radius-medium);
+    color: var(--color-text-secondary);
+    transition: all var(--transition-fast);
+}
+
+.nav-item:active {
+    background: var(--color-bg-secondary);
+}
+
+.nav-item.active {
+    color: var(--color-primary);
+}
+
+.nav-icon {
+    font-size: 20px;
+}
+
+.nav-label {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* Страница с табами */
+.tab-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.tab-header {
+    display: flex;
+    background: var(--color-bg-primary);
+    border-bottom: 0.5px solid var(--color-border-light);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.tab-button {
+    padding: var(--space-md) var(--space-lg);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all var(--transition-fast);
+}
+
+.tab-button.active {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+}
+
+.tab-content {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
