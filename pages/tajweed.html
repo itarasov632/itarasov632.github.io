@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <title>Таджвид - В разработке</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f2f2f7;
+            height: 100vh;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+        }
+        
+        .container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background: white;
+        }
+        
+        .header {
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+        }
+        
+        .back-button {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: rgba(0, 122, 255, 0.1);
+            color: #007aff;
+            text-decoration: none;
+            font-size: 20px;
+        }
+        
+        .title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #000;
+            text-align: center;
+            flex: 1;
+            margin: 0 10px;
+        }
+        
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .icon {
+            font-size: 64px;
+            margin-bottom: 24px;
+            color: #8e8e93;
+        }
+        
+        .message {
+            font-size: 20px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 12px;
+        }
+        
+        .submessage {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="../index.html" class="back-button">‹</a>
+            <h1 class="title">Таджвид</h1>
+            <div style="width: 44px;"></div>
+        </div>
+        
+        <div class="content">
+            <div class="icon">🕋</div>
+            <div class="message">В разработке</div>
+            <div class="submessage">
+                Раздел с правилами таджвида<br>
+                появится в ближайшее время
+            </div>
+        </div>
+    </div>
+</body>
+</html>
