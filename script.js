@@ -1,6 +1,6 @@
 // Ждем загрузки DOM
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Приложение "Заучивание Корана" загружено!');
+    console.log('Приложение "Второй учитель" загружено!');
     
     // Добавляем эффект клика на карточки
     const cards = document.querySelectorAll('.card');
@@ -41,3 +41,4 @@ document.addEventListener('DOMContentLoaded', function() {
         footer.appendChild(dateElement);
     }
 });
+
