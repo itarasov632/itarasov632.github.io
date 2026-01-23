@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <!-- PWA мета-теги -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Арабский алфавит">
+    <meta name="theme-color" content="#007aff">
+    
+    <!-- Иконки для iOS -->
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="manifest" href="manifest.json">
+    
+    <title>Арабский алфавит</title>
+    <style>
+        /* Сброс стилей */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            background: #000;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+            background: #f2f2f7;
+            color: #000;
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
+        }
+        
+        /* Основной контейнер */
+        .app-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            max-height: -webkit-fill-available;
+        }
+        
+        /* Шапка */
+        .app-header {
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 10;
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .back-button {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: rgba(0, 122, 255, 0.1);
+            color: #007aff;
+            text-decoration: none;
+            font-size: 20px;
+            transition: all 0.2s;
+        }
+        
+        .back-button:active {
+            background: rgba(0, 122, 255, 0.2);
+            transform: scale(0.95);
+        }
+        
+        .page-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #000;
+            text-align: center;
+            flex: 1;
+            margin: 0 10px;
+        }
+        
+        /* Сетка букв - iPhone 13: 4×7 */
+        .letters-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(7, 1fr);
+            gap: 1px;
+            padding: 8px;
+            background: #c6c6c8;
+            overflow: hidden;
+        }
+        
+        .letter-cell {
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'SF Pro Arabic', 'Scheherazade', 'Amiri', serif;
+            font-size: 42px;
+            font-weight: 400;
+            color: #000;
+            transition: all 0.15s;
+            -webkit-touch-callout: none;
+            cursor: pointer;
+        }
+        
+        .letter-cell:active {
+            background: #e5e5ea;
+            transform: scale(0.96);
+        }
+        
+        /* Полноэкранное модальное окно */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #f2f2f7;
+            z-index: 1000;
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .modal-overlay.active {
+            transform: translateY(0);
+        }
+        
+        /* Заголовок модального окна */
+        .modal-header {
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+        
+        .close-button {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.05);
+            color: #000;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-family: -apple-system, sans-serif;
+        }
+        
+        .close-button:active {
+            background: rgba(0, 0, 0, 0.1);
+            transform: scale(0.95);
+        }
+        
+        /* Контент модального окна */
+        .modal-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        /* Верхняя часть: Изображение + Инфо */
+        .letter-top-section {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .makhraj-image {
+            width: 25%;
+            min-width: 80px;
+            aspect-ratio: 1;
+            background: #e5e5ea;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .makhraj-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .makhraj-image.error::before {
+            content: "error";
+            color: #8e8e93;
+            font-size: 14px;
+        }
+        
+        .letter-info {
+            flex: 1;
+        }
+        
+        .letter-arabic {
+            font-family: 'SF Pro Arabic', 'Scheherazade', 'Amiri', serif;
+            font-size: 72px;
+            font-weight: 400;
+            margin-bottom: 8px;
+            line-height: 1;
+        }
+        
+        .letter-name {
+            font-size: 28px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 4px;
+        }
+        
+        .play-button {
+            width: 44px;
+            height: 44px;
+            border-radius: 22px;
+            background: #007aff;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 10px;
+        }
+        
+        .play-button:active {
+            background: #0056cc;
+            transform: scale(0.95);
+        }
+        
+        /* Формы написания */
+        .forms-section {
+            margin-bottom: 30px;
+        }
+        
+        .forms-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 16px;
+        }
+        
+        .forms-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        
+        .form-item {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px 12px;
+            text-align: center;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .form-label {
+            font-size: 15px;
+            color: #8e8e93;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .form-letter {
+            font-family: 'SF Pro Arabic', 'Scheherazade', 'Amiri', serif;
+            font-size: 36px;
+            color: #000;
+            font-weight: 400;
+        }
+        
+        /* Изображение махраджа (нижняя часть) */
+        .makhraj-full-section {
+            flex: 1;
+            min-height: 200px;
+        }
+        
+        .makhraj-full-image {
+            width: 100%;
+            height: 100%;
+            background: #e5e5ea;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .makhraj-full-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .makhraj-full-image.error::before {
+            content: "error";
+            color: #8e8e93;
+            font-size: 16px;
+        }
+        
+        /* Анимации */
+        @keyframes letterPress {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.96); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Адаптивность для разных iPhone */
+        @media (max-height: 700px) {
+            .letter-arabic { font-size: 60px; }
+            .letter-name { font-size: 24px; }
+            .form-letter { font-size: 30px; }
+        }
+        
+        @media (max-width: 400px) {
+            .letter-arabic { font-size: 56px; }
+            .letter-name { font-size: 22px; }
+            .forms-grid { gap: 8px; }
+            .form-item { padding: 16px 8px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Шапка -->
+        <header class="app-header">
+            <div class="header-content">
+                <a href="index.html" class="back-button">←</a>
+                <h1 class="page-title">Арабский алфавит</h1>
+                <div style="width: 44px;"></div> <!-- Для симметрии -->
+            </div>
+        </header>
+        
+        <!-- Сетка букв -->
+        <div class="letters-grid" id="lettersGrid">
+            <!-- Буквы будут добавлены через JS -->
+        </div>
+    </div>
+    
+    <!-- Модальное окно -->
+    <div class="modal-overlay" id="letterModal">
+        <div class="modal-header">
+            <button class="close-button" onclick="closeModal()">×</button>
+        </div>
+        
+        <div class="modal-content" id="modalContent">
+            <!-- Контент будет заполнен через JS -->
+        </div>
+    </div>
+
+    <script>
+        // Данные арабского алфавита (28 букв)
+        const arabicAlphabet = [
+            { id: 1, letter: "ا", name: "Алиф", forms: { initial: "ا", medial: "ـا", final: "ـا" } },
+            { id: 2, letter: "ب", name: "Ба", forms: { initial: "بـ", medial: "ـبـ", final: "ـب" } },
+            { id: 3, letter: "ت", name: "Та", forms: { initial: "تـ", medial: "ـتـ", final: "ـت" } },
+            { id: 4, letter: "ث", name: "Са", forms: { initial: "ثـ", medial: "ـثـ", final: "ـث" } },
+            { id: 5, letter: "ج", name: "Джим", forms: { initial: "جـ", medial: "ـجـ", final: "ـج" } },
+            { id: 6, letter: "ح", name: "Ха", forms: { initial: "حـ", medial: "ـحـ", final: "ـح" } },
+            { id: 7, letter: "خ", name: "Ха", forms: { initial: "خـ", medial: "ـخـ", final: "ـخ" } },
+            { id: 8, letter: "د", name: "Даль", forms: { initial: "د", medial: "ـد", final: "ـد" } },
+            { id: 9, letter: "ذ", name: "Заль", forms: { initial: "ذ", medial: "ـذ", final: "ـذ" } },
+            { id: 10, letter: "ر", name: "Ра", forms: { initial: "ر", medial: "ـر", final: "ـر" } },
+            { id: 11, letter: "ز", name: "За", forms: { initial: "ز", medial: "ـز", final: "ـز" } },
+            { id: 12, letter: "س", name: "Син", forms: { initial: "سـ", medial: "ـسـ", final: "ـس" } },
+            { id: 13, letter: "ش", name: "Шин", forms: { initial: "شـ", medial: "ـشـ", final: "ـش" } },
+            { id: 14, letter: "ص", name: "Сад", forms: { initial: "صـ", medial: "ـصـ", final: "ـص" } },
+            { id: 15, letter: "ض", name: "Дад", forms: { initial: "ضـ", medial: "ـضـ", final: "ـض" } },
+            { id: 16, letter: "ط", name: "Та", forms: { initial: "طـ", medial: "ـطـ", final: "ـط" } },
+            { id: 17, letter: "ظ", name: "За", forms: { initial: "ظـ", medial: "ـظـ", final: "ـظ" } },
+            { id: 18, letter: "ع", name: "Айн", forms: { initial: "عـ", medial: "ـعـ", final: "ـع" } },
+            { id: 19, letter: "غ", name: "Гайн", forms: { initial: "غـ", medial: "ـغـ", final: "ـغ" } },
+            { id: 20, letter: "ف", name: "Фа", forms: { initial: "فـ", medial: "ـفـ", final: "ـف" } },
+            { id: 21, letter: "ق", name: "Каф", forms: { initial: "قـ", medial: "ـقـ", final: "ـق" } },
+            { id: 22, letter: "ك", name: "Каф", forms: { initial: "كـ", medial: "ـكـ", final: "ـك" } },
+            { id: 23, letter: "ل", name: "Лям", forms: { initial: "لـ", medial: "ـلـ", final: "ـل" } },
+            { id: 24, letter: "م", name: "Мим", forms: { initial: "مـ", medial: "ـمـ", final: "ـم" } },
+            { id: 25, letter: "ن", name: "Нун", forms: { initial: "نـ", medial: "ـنـ", final: "ـن" } },
+            { id: 26, letter: "ه", name: "Ха", forms: { initial: "هـ", medial: "ـهـ", final: "ـه" } },
+            { id: 27, letter: "و", name: "Вав", forms: { initial: "و", medial: "ـو", final: "ـو" } },
+            { id: 28, letter: "ي", name: "Йа", forms: { initial: "يـ", medial: "ـيـ", final: "ـي" } }
+        ];
+
+        let currentLetter = null;
+        let currentAudio = null;
+        let startY = 0;
+        let modal = null;
+        let modalContent = null;
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            modal = document.getElementById('letterModal');
+            modalContent = document.getElementById('modalContent');
+            renderAlphabet();
+            setupSwipeGestures();
+            
+            // Регистрация Service Worker для PWA
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('service-worker.js');
+            }
+        });
+
+        // Рендеринг алфавита
+        function renderAlphabet() {
+            const grid = document.getElementById('lettersGrid');
+            grid.innerHTML = '';
+            
+            arabicAlphabet.forEach(letter => {
+                const cell = document.createElement('div');
+                cell.className = 'letter-cell';
+                cell.textContent = letter.letter;
+                cell.dataset.id = letter.id;
+                
+                // Анимация при нажатии
+                cell.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    this.style.animation = 'letterPress 0.3s';
+                    // Вибрация
+                    if (navigator.vibrate) navigator.vibrate(10);
+                });
+                
+                cell.addEventListener('animationend', function() {
+                    this.style.animation = '';
+                });
+                
+                cell.addEventListener('click', () => openModal(letter));
+                grid.appendChild(cell);
+            });
+        }
+
+        // Открытие модального окна
+        function openModal(letter) {
+            currentLetter = letter;
+            
+            // Заполняем контент
+            modalContent.innerHTML = `
+                <div class="letter-top-section">
+                    <div class="makhraj-image" id="smallMakhraj">
+                        <!-- Маленькое изображение махраджа -->
+                    </div>
+                    <div class="letter-info">
+                        <div class="letter-arabic">${letter.letter}</div>
+                        <div class="letter-name">${letter.name}</div>
+                        <button class="play-button" onclick="playLetterAudio()">
+                            ▶
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="forms-section">
+                    <div class="forms-title">Формы написания</div>
+                    <div class="forms-grid">
+                        <div class="form-item">
+                            <span class="form-label">В начале</span>
+                            <div class="form-letter">${letter.forms.initial}</div>
+                        </div>
+                        <div class="form-item">
+                            <span class="form-label">В середине</span>
+                            <div class="form-letter">${letter.forms.medial}</div>
+                        </div>
+                        <div class="form-item">
+                            <span class="form-label">В конце</span>
+                            <div class="form-letter">${letter.forms.final}</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="makhraj-full-section">
+                    <div class="makhraj-full-image" id="fullMakhraj">
+                        <!-- Полное изображение махраджа -->
+                    </div>
+                </div>
+            `;
+            
+            // Загружаем изображения махраджа
+            loadMakhrajImage('smallMakhraj', letter.id, true);
+            loadMakhrajImage('fullMakhraj', letter.id, false);
+            
+            // Показываем модальное окно
+            setTimeout(() => {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }, 10);
+        }
+
+        // Загрузка изображения махраджа
+        function loadMakhrajImage(elementId, letterId, isSmall) {
+            const element = document.getElementById(elementId);
+            const imageName = `makhraj_${letterId.toString().padStart(2, '0')}.png`;
+            const imagePath = `assets/images/makhraj/${imageName}`;
+            
+            const img = new Image();
+            img.onload = function() {
+                element.innerHTML = '';
+                element.appendChild(img);
+                element.classList.remove('error');
+            };
+            
+            img.onerror = function() {
+                element.innerHTML = '';
+                element.classList.add('error');
+            };
+            
+            img.src = imagePath;
+            img.alt = `Махрадж буквы ${letterId}`;
+            
+            if (isSmall) {
+                img.style.objectFit = 'cover';
+            } else {
+                img.style.objectFit = 'contain';
+            }
+        }
+
+        // Воспроизведение аудио буквы
+        function playLetterAudio() {
+            if (!currentLetter) return;
+            
+            // Останавливаем предыдущее аудио
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            }
+            
+            // Загружаем и воспроизводим новое аудио
+            const audioName = `letter_${currentLetter.id.toString().padStart(2, '0')}.mp3`;
+            const audioPath = `assets/audio/letters/${audioName}`;
+            
+            currentAudio = new Audio(audioPath);
+            currentAudio.play().catch(e => {
+                console.log('Ошибка воспроизведения:', e);
+                // Эмуляция звука если файл не найден
+                emulateAudio();
+            });
+            
+            // Вибрация
+            if (navigator.vibrate) navigator.vibrate(50);
+        }
+
+        // Эмуляция звука если аудиофайл не найден
+        function emulateAudio() {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = 440 + (currentLetter.id * 10);
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                
+                oscillator.start();
+                oscillator.stop(audioContext.currentTime + 0.5);
+            } catch (e) {
+                console.log('Аудио эмуляция недоступна');
+            }
+        }
+
+        // Закрытие модального окна
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            
+            // Останавливаем аудио
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+                currentAudio = null;
+            }
+            
+            currentLetter = null;
+            
+            // Небольшая задержка перед скрытием
+            setTimeout(() => {
+                modalContent.innerHTML = '';
+            }, 400);
+        }
+
+        // Настройка жестов свайпа
+        function setupSwipeGestures() {
+            let startY = 0;
+            let currentY = 0;
+            
+            modal.addEventListener('touchstart', function(e) {
+                startY = e.touches[0].clientY;
+                currentY = startY;
+            });
+            
+            modal.addEventListener('touchmove', function(e) {
+                currentY = e.touches[0].clientY;
+                const diff = currentY - startY;
+                
+                // Свайп вниз для закрытия
+                if (diff > 50) {
+                    this.style.transform = `translateY(${diff}px)`;
+                }
+            });
+            
+            modal.addEventListener('touchend', function(e) {
+                const diff = currentY - startY;
+                
+                // Если свайп достаточно большой - закрываем
+                if (diff > 100) {
+                    closeModal();
+                }
+                
+                // Возвращаем на место
+                this.style.transform = 'translateY(0)';
+            });
+        }
+
+        // Предотвращение скролла за пределами модального окна
+        document.addEventListener('touchmove', function(e) {
+            if (modal.classList.contains('active')) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+    </script>
+</body>
+</html>
