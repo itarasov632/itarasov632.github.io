@@ -2,32 +2,58 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <!-- САМЫЕ ВАЖНЫЕ ТЕГИ ДЛЯ iOS ПРИЛОЖЕНИЯ -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <!-- *********************************** -->
-    <title>Мое первое приложение</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Заучивание Корана - Главная</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Иконка для домашнего экрана (создайте файл icon.png 192x192px) -->
-    <link rel="apple-touch-icon" href="icon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>📱 Мое приложение</h1>
-        </header>
-        <main>
-            <p>Добро пожаловать! Это простое приложение, которое работает прямо в Safari.</p>
-            <button id="myButton">Нажми меня</button>
-            <p id="demoText">Тут будет результат...</p>
-        </main>
-        <footer>
-            <p>© 2023 Моя компания</p>
-        </footer>
-    </div>
+    <main class="main">
+        <h1 class="title">
+            <i class="fas fa-book-quran"></i>
+            Заучивание Корана
+        </h1>
 
-    <!-- Подключаем наш JavaScript -->
+        <div class="container">
+            <a href="alphabet.html" class="card">
+                <div class="card-icon">
+                    <i class="fas fa-font"></i>
+                </div>
+                <h2>Алфавит</h2>
+                <p>Буквы и произношение</p>
+                <div class="card-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </a>
+
+            <a href="tajweed.html" class="card">
+                <div class="card-icon">
+                    <i class="fas fa-microphone-alt"></i>
+                </div>
+                <h2>Таджвид</h2>
+                <p>Правила чтения</p>
+                <div class="card-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </a>
+
+            <a href="surahs.html" class="card">
+                <div class="card-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <h2>Краткие суры</h2>
+                <p>Для заучивания</p>
+                <div class="card-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </a>
+        </div>
+
+        <div class="footer">
+            <p>Для изучения Священного Корана</p>
+        </div>
+    </main>
+
     <script src="script.js"></script>
 </body>
 </html>
