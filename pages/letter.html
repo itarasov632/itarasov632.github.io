@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <!-- PWA мета-теги -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- Иконки -->
+    <link rel="apple-touch-icon" href="../assets/icons/icon-192.png">
+    <link rel="icon" type="image/png" href="../assets/icons/icon-192.png">
+    <link rel="manifest" href="../manifest.json">
+    
+    <!-- Стили -->
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/pages/letter.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    
+    <title>Загрузка буквы...</title>
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-content">
+                <a href="alphabet.html" id="backButton" class="btn btn-icon" aria-label="Назад к алфавиту">
+                    ←
+                </a>
+                <h1 class="header-title" id="pageTitle">Буква</h1>
+                <div style="width: 44px;"></div>
+            </div>
+        </header>
+        
+        <main class="main-content">
+            <div class="letter-page">
+                <div class="letter-header">
+                    <div class="letter-info">
+                        <div class="letter-symbol" id="letterSymbol">ا</div>
+                        <div class="letter-details">
+                            <h2 class="letter-name" id="letterName">Алиф</h2>
+                            <div class="letter-transcription" id="letterTranscription">ʾalif</div>
+                            <button id="playButton" class="btn btn-icon" style="background: var(--color-primary); color: white;">
+                                ▶
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="letter-content">
+                    <section class="forms-section">
+                        <h3 class="section-title">Формы написания</h3>
+                        <div class="forms-grid">
+                            <div class="form-card">
+                                <span class="form-label">В начале</span>
+                                <div class="form-symbol" id="formInitial">ا</div>
+                            </div>
+                            <div class="form-card">
+                                <span class="form-label">В середине</span>
+                                <div class="form-symbol" id="formMedial">ـا</div>
+                            </div>
+                            <div class="form-card">
+                                <span class="form-label">В конце</span>
+                                <div class="form-symbol" id="formFinal">ـا</div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <section class="makhraj-section">
+                        <h3 class="section-title">Махрадж</h3>
+                        <div class="makhraj-image-container" id="makhrajImage">
+                            <div class="makhraj-error">Загрузка...</div>
+                        </div>
+                    </section>
+                </div>
+                
+                <div class="letter-navigation">
+                    <button id="prevLetter" class="nav-button nav-button-prev disabled" aria-disabled="true">
+                        Предыдущая
+                    </button>
+                    <button id="nextLetter" class="nav-button nav-button-next disabled" aria-disabled="true">
+                        Следующая
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- JavaScript -->
+    <script type="module" src="../js/app.js"></script>
+    <script type="module" src="../js/pages/letter-page.js"></script>
+</body>
+</html>
