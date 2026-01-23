@@ -53,48 +53,31 @@
             font-size: 20px;
         }
         
-        .title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #000;
-            text-align: center;
+        .header-content {
             flex: 1;
             margin: 0 10px;
+        }
+        
+        .surah-arabic-name {
+            font-family: 'SF Pro Arabic', 'Scheherazade', serif;
+            font-size: 24px;
+            color: #000;
+            direction: rtl;
+            text-align: center;
+            margin-bottom: 2px;
+        }
+        
+        .surah-info {
+            font-size: 14px;
+            color: #666;
+            text-align: center;
         }
         
         .surah-content {
             flex: 1;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
-            padding: 24px;
-        }
-        
-        .surah-header {
-            text-align: center;
-            margin-bottom: 32px;
-            padding-bottom: 24px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        }
-        
-        .surah-number {
-            font-size: 14px;
-            color: #007aff;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-        
-        .surah-name {
-            font-size: 32px;
-            font-weight: 700;
-            color: #000;
-            margin-bottom: 8px;
-        }
-        
-        .surah-arabic-name {
-            font-family: 'SF Pro Arabic', 'Scheherazade', serif;
-            font-size: 28px;
-            color: #666;
-            direction: rtl;
+            padding: 2px;
         }
         
         .ayahs-container {
@@ -107,8 +90,8 @@
             font-size: 28px;
             line-height: 1.8;
             color: #000;
-            margin-bottom: 24px;
-            padding: 16px;
+            margin-bottom: 1px;
+            padding: 2px;
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.15s;
@@ -122,16 +105,6 @@
         .ayah.playing {
             background: rgba(0, 122, 255, 0.1);
             color: #007aff;
-        }
-        
-        .bismillah {
-            font-family: 'SF Pro Arabic', 'Scheherazade', serif;
-            font-size: 24px;
-            color: #666;
-            text-align: center;
-            margin-bottom: 32px;
-            direction: rtl;
-            line-height: 1.6;
         }
         
         .navigation {
@@ -166,21 +139,17 @@
         }
         
         @media (max-width: 375px) {
-            .surah-name {
-                font-size: 28px;
+            .surah-arabic-name {
+                font-size: 22px;
             }
             
-            .surah-arabic-name {
-                font-size: 24px;
+            .surah-info {
+                font-size: 13px;
             }
             
             .ayah {
                 font-size: 24px;
                 line-height: 1.6;
-            }
-            
-            .bismllah {
-                font-size: 22px;
             }
         }
         
@@ -197,12 +166,14 @@
     <div class="container">
         <div class="header">
             <a href="surahs.html" class="back-button">‹</a>
-            <h1 class="title" id="pageTitle">Сура</h1>
+            <div class="header-content" id="headerContent">
+                <!-- Сюда будет загружена информация о суре -->
+            </div>
             <div style="width: 44px;"></div>
         </div>
         
         <div class="surah-content" id="surahContent">
-            <!-- Контент суры загрузится через JS -->
+            <!-- Аяты будут загружены через JS -->
         </div>
         
         <div class="navigation">
@@ -218,7 +189,7 @@
             114: {
                 id: 114,
                 number: 114,
-                name: "Ан-Нас",
+                name: "Ан-нас",
                 arabicName: "الناس",
                 ayahs: [
                     { 
@@ -253,7 +224,6 @@
                     }
                 ]
             }
-            // Остальные суры добавим позже
         };
 
         let currentSurahId = 114;
@@ -261,7 +231,6 @@
         let currentPlayingAyah = null;
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Получаем ID суры из URL
             const urlParams = new URLSearchParams(window.location.search);
             const idFromUrl = parseInt(urlParams.get('id'));
             
@@ -280,25 +249,23 @@
                 return;
             }
             
-            // Обновляем заголовок
-            document.title = `${surah.number} • ${surah.name}`;
-            document.getElementById('pageTitle').textContent = `${surah.number} • ${surah.name}`;
+            document.title = `Сура ${surah.number} • ${surah.name}`;
             
-            // Создаем контент
+            // Загружаем информацию о суре в шапку
+            const headerContent = document.getElementById('headerContent');
+            headerContent.innerHTML = `
+                <div class="surah-arabic-name">${surah.arabicName}</div>
+                <div class="surah-info">Сура ${surah.number} • ${surah.name}</div>
+            `;
+            
+            // Загружаем аяты в основной контент
             const content = document.getElementById('surahContent');
             content.innerHTML = `
-                <div class="surah-header">
-                    <div class="surah-number">Сура ${surah.number}</div>
-                    <div class="surah-name">${surah.name}</div>
-                    <div class="surah-arabic-name">${surah.arabicName}</div>
-                </div>
-                
                 <div class="ayahs-container" id="ayahsContainer">
                     <!-- Аяты будут добавлены через JS -->
                 </div>
             `;
             
-            // Добавляем аяты
             const ayahsContainer = document.getElementById('ayahsContainer');
             ayahsContainer.innerHTML = '';
             
@@ -314,27 +281,22 @@
                 ayahsContainer.appendChild(ayahElement);
             });
             
-            // Обновляем навигацию
             updateNavigation(surahId);
         }
 
         function playAyah(ayahNumber, audioFile, ayahElement) {
-            // Останавливаем текущее воспроизведение
             if (currentAudio) {
                 currentAudio.pause();
                 currentAudio.currentTime = 0;
             }
             
-            // Убираем подсветку с предыдущего аята
             if (currentPlayingAyah) {
                 currentPlayingAyah.classList.remove('playing');
             }
             
-            // Подсвечиваем текущий аят
             ayahElement.classList.add('playing');
             currentPlayingAyah = ayahElement;
             
-            // Создаем и воспроизводим аудио
             const audioPath = `../assets/audio/surahs/${audioFile}`;
             currentAudio = new Audio(audioPath);
             
@@ -342,20 +304,17 @@
                 console.log('Аудио не найдено:', audioPath);
                 ayahElement.classList.remove('playing');
                 
-                // Вибрация для обратной связи
                 if (navigator.vibrate) {
                     navigator.vibrate(50);
                 }
             });
             
-            // Когда аудио закончится
             currentAudio.onended = function() {
                 ayahElement.classList.remove('playing');
                 currentPlayingAyah = null;
                 currentAudio = null;
             };
             
-            // Вибрация при начале воспроизведения
             if (navigator.vibrate) {
                 navigator.vibrate(30);
             }
@@ -364,14 +323,10 @@
         function setupNavigation() {
             document.getElementById('prevButton').addEventListener('click', function(e) {
                 e.preventDefault();
-                // Пока только одна сура, поэтому кнопка неактивна
-                // Позже добавим логику для перехода к предыдущей суре
             });
             
             document.getElementById('nextButton').addEventListener('click', function(e) {
                 e.preventDefault();
-                // Пока только одна сура, поэтому кнопка неактивна
-                // Позже добавим логику для перехода к следующей суре
             });
         }
 
@@ -379,18 +334,12 @@
             const prevButton = document.getElementById('prevButton');
             const nextButton = document.getElementById('nextButton');
             
-            // Пока только одна сура - обе кнопки неактивны
             prevButton.classList.add('disabled');
             nextButton.classList.add('disabled');
             prevButton.href = '#';
             nextButton.href = '#';
-            
-            // Позже, когда добавим больше сур:
-            // prevButton.href = surahId > 86 ? `?id=${surahId - 1}` : '#';
-            // nextButton.href = surahId < 114 ? `?id=${surahId + 1}` : '#';
         }
 
-        // Обработка кнопок назад/вперед браузера
         window.addEventListener('popstate', function() {
             const urlParams = new URLSearchParams(window.location.search);
             const idFromUrl = parseInt(urlParams.get('id'));
@@ -399,7 +348,6 @@
                 currentSurahId = idFromUrl;
                 loadSurah(currentSurahId);
                 
-                // Останавливаем аудио при смене суры
                 if (currentAudio) {
                     currentAudio.pause();
                     currentAudio.currentTime = 0;
