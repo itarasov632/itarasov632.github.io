@@ -1,0 +1,120 @@
+/* Адаптивные стили */
+@media (max-width: 768px) {
+    .letters-grid {
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(7, 1fr);
+    }
+    
+    .letter-cell {
+        font-size: 40px;
+    }
+    
+    .letter-symbol {
+        font-size: 64px;
+    }
+    
+    .forms-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .letters-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .letter-cell {
+        font-size: 36px;
+    }
+    
+    .letter-symbol {
+        font-size: 56px;
+        min-width: 70px;
+    }
+    
+    .letter-name {
+        font-size: 24px;
+    }
+    
+    .forms-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--space-xs);
+    }
+    
+    .form-card {
+        padding: var(--space-sm);
+    }
+    
+    .form-symbol {
+        font-size: 28px;
+    }
+    
+    .makhraj-image-container {
+        height: 250px;
+    }
+}
+
+@media (max-height: 700px) {
+    .letter-symbol {
+        font-size: 56px;
+    }
+    
+    .letter-name {
+        font-size: 24px;
+    }
+    
+    .makhraj-image-container {
+        height: 200px;
+    }
+}
+
+/* Ландшафтная ориентация */
+@media (orientation: landscape) and (max-height: 500px) {
+    .letters-grid {
+        grid-template-columns: repeat(7, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+    }
+    
+    .letter-cell {
+        font-size: 32px;
+    }
+    
+    .letter-info {
+        flex-direction: row;
+    }
+    
+    .forms-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Большие экраны */
+@media (min-width: 1024px) {
+    .content-container {
+        max-width: 900px;
+    }
+    
+    .letters-grid {
+        gap: 2px;
+    }
+    
+    .letter-cell {
+        font-size: 48px;
+    }
+}
+
+/* Поддержка мыши */
+@media (hover: hover) and (pointer: fine) {
+    .letter-cell:hover {
+        background: var(--color-bg-secondary);
+    }
+    
+    .nav-button:hover {
+        background: var(--color-bg-tertiary);
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-medium);
+    }
+}
