@@ -1,0 +1,67 @@
+/* CSS переменные для темизации */
+:root {
+    /* Цвета */
+    --color-primary: #007aff;
+    --color-primary-dark: #0056cc;
+    --color-secondary: #5856d6;
+    --color-success: #34c759;
+    --color-danger: #ff3b30;
+    --color-warning: #ff9500;
+    
+    /* Текст */
+    --color-text-primary: #000000;
+    --color-text-secondary: #8e8e93;
+    --color-text-tertiary: #c7c7cc;
+    
+    /* Фоны */
+    --color-bg-primary: #ffffff;
+    --color-bg-secondary: #f2f2f7;
+    --color-bg-tertiary: #e5e5ea;
+    
+    /* Границы */
+    --color-border: #c6c6c8;
+    --color-border-light: #e5e5ea;
+    
+    /* Тени */
+    --shadow-small: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.12);
+    --shadow-large: 0 8px 24px rgba(0, 0, 0, 0.16);
+    
+    /* Закругления */
+    --radius-small: 8px;
+    --radius-medium: 12px;
+    --radius-large: 16px;
+    --radius-xlarge: 24px;
+    
+    /* Отступы */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+    
+    /* Шрифты */
+    --font-system: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+    --font-arabic: 'SF Pro Arabic', 'Scheherazade', 'Amiri', serif;
+    
+    /* Анимации */
+    --transition-fast: 150ms ease;
+    --transition-normal: 250ms ease;
+    --transition-slow: 350ms ease;
+}
+
+/* Темная тема (опционально) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-text-primary: #ffffff;
+        --color-text-secondary: #8e8e93;
+        --color-text-tertiary: #48484a;
+        
+        --color-bg-primary: #000000;
+        --color-bg-secondary: #1c1c1e;
+        --color-bg-tertiary: #2c2c2e;
+        
+        --color-border: #38383a;
+        --color-border-light: #2c2c2e;
+    }
+}
