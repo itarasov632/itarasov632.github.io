@@ -4,70 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
-    <!-- PWA мета-теги -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Арабский алфавит">
-    <meta name="theme-color" content="#007aff">
-    
-    <!-- Иконки -->
-    <link rel="apple-touch-icon" href="../assets/icons/icon-192.png">
-    <link rel="icon" type="image/png" href="../assets/icons/icon-192.png">
-    <link rel="manifest" href="../manifest.json">
     
     <title>Арабский алфавит</title>
     <style>
-        /* Сброс и базовые стили */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
-            -webkit-user-select: none;
-            user-select: none;
-        }
-        
-        html, body {
-            height: 100%;
-            width: 100%;
-            overflow: hidden;
-            position: fixed;
-            background: #f2f2f7;
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
-            -webkit-font-smoothing: antialiased;
-            padding-top: env(safe-area-inset-top);
-            padding-bottom: env(safe-area-inset-bottom);
-            padding-left: env(safe-area-inset-left);
-            padding-right: env(safe-area-inset-right);
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f2f2f7;
+            height: 100vh;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
         }
         
-        /* Контейнер приложения */
-        .app-container {
-            height: 100vh;
-            max-height: -webkit-fill-available;
+        .container {
+            height: 100%;
             display: flex;
             flex-direction: column;
             background: white;
         }
         
-        /* Хедер */
-        .app-header {
+        .header {
             padding: 12px 16px;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
-            flex-shrink: 0;
-        }
-        
-        .header-content {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            height: 44px;
         }
         
         .back-button {
@@ -81,14 +51,9 @@
             color: #007aff;
             text-decoration: none;
             font-size: 20px;
-            font-weight: 300;
         }
         
-        .back-button:active {
-            background: rgba(0, 122, 255, 0.2);
-        }
-        
-        .page-title {
+        .title {
             font-size: 18px;
             font-weight: 600;
             color: #000;
@@ -97,34 +62,28 @@
             margin: 0 10px;
         }
         
-        /* Сетка букв - iPhone 13: 4×7 с отступами */
-        .letters-container {
+        .letters-grid {
             flex: 1;
             padding: 12px;
-        }
-        
-        .letters-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             grid-template-rows: repeat(7, 1fr);
             gap: 12px;
-            height: 100%;
         }
         
         .letter-cell {
-            background: #ffffff;
+            background: white;
             border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-family: 'SF Pro Arabic', 'Scheherazade', serif;
             font-size: 42px;
-            font-weight: 400;
             color: #000;
-            cursor: pointer;
-            transition: all 0.15s;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
             border: 1px solid rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: all 0.15s;
         }
         
         .letter-cell:active {
@@ -132,137 +91,75 @@
             transform: scale(0.96);
         }
         
-        /* Адаптивность */
         @media (max-width: 375px) {
-            .letters-grid {
-                gap: 10px;
-            }
-            
             .letter-cell {
                 font-size: 38px;
-            }
-        }
-        
-        @media (max-height: 700px) {
-            .letter-cell {
-                font-size: 36px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <!-- Шапка -->
-        <header class="app-header">
-            <div class="header-content">
-                <a href="../index.html" class="back-button">‹</a>
-                <h1 class="page-title">Арабский алфавит</h1>
-                <div style="width: 44px;"></div> <!-- Для симметрии -->
-            </div>
-        </header>
+    <div class="container">
+        <div class="header">
+            <a href="../index.html" class="back-button">‹</a>
+            <h1 class="title">Арабский алфавит</h1>
+            <div style="width: 44px;"></div>
+        </div>
         
-        <!-- Сетка букв -->
-        <div class="letters-container">
-            <div class="letters-grid" id="lettersGrid">
-                <!-- Буквы будут добавлены через JS -->
-            </div>
+        <div class="letters-grid" id="lettersGrid">
+            <!-- Буквы загрузятся через JS -->
         </div>
     </div>
 
     <script>
-        // Данные арабского алфавита (в порядке слева направо)
         const arabicAlphabet = [
-            { id: 1, letter: "ا", name: "Алиф" },
-            { id: 2, letter: "ب", name: "Ба" },
-            { id: 3, letter: "ت", name: "Та" },
             { id: 4, letter: "ث", name: "Са" },
-            { id: 5, letter: "ج", name: "Джим" },
-            { id: 6, letter: "ح", name: "Ха" },
-            { id: 7, letter: "خ", name: "Ха" },
+            { id: 3, letter: "ت", name: "Та" },
+            { id: 2, letter: "ب", name: "Ба" },
+            { id: 1, letter: "ا", name: "Алиф" },
             { id: 8, letter: "د", name: "Даль" },
-            { id: 9, letter: "ذ", name: "Заль" },
-            { id: 10, letter: "ر", name: "Ра" },
-            { id: 11, letter: "ز", name: "За" },
+            { id: 7, letter: "خ", name: "Ха" },
+            { id: 6, letter: "ح", name: "Ха" },
+            { id: 5, letter: "ج", name: "Джим" },
             { id: 12, letter: "س", name: "Син" },
-            { id: 13, letter: "ش", name: "Шин" },
-            { id: 14, letter: "ص", name: "Сад" },
-            { id: 15, letter: "ض", name: "Дад" },
+            { id: 11, letter: "ز", name: "За" },
+            { id: 10, letter: "ر", name: "Ра" },
+            { id: 9, letter: "ذ", name: "Заль" },
             { id: 16, letter: "ط", name: "Та" },
-            { id: 17, letter: "ظ", name: "За" },
-            { id: 18, letter: "ع", name: "Айн" },
-            { id: 19, letter: "غ", name: "Гайн" },
+            { id: 15, letter: "ض", name: "Дад" },
+            { id: 14, letter: "ص", name: "Сад" },
+            { id: 13, letter: "ش", name: "Шин" },
             { id: 20, letter: "ف", name: "Фа" },
-            { id: 21, letter: "ق", name: "Каф" },
-            { id: 22, letter: "ك", name: "Каф" },
-            { id: 23, letter: "ل", name: "Лям" },
+            { id: 19, letter: "غ", name: "Гайн" },
+            { id: 18, letter: "ع", name: "Айн" },
+            { id: 17, letter: "ظ", name: "За" },
             { id: 24, letter: "م", name: "Мим" },
-            { id: 25, letter: "ن", name: "Нун" },
-            { id: 26, letter: "ه", name: "Ха" },
+            { id: 23, letter: "ل", name: "Лям" },
+            { id: 22, letter: "ك", name: "Каф" },
+            { id: 21, letter: "ق", name: "Каф" },
+            { id: 28, letter: "ي", name: "Йа" },
             { id: 27, letter: "و", name: "Вав" },
-            { id: 28, letter: "ي", name: "Йа" }
+            { id: 26, letter: "ه", name: "Ха" },
+            { id: 25, letter: "ن", name: "Нун" }
+
         ];
 
-        // Формы написания для каждой буквы
-        const letterForms = {
-            1: { final: "ـا", medial: "ـا", initial: "ا" },
-            2: { final: "ـب", medial: "ـبـ", initial: "بـ" },
-            3: { final: "ـت", medial: "ـتـ", initial: "تـ" },
-            4: { final: "ـث", medial: "ـثـ", initial: "ثـ" },
-            5: { final: "ـج", medial: "ـجـ", initial: "جـ" },
-            6: { final: "ـح", medial: "ـحـ", initial: "حـ" },
-            7: { final: "ـخ", medial: "ـخـ", initial: "خـ" },
-            8: { final: "ـد", medial: "ـد", initial: "د" },
-            9: { final: "ـذ", medial: "ـذ", initial: "ذ" },
-            10: { final: "ـر", medial: "ـر", initial: "ر" },
-            11: { final: "ـز", medial: "ـز", initial: "ز" },
-            12: { final: "ـس", medial: "ـسـ", initial: "سـ" },
-            13: { final: "ـش", medial: "ـشـ", initial: "شـ" },
-            14: { final: "ـص", medial: "ـصـ", initial: "صـ" },
-            15: { final: "ـض", medial: "ـضـ", initial: "ضـ" },
-            16: { final: "ـط", medial: "ـطـ", initial: "طـ" },
-            17: { final: "ـظ", medial: "ـظـ", initial: "ظـ" },
-            18: { final: "ـع", medial: "ـعـ", initial: "عـ" },
-            19: { final: "ـغ", medial: "ـغـ", initial: "غـ" },
-            20: { final: "ـف", medial: "ـفـ", initial: "فـ" },
-            21: { final: "ـق", medial: "ـقـ", initial: "قـ" },
-            22: { final: "ـك", medial: "ـكـ", initial: "كـ" },
-            23: { final: "ـل", medial: "ـلـ", initial: "لـ" },
-            24: { final: "ـم", medial: "ـمـ", initial: "مـ" },
-            25: { final: "ـن", medial: "ـنـ", initial: "نـ" },
-            26: { final: "ـه", medial: "ـهـ", initial: "هـ" },
-            27: { final: "ـو", medial: "ـو", initial: "و" },
-            28: { final: "ـي", medial: "ـيـ", initial: "يـ" }
-        };
-
-        // Инициализация при загрузке страницы
         document.addEventListener('DOMContentLoaded', function() {
-            renderAlphabet();
-            
-            // Регистрация Service Worker для офлайн работы
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('../service-worker.js');
-            }
-        });
-
-        // Рендеринг алфавита
-        function renderAlphabet() {
             const grid = document.getElementById('lettersGrid');
-            grid.innerHTML = '';
             
             arabicAlphabet.forEach(letter => {
                 const cell = document.createElement('div');
                 cell.className = 'letter-cell';
                 cell.textContent = letter.letter;
-                cell.title = `${letter.name}`;
+                cell.title = letter.name;
                 
-                // Переход на страницу буквы
                 cell.addEventListener('click', () => {
                     window.location.href = `letter.html?id=${letter.id}`;
                 });
                 
                 grid.appendChild(cell);
             });
-        }
+        });
     </script>
 </body>
 </html>
