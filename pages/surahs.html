@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ru" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <title>Краткие суры</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f2f2f7;
+            height: 100vh;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+        }
+        
+        .container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background: white;
+        }
+        
+        .header {
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        
+        .back-button {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: rgba(0, 122, 255, 0.1);
+            color: #007aff;
+            text-decoration: none;
+            font-size: 20px;
+        }
+        
+        .title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #000;
+            text-align: center;
+            flex: 1;
+            margin: 0 10px;
+        }
+        
+        .surahs-list {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 16px;
+        }
+        
+        .surah-item {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background: white;
+            border-radius: 16px;
+            margin-bottom: 12px;
+            text-decoration: none;
+            color: #000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.15s;
+        }
+        
+        .surah-item:active {
+            background: #f2f2f7;
+            transform: scale(0.98);
+        }
+        
+        .surah-number {
+            width: 60px;
+            height: 60px;
+            background: #007aff;
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 600;
+            margin-right: 16px;
+            flex-shrink: 0;
+        }
+        
+        .surah-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .surah-name {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .surah-arabic {
+            font-family: 'SF Pro Arabic', 'Scheherazade', serif;
+            font-size: 20px;
+            color: #666;
+            direction: rtl;
+        }
+        
+        .empty-state {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: 24px;
+            color: #8e8e93;
+        }
+        
+        .empty-text {
+            font-size: 18px;
+            color: #666;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="../index.html" class="back-button">‹</a>
+            <h1 class="title">Краткие суры</h1>
+            <div style="width: 44px;"></div>
+        </div>
+        
+        <div class="surahs-list" id="surahsList">
+            <!-- Суры загрузятся через JS -->
+        </div>
+    </div>
+
+    <script>
+        // Данные сур (обратный порядок: 114 → 86)
+        const surahsList = [
+            // Пока только 114 сура, остальные добавим позже
+            {
+                id: 114,
+                number: 114,
+                name: "Nos",
+                arabicName: "الناس",
+                ayahCount: 6
+            }
+            // Остальные суры добавим когда будут тексты
+        ];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const listContainer = document.getElementById('surahsList');
+            
+            if (surahsList.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">⭐</div>
+                        <div class="empty-text">
+                            Суры скоро появятся<br>
+                            Сначала добавляется 114 сура
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Сортируем по номеру (обратный порядок)
+            surahsList.sort((a, b) => b.number - a.number);
+            
+            surahsList.forEach(surah => {
+                const item = document.createElement('a');
+                item.className = 'surah-item';
+                item.href = `surah.html?id=${surah.id}`;
+                
+                item.innerHTML = `
+                    <div class="surah-number">${surah.number}</div>
+                    <div class="surah-info">
+                        <div class="surah-name">${surah.number} • ${surah.name}</div>
+                        <div class="surah-arabic">${surah.arabicName}</div>
+                    </div>
+                `;
+                
+                listContainer.appendChild(item);
+            });
+        });
+    </script>
+</body>
+</html>
