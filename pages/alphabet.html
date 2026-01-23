@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Арабский алфавит - Заучивание Корана</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 24px;
+            text-decoration: none;
+            color: #2a5934;
+            font-weight: 500;
+            padding: 10px 16px;
+            border-radius: 12px;
+            background-color: rgba(42, 89, 52, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background-color: rgba(42, 89, 52, 0.2);
+            transform: translateX(-4px);
+        }
+        
+        .content {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            margin-top: 20px;
+        }
+        
+        .letter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+        }
+        
+        .letter-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+        
+        .letter-card:hover {
+            border-color: #2a5934;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        
+        .arabic-letter {
+            font-size: 48px;
+            font-weight: bold;
+            color: #2a5934;
+            margin-bottom: 8px;
+            font-family: 'Traditional Arabic', 'Scheherazade', serif;
+        }
+        
+        .transcription {
+            font-size: 18px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <main class="main">
+        <a href="index.html" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+            Назад
+        </a>
+        
+        <h1 class="title">
+            <i class="fas fa-font"></i>
+            Арабский алфавит
+        </h1>
+        
+        <div class="content">
+            <p>Арабский алфавит состоит из 28 букв. Ниже представлены основные буквы с транскрипцией:</p>
+            
+            <div class="letter-grid">
+                <!-- Пример нескольких букв -->
+                <div class="letter-card">
+                    <div class="arabic-letter">ا</div>
+                    <div class="transcription">Алиф</div>
+                    <small>ā</small>
+                </div>
+                
+                <div class="letter-card">
+                    <div class="arabic-letter">ب</div>
+                    <div class="transcription">Ба</div>
+                    <small>b</small>
+                </div>
+                
+                <div class="letter-card">
+                    <div class="arabic-letter">ت</div>
+                    <div class="transcription">Та</div>
+                    <small>t</small>
+                </div>
+                
+                <div class="letter-card">
+                    <div class="arabic-letter">ث</div>
+                    <div class="transcription">Са</div>
+                    <small>th</small>
+                </div>
+            </div>
+            
+            <div style="margin-top: 32px; padding-top: 20px; border-top: 1px solid #eee;">
+                <h3 style="color: #2a5934; margin-bottom: 12px;">Советы по изучению:</h3>
+                <ul style="list-style-position: inside; color: #555;">
+                    <li>Учите буквы группами по 5-7 штук</li>
+                    <li>Практикуйте написание каждой буквы</li>
+                    <li>Обращайте внимание на точки и их количество</li>
+                    <li>Слушайте правильное произношение</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+    
+    <script src="script.js"></script>
+</body>
+</html>
