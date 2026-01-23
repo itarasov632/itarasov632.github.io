@@ -1,0 +1,67 @@
+/* Страница алфавита */
+.alphabet-page {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.letters-container {
+    flex: 1;
+    padding: var(--space-sm);
+}
+
+.letters-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(7, 1fr);
+    gap: 1px;
+    height: 100%;
+    background: var(--color-border);
+}
+
+.letter-cell {
+    background: var(--color-bg-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-arabic);
+    font-size: 44px;
+    font-weight: 400;
+    color: var(--color-text-primary);
+    cursor: pointer;
+    user-select: none;
+    -webkit-touch-callout: none;
+    transition: background-color var(--transition-fast);
+}
+
+.letter-cell:active {
+    background: var(--color-bg-secondary);
+}
+
+/* Индикатор прогресса */
+.progress-container {
+    padding: var(--space-md);
+    background: var(--color-bg-primary);
+    border-top: 0.5px solid var(--color-border-light);
+}
+
+.progress-bar {
+    height: 4px;
+    background: var(--color-bg-tertiary);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: var(--space-sm);
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--color-primary);
+    border-radius: 2px;
+    transition: width var(--transition-normal);
+}
+
+.progress-text {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    text-align: center;
+}
