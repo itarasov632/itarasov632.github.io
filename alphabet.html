@@ -133,7 +133,7 @@
             background: #e5e5ea;
         }
         
-        /* Модальное окно - FIX для iOS */
+        /* Модальное окно - SIMPLE VERSION для iOS */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -142,16 +142,12 @@
             bottom: 0;
             background: #f2f2f7;
             z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
+            display: none;
+            flex-direction: column;
         }
         
         .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
+            display: flex;
         }
         
         /* Заголовок модального окна */
@@ -161,9 +157,11 @@
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 0.5px solid rgba(0, 0, 0, 0.2);
-            position: sticky;
-            top: 0;
+            position: relative;
             z-index: 10;
+            display: flex;
+            justify-content: flex-end;
+            flex-shrink: 0;
         }
         
         .close-button {
@@ -178,22 +176,22 @@
             font-size: 28px;
             font-weight: 300;
             cursor: pointer;
-            transition: all 0.15s;
             border: none;
-            margin-left: auto;
+            padding: 0;
+            -webkit-appearance: none;
+            appearance: none;
         }
         
         .close-button:active {
             background: rgba(0, 0, 0, 0.1);
-            transform: scale(0.92);
         }
         
         /* Контент модального окна */
         .modal-content {
+            flex: 1;
             padding: 20px 16px 40px;
-            max-width: 800px;
-            margin: 0 auto;
-            width: 100%;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
         
         /* Верхняя часть: Изображение + Инфо */
@@ -263,6 +261,8 @@
             cursor: pointer;
             transition: all 0.15s;
             box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+            -webkit-appearance: none;
+            appearance: none;
         }
         
         .play-button:active {
@@ -343,23 +343,6 @@
             font-weight: 500;
         }
         
-        /* Индикатор свайпа вниз для iOS */
-        .swipe-indicator {
-            width: 36px;
-            height: 5px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 3px;
-            margin: 0 auto 8px;
-            display: none;
-        }
-        
-        /* Показать индикатор только на iOS */
-        @supports (-webkit-touch-callout: none) {
-            .swipe-indicator {
-                display: block;
-            }
-        }
-        
         /* Адаптивность для разных iPhone */
         @media (max-height: 700px) {
             .letter-arabic { font-size: 56px; }
@@ -393,11 +376,10 @@
         </div>
     </div>
     
-    <!-- Модальное окно -->
+    <!-- Модальное окно - ПРОСТАЯ ВЕРСИЯ -->
     <div class="modal-overlay" id="letterModal">
         <div class="modal-header">
-            <div class="swipe-indicator"></div>
-            <button class="close-button" onclick="closeModal()">×</button>
+            <button class="close-button" id="closeButton">×</button>
         </div>
         
         <div class="modal-content" id="modalContent">
@@ -440,21 +422,12 @@
 
         let currentLetter = null;
         let currentAudio = null;
-        let modal = null;
-        let modalContent = null;
-
+        
         // Инициализация при загрузке страницы
         document.addEventListener('DOMContentLoaded', function() {
-            modal = document.getElementById('letterModal');
-            modalContent = document.getElementById('modalContent');
             renderAlphabet();
-            setupSwipeGestures();
+            setupEventListeners();
             setupServiceWorker();
-            
-            // Принудительный рефлоу для iOS
-            setTimeout(() => {
-                document.body.style.opacity = 1;
-            }, 10);
         });
 
         // Рендеринг алфавита
@@ -468,27 +441,40 @@
                 cell.textContent = letter.letter;
                 cell.dataset.id = letter.id;
                 
-                // Обработка нажатия для iOS
-                cell.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
+                // Обработка нажатия
+                cell.addEventListener('click', function() {
                     openModal(letter);
-                    
-                    // Вибрация на iOS
-                    if (navigator.vibrate) {
-                        navigator.vibrate(10);
-                    }
                 }, false);
                 
                 grid.appendChild(cell);
             });
         }
 
-        // ОТКРЫТИЕ МОДАЛЬНОГО ОКНА - FIX ДЛЯ iOS
+        // Настройка обработчиков событий
+        function setupEventListeners() {
+            // Закрытие по кнопке
+            document.getElementById('closeButton').addEventListener('click', closeModal);
+            
+            // Закрытие по клику на фон (оверлей)
+            document.getElementById('letterModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeModal();
+                }
+            });
+            
+            // Закрытие по клавише ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeModal();
+                }
+            });
+        }
+
+        // ОТКРЫТИЕ МОДАЛЬНОГО ОКНА
         function openModal(letter) {
             currentLetter = letter;
-            
-            console.log('Opening modal for letter:', letter.name);
+            const modal = document.getElementById('letterModal');
+            const modalContent = document.getElementById('modalContent');
             
             // Заполняем контент
             modalContent.innerHTML = `
@@ -499,7 +485,7 @@
                     <div class="letter-info">
                         <div class="letter-arabic">${letter.letter}</div>
                         <div class="letter-name">${letter.name}</div>
-                        <button class="play-button" onclick="playLetterAudio()">
+                        <button class="play-button" id="playButton">
                             ▶
                         </button>
                     </div>
@@ -534,16 +520,19 @@
             setTimeout(() => {
                 loadMakhrajImage('smallMakhraj', letter.id, true);
                 loadMakhrajImage('fullMakhraj', letter.id, false);
+                
+                // Назначаем обработчик для кнопки воспроизведения
+                document.getElementById('playButton').addEventListener('click', playLetterAudio);
             }, 50);
             
-            // ПОПРАВКА ДЛЯ iOS: Показываем модальное окно
+            // Показываем модальное окно
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
             
-            // Принудительный рефлоу для анимации
-            setTimeout(() => {
-                modal.style.display = 'block';
-            }, 10);
+            // Вибрация
+            if (navigator.vibrate) {
+                navigator.vibrate(10);
+            }
         }
 
         // Загрузка изображения махраджа
@@ -625,76 +614,37 @@
             }
         }
 
-        // Закрытие модального окна
+        // ЗАКРЫТИЕ МОДАЛЬНОГО ОКНА - ПРОСТОЙ МЕТОД
         function closeModal() {
-            console.log('Closing modal');
+            console.log('Closing modal...');
             
+            const modal = document.getElementById('letterModal');
+            const modalContent = document.getElementById('modalContent');
+            
+            // 1. Убираем класс active
             modal.classList.remove('active');
             
-            // Останавливаем аудио
+            // 2. Останавливаем аудио
             if (currentAudio) {
                 currentAudio.pause();
                 currentAudio.currentTime = 0;
                 currentAudio = null;
             }
             
-            currentLetter = null;
-            
-            // Восстанавливаем скролл
+            // 3. Очищаем контент
             setTimeout(() => {
-                document.body.style.overflow = 'auto';
                 modalContent.innerHTML = '';
-            }, 300);
-        }
-
-        // Настройка жестов свайпа для iOS
-        function setupSwipeGestures() {
-            let startY = 0;
-            let isSwiping = false;
+                currentLetter = null;
+                
+                // 4. Восстанавливаем скролл
+                document.body.style.overflow = 'auto';
+            }, 50);
             
-            modal.addEventListener('touchstart', function(e) {
-                if (e.target.closest('.modal-content')) return;
-                
-                startY = e.touches[0].clientY;
-                isSwiping = true;
-                e.preventDefault();
-            }, { passive: false });
-            
-            modal.addEventListener('touchmove', function(e) {
-                if (!isSwiping) return;
-                
-                const currentY = e.touches[0].clientY;
-                const diff = currentY - startY;
-                
-                // Свайп вниз для закрытия
-                if (diff > 20) {
-                    modal.style.transform = `translateY(${Math.min(diff, 100)}px)`;
-                    e.preventDefault();
-                }
-            }, { passive: false });
-            
-            modal.addEventListener('touchend', function(e) {
-                if (!isSwiping) return;
-                
-                const endY = e.changedTouches[0].clientY;
-                const diff = endY - startY;
-                
-                // Если свайп достаточно большой - закрываем
-                if (diff > 80) {
-                    closeModal();
-                }
-                
-                // Возвращаем на место
-                modal.style.transform = 'translateY(0)';
-                isSwiping = false;
-            });
-            
-            // Закрытие по клику на оверлей
-            modal.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                    closeModal();
-                }
-            });
+            // 5. Форсируем перерисовку для iOS
+            modal.style.display = 'none';
+            setTimeout(() => {
+                modal.style.display = 'flex';
+            }, 10);
         }
 
         // Регистрация Service Worker
@@ -702,22 +652,35 @@
             if ('serviceWorker' in navigator) {
                 window.addEventListener('load', () => {
                     navigator.serviceWorker.register('service-worker.js')
-                        .then(registration => {
-                            console.log('ServiceWorker зарегистрирован');
-                        })
                         .catch(err => {
-                            console.log('Ошибка регистрации ServiceWorker:', err);
+                            console.log('ServiceWorker error:', err);
                         });
                 });
             }
         }
 
-        // Предотвращение скролла тела при открытом модальном окне
-        document.addEventListener('touchmove', function(e) {
-            if (modal.classList.contains('active')) {
-                e.preventDefault();
-            }
-        }, { passive: false });
+        // Простой свайп для закрытия (опционально)
+        function setupSwipeToClose() {
+            const modal = document.getElementById('letterModal');
+            let startY = 0;
+            
+            modal.addEventListener('touchstart', function(e) {
+                startY = e.touches[0].clientY;
+            }, { passive: true });
+            
+            modal.addEventListener('touchend', function(e) {
+                const endY = e.changedTouches[0].clientY;
+                const diff = endY - startY;
+                
+                // Если свайп вниз больше 100px - закрываем
+                if (diff > 100) {
+                    closeModal();
+                }
+            }, { passive: true });
+        }
+        
+        // Инициализация свайпа
+        setupSwipeToClose();
     </script>
 </body>
 </html>
