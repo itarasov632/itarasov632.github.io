@@ -158,17 +158,211 @@
     </div>
 
     <script>
-        // Данные сур (обратный порядок: 114 → 86)
+        // Полный список сур 86-114 в обратном порядке
         const surahsList = [
-            // Пока только 114 сура, остальные добавим позже
             {
                 id: 114,
                 number: 114,
                 name: "Ан-Нас",
                 arabicName: "الناس",
                 ayahCount: 6
+            },
+            {
+                id: 113,
+                number: 113,
+                name: "Аль-Фаляк",
+                arabicName: "الفلق",
+                ayahCount: 5
+            },
+            {
+                id: 112,
+                number: 112,
+                name: "Аль-Ихляс",
+                arabicName: "الإخلاص",
+                ayahCount: 4
+            },
+            {
+                id: 111,
+                number: 111,
+                name: "Аль-Масад",
+                arabicName: "المسد",
+                ayahCount: 5
+            },
+            {
+                id: 110,
+                number: 110,
+                name: "Ан-Наср",
+                arabicName: "النصر",
+                ayahCount: 3
+            },
+            {
+                id: 109,
+                number: 109,
+                name: "Аль-Кафирун",
+                arabicName: "الكافرون",
+                ayahCount: 6
+            },
+            {
+                id: 108,
+                number: 108,
+                name: "Аль-Каусар",
+                arabicName: "الكوثر",
+                ayahCount: 3
+            },
+            {
+                id: 107,
+                number: 107,
+                name: "Аль-Маун",
+                arabicName: "الماعون",
+                ayahCount: 7
+            },
+            {
+                id: 106,
+                number: 106,
+                name: "Курайш",
+                arabicName: "قريش",
+                ayahCount: 4
+            },
+            {
+                id: 105,
+                number: 105,
+                name: "Аль-Филь",
+                arabicName: "الفيل",
+                ayahCount: 5
+            },
+            {
+                id: 104,
+                number: 104,
+                name: "Аль-Хумаза",
+                arabicName: "الهمزة",
+                ayahCount: 9
+            },
+            {
+                id: 103,
+                number: 103,
+                name: "Аль-Аср",
+                arabicName: "العصر",
+                ayahCount: 3
+            },
+            {
+                id: 102,
+                number: 102,
+                name: "Ат-Такасур",
+                arabicName: "التكاثر",
+                ayahCount: 8
+            },
+            {
+                id: 101,
+                number: 101,
+                name: "Аль-Кариа",
+                arabicName: "القارعة",
+                ayahCount: 11
+            },
+            {
+                id: 100,
+                number: 100,
+                name: "Аль-Адияты",
+                arabicName: "العاديات",
+                ayahCount: 11
+            },
+            {
+                id: 99,
+                number: 99,
+                name: "Аз-Залзаля",
+                arabicName: "الزلزلة",
+                ayahCount: 8
+            },
+            {
+                id: 98,
+                number: 98,
+                name: "Аль-Баййина",
+                arabicName: "البينة",
+                ayahCount: 8
+            },
+            {
+                id: 97,
+                number: 97,
+                name: "Аль-Кадр",
+                arabicName: "القدر",
+                ayahCount: 5
+            },
+            {
+                id: 96,
+                number: 96,
+                name: "Аль-Алак",
+                arabicName: "العلق",
+                ayahCount: 19
+            },
+            {
+                id: 95,
+                number: 95,
+                name: "Ат-Тин",
+                arabicName: "التين",
+                ayahCount: 8
+            },
+            {
+                id: 94,
+                number: 94,
+                name: "Аш-Шарх",
+                arabicName: "الشرح",
+                ayahCount: 8
+            },
+            {
+                id: 93,
+                number: 93,
+                name: "Ад-Духа",
+                arabicName: "الضحى",
+                ayahCount: 11
+            },
+            {
+                id: 92,
+                number: 92,
+                name: "Аль-Лейль",
+                arabicName: "الليل",
+                ayahCount: 21
+            },
+            {
+                id: 91,
+                number: 91,
+                name: "Аш-Шамс",
+                arabicName: "الشمس",
+                ayahCount: 15
+            },
+            {
+                id: 90,
+                number: 90,
+                name: "Аль-Балад",
+                arabicName: "البلد",
+                ayahCount: 20
+            },
+            {
+                id: 89,
+                number: 89,
+                name: "Аль-Фаджр",
+                arabicName: "الفجر",
+                ayahCount: 30
+            },
+            {
+                id: 88,
+                number: 88,
+                name: "Аль-Гашия",
+                arabicName: "الغاشية",
+                ayahCount: 26
+            },
+            {
+                id: 87,
+                number: 87,
+                name: "Аль-Аля",
+                arabicName: "الأعلى",
+                ayahCount: 19
+            },
+            {
+                id: 86,
+                number: 86,
+                name: "Ат-Тарик",
+                arabicName: "الطارق",
+                ayahCount: 17
             }
-            // Остальные суры добавим когда будут тексты
         ];
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -187,8 +381,8 @@
                 return;
             }
             
-            // Сортируем по номеру (обратный порядок)
-            surahsList.sort((a, b) => b.number - a.number);
+            // Сортируем по номеру (обратный порядок) - уже в обратном порядке
+            // surahsList.sort((a, b) => b.number - a.number);
             
             surahsList.forEach(surah => {
                 const item = document.createElement('a');
