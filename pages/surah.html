@@ -77,12 +77,41 @@
             flex: 1;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
-            padding: 2px;
+            padding: 16px 8px;
+        }
+        
+        .basmala-container {
+            margin-bottom: 24px;
+        }
+        
+        .basmala {
+            font-family: 'SF Pro Arabic', 'Scheherazade', serif;
+            font-size: 26px;
+            line-height: 1.8;
+            color: #8e8e93;
+            text-align: center;
+            padding: 20px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.15s;
+            direction: rtl;
+            font-weight: 500;
+            background: #f8f9fa;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .basmala:active {
+            background: #f2f2f7;
+        }
+        
+        .basmala.playing {
+            background: rgba(0, 122, 255, 0.08);
+            color: #007aff;
+            border-color: rgba(0, 122, 255, 0.2);
         }
         
         .ayahs-container {
             direction: rtl;
-            text-align: right;
         }
         
         .ayah {
@@ -91,11 +120,13 @@
             line-height: 1.8;
             color: #000;
             margin-bottom: 16px;
-            padding: 16px;
+            padding: 20px 16px 20px 60px;
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.15s;
             position: relative;
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
         
         .ayah:active {
@@ -105,6 +136,24 @@
         .ayah.playing {
             background: rgba(0, 122, 255, 0.1);
             color: #007aff;
+            border-color: rgba(0, 122, 255, 0.2);
+        }
+        
+        .ayah-number {
+            position: absolute;
+            left: 16px;
+            top: 20px;
+            width: 28px;
+            height: 28px;
+            background: #007aff;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
         }
         
         .navigation {
@@ -147,17 +196,40 @@
                 font-size: 13px;
             }
             
+            .basmala {
+                font-size: 24px;
+                line-height: 1.6;
+                padding: 16px;
+            }
+            
             .ayah {
                 font-size: 24px;
                 line-height: 1.6;
+                padding: 16px 16px 16px 50px;
+            }
+            
+            .ayah-number {
+                left: 12px;
+                top: 16px;
+                width: 24px;
+                height: 24px;
+                font-size: 12px;
             }
         }
         
         @media (max-height: 700px) {
+            .basmala {
+                font-size: 22px;
+                line-height: 1.5;
+                padding: 16px;
+                margin-bottom: 16px;
+            }
+            
             .ayah {
                 font-size: 22px;
                 line-height: 1.5;
-                margin-bottom: 16px;
+                margin-bottom: 12px;
+                padding: 16px 16px 16px 50px;
             }
         }
     </style>
@@ -173,7 +245,7 @@
         </div>
         
         <div class="surah-content" id="surahContent">
-            <!-- Аяты будут загружены через JS -->
+            <!-- Басмала и аяты будут загружены через JS -->
         </div>
         
         <div class="navigation">
@@ -184,37 +256,39 @@
     </div>
 
     <script>
-        // Данные сур 114 и 104
+        // Данные сур 114 и 104 с отдельной басмалой
         const surahsData = {
             114: {
                 id: 114,
                 number: 114,
-                name: "Ан-нас",
+                name: "Ан-Нас",
                 arabicName: "الناس",
+                basmala: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
+                basmalaAudio: "114_basmala.mp3",
                 ayahs: [
                     { 
                         number: 1, 
-                        text: "بِسْمِ اللّهِ الرَّحْمنِ الرَّحِيمِ",
+                        text: "قُلْ أَعُوذُ بِرَبِّ النَّاسِ",
                         audio: "114_1.mp3"
                     },
                     { 
                         number: 2, 
-                        text: "قُلْ أَعُوذُ بِرَبِّ النَّاسِ",
+                        text: "مَلِكِ النَّاسِ",
                         audio: "114_2.mp3"
                     },
                     { 
                         number: 3, 
-                        text: "مَلِكِ النَّاسِ",
+                        text: "إِلَهِ النَّاسِ",
                         audio: "114_3.mp3"
                     },
                     { 
                         number: 4, 
-                        text: "إِلَهِ النَّاسِ",
+                        text: "مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ",
                         audio: "114_4.mp3"
                     },
                     { 
                         number: 5, 
-                        text: "مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ",
+                        text: "الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ",
                         audio: "114_5.mp3"
                     },
                     { 
@@ -225,12 +299,13 @@
                 ]
             },
             
-            // СУРА 104: АЛЬ-ХУМАЗА
             104: {
                 id: 104,
                 number: 104,
                 name: "Аль-Хумаза",
                 arabicName: "الهمزة",
+                basmala: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
+                basmalaAudio: "104_basmala.mp3",
                 ayahs: [
                     { 
                         number: 1, 
@@ -281,19 +356,17 @@
             }
         };
 
-        let currentSurahId = 114; // По умолчанию показываем 114 суру
+        let currentSurahId = 114;
         let currentAudio = null;
-        let currentPlayingAyah = null;
+        let currentPlayingElement = null;
 
         document.addEventListener('DOMContentLoaded', function() {
             const urlParams = new URLSearchParams(window.location.search);
             const idFromUrl = parseInt(urlParams.get('id'));
             
-            // Проверяем, если передан ID из URL
             if (idFromUrl && surahsData[idFromUrl]) {
                 currentSurahId = idFromUrl;
             } else if (idFromUrl === 104) {
-                // Если передан 104, но нет данных - создаем их
                 currentSurahId = 104;
             }
             
@@ -304,7 +377,6 @@
         function loadSurah(surahId) {
             const surah = surahsData[surahId];
             if (!surah) {
-                // Если сура не найдена, возвращаемся к списку
                 window.location.href = 'surahs.html';
                 return;
             }
@@ -315,72 +387,74 @@
             const headerContent = document.getElementById('headerContent');
             headerContent.innerHTML = `
                 <div class="surah-arabic-name">${surah.arabicName}</div>
-                <div class="surah-info">Сура ${surah.number} • ${surah.name}</div>
+                <div class="surah-info">Сура ${surah.number} • ${surah.name} • ${surah.ayahs.length} аятов</div>
             `;
             
-            // Загружаем аяты в основной контент
+            // Загружаем басмалу и аяты в основной контент
             const content = document.getElementById('surahContent');
-            content.innerHTML = `
-                <div class="ayahs-container" id="ayahsContainer">
-                    <!-- Аяты будут добавлены через JS -->
+            content.innerHTML = '';
+            
+            // Создаем контейнер для басмалы
+            const basmalaContainer = document.createElement('div');
+            basmalaContainer.className = 'basmala-container';
+            basmalaContainer.innerHTML = `
+                <div class="basmala" id="basmalaElement">
+                    ${surah.basmala}
                 </div>
             `;
+            content.appendChild(basmalaContainer);
             
-            const ayahsContainer = document.getElementById('ayahsContainer');
-            ayahsContainer.innerHTML = '';
+            // Создаем контейнер для аятов
+            const ayahsContainer = document.createElement('div');
+            ayahsContainer.className = 'ayahs-container';
+            ayahsContainer.id = 'ayahsContainer';
+            content.appendChild(ayahsContainer);
             
-            // Добавляем каждый аят
+            // Добавляем аяты
             surah.ayahs.forEach(ayah => {
                 const ayahElement = document.createElement('div');
                 ayahElement.className = 'ayah';
                 ayahElement.dataset.ayahNumber = ayah.number;
                 ayahElement.dataset.audioFile = ayah.audio;
                 
-                // Добавляем номер аята (небольшой серый текст слева)
+                // Номер аята (красивый синий кружок)
                 const ayahNumber = document.createElement('div');
-                ayahNumber.style.cssText = `
-                    position: absolute;
-                    left: 8px;
-                    top: 8px;
-                    font-size: 14px;
-                    color: #8e8e93;
-                    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-                `;
+                ayahNumber.className = 'ayah-number';
                 ayahNumber.textContent = ayah.number;
                 
-                // Добавляем текст аята
+                // Текст аята
                 const ayahText = document.createElement('div');
-                ayahText.style.cssText = `
-                    margin-right: 24px;
-                `;
                 ayahText.textContent = ayah.text;
                 
                 ayahElement.appendChild(ayahNumber);
                 ayahElement.appendChild(ayahText);
                 
-                ayahElement.addEventListener('click', () => playAyah(ayah.number, ayah.audio, ayahElement));
-                
+                ayahElement.addEventListener('click', () => playAudio(ayah.audio, ayahElement));
                 ayahsContainer.appendChild(ayahElement);
             });
+            
+            // Добавляем обработчик клика на басмалу
+            const basmalaElement = document.getElementById('basmalaElement');
+            basmalaElement.addEventListener('click', () => playAudio(surah.basmalaAudio, basmalaElement));
             
             updateNavigation(surahId);
         }
 
-        function playAyah(ayahNumber, audioFile, ayahElement) {
+        function playAudio(audioFile, element) {
             // Останавливаем текущее воспроизведение
             if (currentAudio) {
                 currentAudio.pause();
                 currentAudio.currentTime = 0;
             }
             
-            // Убираем выделение с предыдущего аята
-            if (currentPlayingAyah) {
-                currentPlayingAyah.classList.remove('playing');
+            // Убираем выделение с предыдущего элемента
+            if (currentPlayingElement) {
+                currentPlayingElement.classList.remove('playing');
             }
             
-            // Выделяем текущий аят
-            ayahElement.classList.add('playing');
-            currentPlayingAyah = ayahElement;
+            // Выделяем текущий элемент
+            element.classList.add('playing');
+            currentPlayingElement = element;
             
             // Воспроизводим аудио
             const audioPath = `../assets/audio/surahs/${audioFile}`;
@@ -388,8 +462,8 @@
             
             currentAudio.play().catch(error => {
                 console.log('Аудио не найдено:', audioPath);
-                ayahElement.classList.remove('playing');
-                currentPlayingAyah = null;
+                element.classList.remove('playing');
+                currentPlayingElement = null;
                 
                 // Вибрация для уведомления об ошибке
                 if (navigator.vibrate) {
@@ -399,8 +473,8 @@
             
             // Событие окончания воспроизведения
             currentAudio.onended = function() {
-                ayahElement.classList.remove('playing');
-                currentPlayingAyah = null;
+                element.classList.remove('playing');
+                currentPlayingElement = null;
                 currentAudio = null;
             };
             
@@ -425,10 +499,10 @@
         function getPrevSurahId(currentId) {
             // Навигация между сурами 114 и 104
             if (currentId === 104) {
-                return 114; // От 104 к 114
+                return 114;
             }
             if (currentId === 114) {
-                return 104; // От 114 к 104
+                return 104;
             }
             return null;
         }
@@ -436,10 +510,10 @@
         function getNextSurahId(currentId) {
             // Навигация между сурами 104 и 114
             if (currentId === 104) {
-                return 114; // От 104 к 114
+                return 114;
             }
             if (currentId === 114) {
-                return 104; // От 114 к 104
+                return 104;
             }
             return null;
         }
@@ -454,15 +528,18 @@
                 currentAudio = null;
             }
             
-            if (currentPlayingAyah) {
-                currentPlayingAyah.classList.remove('playing');
-                currentPlayingAyah = null;
+            if (currentPlayingElement) {
+                currentPlayingElement.classList.remove('playing');
+                currentPlayingElement = null;
             }
             
             // Обновляем URL и загружаем суру
             currentSurahId = surahId;
             window.history.pushState({}, '', `?id=${surahId}`);
             loadSurah(surahId);
+            
+            // Прокручиваем к началу
+            document.getElementById('surahContent').scrollTop = 0;
         }
 
         function updateNavigation(surahId) {
@@ -478,11 +555,13 @@
                 prevButton.href = `?id=${prevId}`;
                 const prevSurah = surahsData[prevId];
                 if (prevSurah) {
-                    prevButton.setAttribute('aria-label', `Предыдущая сура: ${prevSurah.number}. ${prevSurah.name}`);
+                    prevButton.textContent = `← ${prevSurah.number}`;
+                    prevButton.setAttribute('aria-label', `Предыдущая: Сура ${prevSurah.number}. ${prevSurah.name}`);
                 }
             } else {
                 prevButton.classList.add('disabled');
                 prevButton.href = '#';
+                prevButton.textContent = '←';
                 prevButton.removeAttribute('aria-label');
             }
             
@@ -492,18 +571,14 @@
                 nextButton.href = `?id=${nextId}`;
                 const nextSurah = surahsData[nextId];
                 if (nextSurah) {
-                    nextButton.setAttribute('aria-label', `Следующая сура: ${nextSurah.number}. ${nextSurah.name}`);
+                    nextButton.textContent = `${nextSurah.number} →`;
+                    nextButton.setAttribute('aria-label', `Следующая: Сура ${nextSurah.number}. ${nextSurah.name}`);
                 }
             } else {
                 nextButton.classList.add('disabled');
                 nextButton.href = '#';
+                nextButton.textContent = '→';
                 nextButton.removeAttribute('aria-label');
-            }
-            
-            // Обновляем заголовки для скринридеров
-            const surah = surahsData[surahId];
-            if (surah) {
-                document.title = `Сура ${surah.number}. ${surah.name} - Заучивание Корана`;
             }
         }
 
@@ -523,26 +598,10 @@
                     currentAudio = null;
                 }
                 
-                if (currentPlayingAyah) {
-                    currentPlayingAyah.classList.remove('playing');
-                    currentPlayingAyah = null;
+                if (currentPlayingElement) {
+                    currentPlayingElement.classList.remove('playing');
+                    currentPlayingElement = null;
                 }
-            }
-        });
-
-        // Сохраняем позицию прокрутки при переходе
-        let scrollPosition = 0;
-        
-        window.addEventListener('beforeunload', function() {
-            scrollPosition = window.scrollY || document.documentElement.scrollTop;
-            sessionStorage.setItem('surahScrollPosition', scrollPosition);
-        });
-        
-        window.addEventListener('load', function() {
-            const savedPosition = sessionStorage.getItem('surahScrollPosition');
-            if (savedPosition) {
-                window.scrollTo(0, parseInt(savedPosition));
-                sessionStorage.removeItem('surahScrollPosition');
             }
         });
     </script>
