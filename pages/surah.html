@@ -84,61 +84,61 @@
             margin-bottom: 24px;
         }
         
-        .basmala {
-            font-family: 'SF Pro Arabic', 'Scheherazade', serif;
-            font-size: 26px;
-            line-height: 1.8;
-            color: #8e8e93;
-            text-align: center;
-            padding: 20px 16px;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.15s;
-            direction: rtl;
-            font-weight: 500;
-            background: #f8f9fa;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-        }
-        
-        .basmala:active {
-            background: #f2f2f7;
-        }
-        
-        .basmala.playing {
-            background: rgba(0, 122, 255, 0.08);
-            color: #007aff;
-            border-color: rgba(0, 122, 255, 0.2);
-        }
-        
         .ayahs-container {
             direction: rtl;
         }
         
+        /* НОВЫЕ СТИЛИ ДЛЯ ИЗОБРАЖЕНИЙ */
         .ayah {
-            font-family: 'SF Pro Arabic', 'Scheherazade', serif;
-            font-size: 26px;
-            line-height: 1.8;
-            color: #000;
+            display: flex;
+            justify-content: center;
+            padding: 0;
+            background: transparent;
+            border: none;
             margin-bottom: 16px;
-            padding: 20px 16px 20px 60px;
-            border-radius: 12px;
             cursor: pointer;
-            transition: all 0.15s;
-            position: relative;
-            background: white;
+        }
+        
+        .ayah img {
+            height: 80px;
+            width: auto;
+            max-width: 100%;
+            display: block;
+            border-radius: 12px;
             border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.15s;
         }
         
-        .ayah:active {
-            background: #f2f2f7;
+        .basmala {
+            display: flex;
+            justify-content: center;
+            padding: 0;
+            background: transparent;
+            border: none;
+            margin-bottom: 24px;
+            cursor: pointer;
         }
         
-        .ayah.playing {
+        .basmala img {
+            height: 80px;
+            width: auto;
+            max-width: 100%;
+            display: block;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.15s;
+        }
+        
+        .ayah.playing img {
             background: rgba(0, 122, 255, 0.1);
-            color: #007aff;
-            border-color: rgba(0, 122, 255, 0.2);
+            border-color: rgba(0, 122, 255, 0.3);
         }
-                
+        
+        .basmala.playing img {
+            background: rgba(0, 122, 255, 0.1);
+            border-color: rgba(0, 122, 255, 0.3);
+        }
+        
         .navigation {
             display: flex;
             justify-content: space-between;
@@ -179,88 +179,14 @@
                 font-size: 13px;
             }
             
-            .basmala {
-                font-size: 24px;
-                line-height: 1.6;
-                padding: 16px;
-            }
-            
             .ayah {
-                font-size: 24px;
-                line-height: 1.6;
-                padding: 0;
-    		background: transparent;
-    		border: none;
-    		margin-bottom: 16px;
-    		cursor: pointer;
-            }
-
-
-	   .ayah img,
-	   .basmala img {
-    		width: 100%;
-    		height: auto;
-    		display: block;
-    		border-radius: 12px;
-    		border: 1px solid rgba(0, 0, 0, 0.05);
-    		transition: all 0.15s;
-           }
-           
-
-		.ayah.playing img {
-    		background: rgba(0, 122, 255, 0.1);
-    		border-color: rgba(0, 122, 255, 0.3);
-		}
-
-		.basmala {
-    		padding: 0;
-    		background: transparent;
-    		border: none;
-    		margin-bottom: 24px;
-    		cursor: pointer;
-		}
-
-		.basmala.playing img {
-    		background: rgba(0, 122, 255, 0.1);
-    		border-color: rgba(0, 122, 255, 0.3);
-		}
-
-		/* Медиа-запросы подправить */
-		@media (max-width: 375px) {
-		    .ayah {
- 	       margin-bottom: 12px;
-	    	}
-		}
-
-		@media (max-height: 700px) {
-    		.ayah {
-        	margin-bottom: 12px;
-    		}
-		}
-
- 
-            .ayah-number {
-                left: 12px;
-                top: 16px;
-                width: 24px;
-                height: 24px;
-                font-size: 12px;
+                margin-bottom: 12px;
             }
         }
         
         @media (max-height: 700px) {
-            .basmala {
-                font-size: 22px;
-                line-height: 1.5;
-                padding: 16px;
-                margin-bottom: 16px;
-            }
-            
             .ayah {
-                font-size: 22px;
-                line-height: 1.5;
                 margin-bottom: 12px;
-                padding: 16px 16px 16px 50px;
             }
         }
     </style>
