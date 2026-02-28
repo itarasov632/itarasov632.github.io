@@ -138,24 +138,7 @@
             color: #007aff;
             border-color: rgba(0, 122, 255, 0.2);
         }
-        
-        .ayah-number {
-            position: absolute;
-            left: 16px;
-            top: 20px;
-            width: 28px;
-            height: 28px;
-            background: #007aff;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            font-weight: 600;
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-        }
-        
+                
         .navigation {
             display: flex;
             justify-content: space-between;
@@ -205,9 +188,57 @@
             .ayah {
                 font-size: 24px;
                 line-height: 1.6;
-                padding: 16px 16px 16px 50px;
+                padding: 0;
+    		background: transparent;
+    		border: none;
+    		margin-bottom: 16px;
+    		cursor: pointer;
             }
-            
+
+
+	   .ayah img,
+	   .basmala img {
+    		width: 100%;
+    		height: auto;
+    		display: block;
+    		border-radius: 12px;
+    		border: 1px solid rgba(0, 0, 0, 0.05);
+    		transition: all 0.15s;
+           }
+           
+
+		.ayah.playing img {
+    		background: rgba(0, 122, 255, 0.1);
+    		border-color: rgba(0, 122, 255, 0.3);
+		}
+
+		.basmala {
+    		padding: 0;
+    		background: transparent;
+    		border: none;
+    		margin-bottom: 24px;
+    		cursor: pointer;
+		}
+
+		.basmala.playing img {
+    		background: rgba(0, 122, 255, 0.1);
+    		border-color: rgba(0, 122, 255, 0.3);
+		}
+
+		/* Медиа-запросы подправить */
+		@media (max-width: 375px) {
+		    .ayah {
+ 	       margin-bottom: 12px;
+	    	}
+		}
+
+		@media (max-height: 700px) {
+    		.ayah {
+        	margin-bottom: 12px;
+    		}
+		}
+
+ 
             .ayah-number {
                 left: 12px;
                 top: 16px;
@@ -902,7 +933,7 @@
         };
 
         // Порядок навигации как в surahs.html
-        const navigationOrder = [1, 114, 113, 112, 111, 110, 109, 108, 107, 106, 105, 104, 103, 102, 101, 100, 99, 98, 97, 96, 95, 94, 93, 92, 91, 90, 89, 88, 87, 86];
+        const navigationOrder = [1, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114];
 
         let currentSurahId = 114;
         let currentAudio = null;
@@ -941,13 +972,15 @@
             content.innerHTML = '';
             
             // Создаем контейнер для басмалы
-            const basmalaContainer = document.createElement('div');
-            basmalaContainer.className = 'basmala-container';
-            basmalaContainer.innerHTML = `
-                <div class="basmala" id="basmalaElement">
-                    ${surah.basmala}
-                </div>
-            `;
+		const basmalaContainer = document.createElement('div');
+		basmalaContainer.className = 'basmala-container';
+		basmalaContainer.innerHTML = `
+		    <div class="basmala" id="basmalaElement">
+		        <img src="../assets/images/surahs/${surahId}/basmala.png" 
+		             alt="Басмала"
+		             loading="lazy">
+		    </div>
+		`;
             content.appendChild(basmalaContainer);
             
             // Создаем контейнер для аятов
@@ -956,28 +989,21 @@
             ayahsContainer.id = 'ayahsContainer';
             content.appendChild(ayahsContainer);
             
-            // Добавляем аяты
-            surah.ayahs.forEach(ayah => {
-                const ayahElement = document.createElement('div');
-                ayahElement.className = 'ayah';
-                ayahElement.dataset.ayahNumber = ayah.number;
-                ayahElement.dataset.audioFile = ayah.audio;
-                
-                // Номер аята (красивый синий кружок)
-                const ayahNumber = document.createElement('div');
-                ayahNumber.className = 'ayah-number';
-                ayahNumber.textContent = ayah.number;
-                
-                // Текст аята
-                const ayahText = document.createElement('div');
-                ayahText.textContent = ayah.text;
-                
-                ayahElement.appendChild(ayahNumber);
-                ayahElement.appendChild(ayahText);
-                
-                ayahElement.addEventListener('click', () => playAudio(ayah.audio, ayahElement));
-                ayahsContainer.appendChild(ayahElement);
-            });
+surah.ayahs.forEach(ayah => {
+    const ayahElement = document.createElement('div');
+    ayahElement.className = 'ayah';
+    ayahElement.dataset.ayahNumber = ayah.number;
+    ayahElement.dataset.audioFile = ayah.audio;
+    
+    ayahElement.innerHTML = `
+        <img src="../assets/images/surahs/${surahId}/${ayah.number}.png" 
+             alt="Аят ${ayah.number}"
+             loading="lazy">
+    `;
+    
+    ayahElement.addEventListener('click', () => playAudio(ayah.audio, ayahElement));
+    ayahsContainer.appendChild(ayahElement);
+});
             
             // Добавляем обработчик клика на басмалу
             const basmalaElement = document.getElementById('basmalaElement');
