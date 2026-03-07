@@ -9,7 +9,7 @@
     
     <title>Сура</title>
     <style>
-        * {
+                        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -81,26 +81,29 @@
         }
         
         .basmala-container {
-            margin-bottom: 24px;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: flex-end;
+            width: 100%;
         }
         
         .ayahs-container {
-            direction: rtl;
+            width: 100%;
         }
         
-        /* НОВЫЕ СТИЛИ ДЛЯ ИЗОБРАЖЕНИЙ */
         .ayah {
             display: flex;
-            justify-content: center;
+            justify-content: flex-end;
             padding: 0;
             background: transparent;
             border: none;
-            margin-bottom: 16px;
+            margin-bottom: 8px;
             cursor: pointer;
+            width: 100%;
         }
         
         .ayah img {
-            height: 80px;
+            height: 60px;
             width: auto;
             max-width: 100%;
             display: block;
@@ -110,16 +113,17 @@
         
         .basmala {
             display: flex;
-            justify-content: center;
+            justify-content: flex-end;
             padding: 0;
             background: transparent;
             border: none;
-            margin-bottom: 24px;
+            margin: 0;
             cursor: pointer;
+            width: 100%;
         }
         
         .basmala img {
-            height: 80px;
+            height: 60px;
             width: auto;
             max-width: 100%;
             display: block;
@@ -178,12 +182,20 @@
             }
             
             .ayah {
+                margin-bottom: 6px;
+            }
+            
+            .basmala-container {
                 margin-bottom: 12px;
             }
         }
         
         @media (max-height: 700px) {
             .ayah {
+                margin-bottom: 6px;
+            }
+            
+            .basmala-container {
                 margin-bottom: 12px;
             }
         }
