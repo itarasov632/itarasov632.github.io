@@ -110,6 +110,10 @@
             margin-bottom: 8px;
         }
         
+        .install-hint.hidden {
+            display: none;
+        }
+        
         footer {
             color: #888;
             font-size: 11px;
@@ -167,13 +171,48 @@
             </a>
         </div>
         
-        <div class="install-hint">
-            Для установки: Поделиться → На экран «Домой»
-        </div>
+        <div class="install-hint" id="installHint">Добавьте на главный экран</div>
         
         <footer>
             Для изучения Священного Корана
         </footer>
     </div>
+
+    <script>
+        (function() {
+            // Проверяем, запущено ли приложение как PWA (на главном экране)
+            const isInStandaloneMode = () => {
+                return window.matchMedia('(display-mode: standalone)').matches ||
+                       window.navigator.standalone || // iOS Safari
+                       window.matchMedia('(display-mode: fullscreen)').matches ||
+                       window.matchMedia('(display-mode: minimal-ui)').matches;
+            };
+            
+            // Проверяем, iOS ли это
+            const isIOS = () => {
+                return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            };
+            
+            // Показываем подсказку только если:
+            // 1. Это iOS
+            // 2. И приложение НЕ в standalone режиме (не на главном экране)
+            const shouldShowHint = isIOS() && !isInStandaloneMode();
+            
+            const hintElement = document.getElementById('installHint');
+            
+            if (!shouldShowHint) {
+                hintElement.classList.add('hidden');
+            }
+            
+            // Также слушаем изменение режима отображения (на случай, если пользователь добавит во время сессии)
+            if (isIOS()) {
+                window.matchMedia('(display-mode: standalone)').addListener(function(e) {
+                    if (e.matches) {
+                        hintElement.classList.add('hidden');
+                    }
+                });
+            }
+        })();
+    </script>
 </body>
 </html>
