@@ -24,122 +24,156 @@
             padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
+        }
+        
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 12px;
+            max-width: 400px;
+            margin: 0 auto;
+            width: 100%;
         }
         
         .logo {
-            font-size: 64px;
-            margin-bottom: 24px;
+            font-size: 48px;
+            margin-bottom: 8px;
+            text-align: center;
         }
         
         h1 {
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 700;
             color: #000;
-            margin-bottom: 12px;
+            margin-bottom: 4px;
+            text-align: center;
         }
         
         .description {
-            font-size: 17px;
+            font-size: 14px;
             color: #666;
-            margin-bottom: 40px;
-            max-width: 300px;
-            line-height: 1.4;
+            margin-bottom: 16px;
+            text-align: center;
         }
         
         .features {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            width: 100%;
-            max-width: 300px;
-            margin-bottom: 40px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 12px;
         }
         
         .feature-card {
             background: white;
-            border-radius: 16px;
-            padding: 24px;
+            border-radius: 14px;
+            padding: 16px 8px;
             text-decoration: none;
             color: #000;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
             transition: all 0.2s;
             display: flex;
             flex-direction: column;
             align-items: center;
+            text-align: center;
         }
         
         .feature-card:active {
-            transform: scale(0.98);
+            transform: scale(0.97);
             background: #f8f9fa;
         }
         
         .feature-icon {
-            font-size: 36px;
-            margin-bottom: 12px;
+            font-size: 32px;
+            margin-bottom: 8px;
         }
         
         .feature-title {
-            font-size: 18px;
+            font-size: 15px;
             font-weight: 600;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
         
         .feature-desc {
-            font-size: 14px;
+            font-size: 11px;
             color: #666;
         }
         
         .install-hint {
-            font-size: 14px;
+            font-size: 12px;
             color: #007aff;
-            margin-top: 20px;
-            padding: 12px 16px;
+            padding: 8px 12px;
             background: rgba(0, 122, 255, 0.1);
-            border-radius: 12px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: auto;
+            margin-bottom: 8px;
         }
         
         footer {
-            margin-top: 40px;
             color: #888;
-            font-size: 14px;
+            font-size: 11px;
+            text-align: center;
+            padding: 4px 0;
+        }
+        
+        @media (max-height: 700px) {
+            .logo { font-size: 40px; }
+            h1 { font-size: 22px; }
+            .description { font-size: 13px; margin-bottom: 12px; }
+            .features { gap: 8px; }
+            .feature-card { padding: 12px 6px; }
+            .feature-icon { font-size: 28px; }
+        }
+        
+        @media (max-height: 600px) {
+            .logo { font-size: 36px; margin-bottom: 4px; }
+            h1 { font-size: 20px; }
+            .description { font-size: 12px; margin-bottom: 8px; }
+            .features { gap: 6px; }
+            .install-hint { font-size: 11px; padding: 6px 10px; }
         }
     </style>
 </head>
 <body>
-    <div class="logo">📖</div>
-    <h1>Второй учитель</h1>
-    <p class="description">Изучение арабского алфавита и сур Корана</p>
-    
-    <div class="features">
-        <a href="pages/alphabet.html" class="feature-card">
-            <div class="feature-icon">ا</div>
-            <div class="feature-title">Арабский алфавит</div>
-            <div class="feature-desc">28 букв с махраджем</div>
-        </a>
+    <div class="container">
+        <div class="logo">📖</div>
+        <h1>Второй учитель</h1>
+        <p class="description">Изучение арабского алфавита и сур Корана</p>
         
-        <a href="pages/tajweed.html" class="feature-card">
-            <div class="feature-icon">🕋</div>
-            <div class="feature-title">Таджвид</div>
-            <div class="feature-desc">В разработке</div>
-        </a>
+        <div class="features">
+            <a href="pages/alphabet.html" class="feature-card">
+                <div class="feature-icon">ا</div>
+                <div class="feature-title">Арабский алфавит</div>
+                <div class="feature-desc">28 букв с махраджем</div>
+            </a>
+            
+            <a href="pages/tajweed.html" class="feature-card">
+                <div class="feature-icon">🕋</div>
+                <div class="feature-title">Таджвид</div>
+                <div class="feature-desc">В разработке</div>
+            </a>
+            
+            <a href="pages/surahs.html" class="feature-card">
+                <div class="feature-icon">⭐</div>
+                <div class="feature-title">Краткие суры</div>
+                <div class="feature-desc">29 сур</div>
+            </a>
+            
+            <a href="pages/random-setup.html" class="feature-card">
+                <div class="feature-icon">🎲</div>
+                <div class="feature-title">Случайный аят</div>
+                <div class="feature-desc">Тренируй слух</div>
+            </a>
+        </div>
         
-        <a href="pages/surahs.html" class="feature-card">
-            <div class="feature-icon">⭐</div>
-            <div class="feature-title">Краткие суры</div>
-            <div class="feature-desc">29 сур</div>
-        </a>
+        <div class="install-hint">
+            Для установки: Поделиться → На экран «Домой»
+        </div>
+        
+        <footer>
+            Для изучения Священного Корана
+        </footer>
     </div>
-    
-    <div class="install-hint">
-        Для установки на iOS:<br>
-        Нажмите "Поделиться" → "На экран «Домой»"
-    </div>
-    
-    <footer>
-        Для изучения Священного Корана
-    </footer>
 </body>
 </html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ru" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <title>Случайный аят</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f2f2f7;
+            height: 100vh;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+        }
+        
+        .container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background: white;
+        }
+        
+        .header {
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+        }
+        
+        .back-button {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: rgba(0, 122, 255, 0.1);
+            color: #007aff;
+            text-decoration: none;
+            font-size: 20px;
+        }
+        
+        .title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #000;
+            text-align: center;
+            flex: 1;
+            margin: 0 10px;
+        }
+        
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .play-button {
+            width: 220px;
+            padding: 20px 0;
+            border-radius: 16px;
+            background: #007aff;
+            border: none;
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+            transition: all 0.15s;
+        }
+        
+        .play-button:active {
+            transform: scale(0.97);
+            background: #0056cc;
+        }
+        
+        .play-button.playing {
+            background: #ff3b30;
+        }
+        
+        .new-button {
+            width: 220px;
+            padding: 18px 0;
+            border-radius: 16px;
+            background: #f2f2f7;
+            border: none;
+            color: #000;
+            font-size: 18px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        
+        .new-button:active {
+            background: #e5e5ea;
+            transform: scale(0.97);
+        }
+        
+        .range-info {
+            font-size: 14px;
+            color: #8e8e93;
+            text-align: center;
+            margin-top: 40px;
+            padding: 12px 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            max-width: 300px;
+            line-height: 1.4;
+        }
+        
+        @media (max-width: 375px) {
+            .play-button, .new-button {
+                width: 200px;
+            }
+            
+            .play-button {
+                padding: 18px 0;
+                font-size: 18px;
+            }
+            
+            .new-button {
+                padding: 16px 0;
+                font-size: 17px;
+            }
+            
+            .range-info {
+                font-size: 13px;
+                max-width: 260px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="random-setup.html" class="back-button">‹</a>
+            <h1 class="title">Случайный аят</h1>
+            <div style="width: 44px;"></div>
+        </div>
+        
+        <div class="content">
+            <button class="play-button" id="playButton">Воспроизвести</button>
+            <button class="new-button" id="newAyahButton">Случайный аят</button>
+            
+            <div class="range-info" id="rangeInfo"></div>
+        </div>
+    </div>
+
+    <script>
+        const surahAyahCount = {
+            1: 7, 86: 17, 87: 19, 88: 26, 89: 30, 90: 20, 91: 15, 92: 21,
+            93: 11, 94: 8, 95: 8, 96: 19, 97: 5, 98: 8, 99: 8, 100: 11,
+            101: 11, 102: 8, 103: 3, 104: 9, 105: 5, 106: 4, 107: 7, 108: 3,
+            109: 6, 110: 3, 111: 5, 112: 4, 113: 5, 114: 6
+        };
+
+        let currentAudio = null;
+        let currentSurahId = null;
+        let currentAyahNumber = null;
+        let selectedSurahs = [];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const saved = localStorage.getItem('randomSelectedSurahs');
+            if (saved) {
+                selectedSurahs = JSON.parse(saved);
+            }
+            
+            if (selectedSurahs.length === 0) {
+                window.location.href = 'random-setup.html';
+                return;
+            }
+            
+            updateRangeInfo();
+            generateNewAyah();
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            document.getElementById('playButton').addEventListener('click', togglePlay);
+            document.getElementById('newAyahButton').addEventListener('click', generateNewAyah);
+        }
+
+        function generateNewAyah() {
+            const randomIndex = Math.floor(Math.random() * selectedSurahs.length);
+            currentSurahId = selectedSurahs[randomIndex];
+            
+            const maxAyah = surahAyahCount[currentSurahId];
+            currentAyahNumber = Math.floor(Math.random() * maxAyah) + 1;
+            
+            stopAudio();
+            
+            const playButton = document.getElementById('playButton');
+            playButton.textContent = 'Воспроизвести';
+            playButton.classList.remove('playing');
+        }
+
+        function togglePlay() {
+            if (!currentSurahId || !currentAyahNumber) return;
+            
+            const playButton = document.getElementById('playButton');
+            
+            if (currentAudio && !currentAudio.paused) {
+                currentAudio.pause();
+                playButton.textContent = 'Воспроизвести';
+                playButton.classList.remove('playing');
+            } else if (currentAudio && currentAudio.paused) {
+                currentAudio.play();
+                playButton.textContent = 'Пауза';
+                playButton.classList.add('playing');
+            } else {
+                const audioPath = `../assets/audio/surahs/${currentSurahId}_${currentAyahNumber}.mp3`;
+                currentAudio = new Audio(audioPath);
+                
+                currentAudio.play().catch(error => {
+                    console.log('Аудио не найдено:', audioPath);
+                    playButton.textContent = 'Воспроизвести';
+                    playButton.classList.remove('playing');
+                    currentAudio = null;
+                    
+                    if (navigator.vibrate) {
+                        navigator.vibrate([50, 50, 50]);
+                    }
+                });
+                
+                playButton.textContent = 'Пауза';
+                playButton.classList.add('playing');
+                
+                currentAudio.onended = function() {
+                    playButton.textContent = 'Воспроизвести';
+                    playButton.classList.remove('playing');
+                    currentAudio = null;
+                };
+            }
+            
+            if (navigator.vibrate) {
+                navigator.vibrate(20);
+            }
+        }
+
+        function stopAudio() {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+                currentAudio = null;
+            }
+            
+            const playButton = document.getElementById('playButton');
+            playButton.textContent = 'Воспроизвести';
+            playButton.classList.remove('playing');
+        }
+
+        function formatSurahsList(surahs) {
+            if (surahs.length === 0) return '';
+            if (surahs.length === 1) return `сура ${surahs[0]}`;
+            
+            // Сортируем
+            const sorted = [...surahs].sort((a, b) => a - b);
+            
+            // Если выбраны все суры (1 и 86-114)
+            const allSurahs = [1, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114];
+            if (surahs.length === allSurahs.length && 
+                sorted.every((val, idx) => val === allSurahs[idx])) {
+                return 'все суры';
+            }
+            
+            // Формируем диапазоны
+            const ranges = [];
+            let rangeStart = sorted[0];
+            let rangeEnd = sorted[0];
+            
+            for (let i = 1; i < sorted.length; i++) {
+                if (sorted[i] === rangeEnd + 1) {
+                    rangeEnd = sorted[i];
+                } else {
+                    ranges.push(rangeStart === rangeEnd ? `${rangeStart}` : `${rangeStart}-${rangeEnd}`);
+                    rangeStart = sorted[i];
+                    rangeEnd = sorted[i];
+                }
+            }
+            ranges.push(rangeStart === rangeEnd ? `${rangeStart}` : `${rangeStart}-${rangeEnd}`);
+            
+            return ranges.join(', ');
+        }
+
+        function updateRangeInfo() {
+            const formatted = formatSurahsList(selectedSurahs);
+            document.getElementById('rangeInfo').textContent = `Выбрано: ${formatted}`;
+        }
+    </script>
+</body>
+</html>
