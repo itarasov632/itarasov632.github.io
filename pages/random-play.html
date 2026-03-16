@@ -80,7 +80,7 @@
             font-size: 20px;
             font-weight: 600;
             cursor: pointer;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
             transition: all 0.15s;
         }
@@ -104,6 +104,7 @@
             font-size: 18px;
             font-weight: 500;
             cursor: pointer;
+            margin-bottom: 16px;
             transition: all 0.15s;
         }
         
@@ -112,11 +113,70 @@
             transform: scale(0.97);
         }
         
+        .info-button {
+            width: 220px;
+            padding: 14px 0;
+            border-radius: 16px;
+            background: transparent;
+            border: 1px solid #c6c6c8;
+            color: #007aff;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: all 0.15s;
+        }
+        
+        .info-button:active {
+            background: #f2f2f7;
+            transform: scale(0.97);
+        }
+        
+        .info-button.active {
+            background: #007aff;
+            border-color: #007aff;
+            color: white;
+        }
+        
+        .ayah-info {
+            width: 260px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 20px;
+            text-align: center;
+            margin-top: 10px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .ayah-info.hidden {
+            opacity: 0;
+            transform: translateY(-10px);
+            pointer-events: none;
+            margin-top: 0;
+            height: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        .surah-name {
+            font-size: 22px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 6px;
+        }
+        
+        .ayah-number {
+            font-size: 18px;
+            color: #007aff;
+            font-weight: 500;
+        }
+        
         .range-info {
             font-size: 14px;
             color: #8e8e93;
             text-align: center;
-            margin-top: 40px;
+            margin-top: 30px;
             padding: 12px 20px;
             background: #f8f9fa;
             border-radius: 12px;
@@ -125,7 +185,7 @@
         }
         
         @media (max-width: 375px) {
-            .play-button, .new-button {
+            .play-button, .new-button, .info-button {
                 width: 200px;
             }
             
@@ -137,6 +197,19 @@
             .new-button {
                 padding: 16px 0;
                 font-size: 17px;
+            }
+            
+            .info-button {
+                padding: 12px 0;
+                font-size: 15px;
+            }
+            
+            .ayah-info {
+                width: 240px;
+            }
+            
+            .surah-name {
+                font-size: 20px;
             }
             
             .range-info {
@@ -157,12 +230,29 @@
         <div class="content">
             <button class="play-button" id="playButton">Воспроизвести</button>
             <button class="new-button" id="newAyahButton">Случайный аят</button>
+            <button class="info-button" id="infoButton">Узнать что за аят</button>
+            
+            <div class="ayah-info hidden" id="ayahInfo">
+                <div class="surah-name" id="surahName"></div>
+                <div class="ayah-number" id="ayahNumber"></div>
+            </div>
             
             <div class="range-info" id="rangeInfo"></div>
         </div>
     </div>
 
     <script>
+        const surahNames = {
+            1: "Аль-Фатиха", 86: "Ат-Тарик", 87: "Аль-А'ля", 88: "Аль-Гашия",
+            89: "Аль-Фаджр", 90: "Аль-Балад", 91: "Аш-Шамс", 92: "Аль-Лайл",
+            93: "Ад-Духа", 94: "Аш-Шарх", 95: "Ат-Тин", 96: "Аль-Алак",
+            97: "Аль-Кадр", 98: "Аль-Баййина", 99: "Аз-Зальзаля", 100: "Аль-Адия́т",
+            101: "Аль-Кариа", 102: "Ат-Такасур", 103: "Аль-Аср", 104: "Аль-Хумаза",
+            105: "Аль-Филь", 106: "Курайш", 107: "Аль-Ма'ун", 108: "Аль-Каусар",
+            109: "Аль-Кафирун", 110: "Ан-Наср", 111: "Аль-Масад", 112: "Аль-Ихлас",
+            113: "Аль-Фалак", 114: "Ан-Нас"
+        };
+
         const surahAyahCount = {
             1: 7, 86: 17, 87: 19, 88: 26, 89: 30, 90: 20, 91: 15, 92: 21,
             93: 11, 94: 8, 95: 8, 96: 19, 97: 5, 98: 8, 99: 8, 100: 11,
@@ -174,6 +264,7 @@
         let currentSurahId = null;
         let currentAyahNumber = null;
         let selectedSurahs = [];
+        let infoVisible = false;
 
         document.addEventListener('DOMContentLoaded', function() {
             const saved = localStorage.getItem('randomSelectedSurahs');
@@ -194,6 +285,7 @@
         function setupEventListeners() {
             document.getElementById('playButton').addEventListener('click', togglePlay);
             document.getElementById('newAyahButton').addEventListener('click', generateNewAyah);
+            document.getElementById('infoButton').addEventListener('click', toggleInfo);
         }
 
         function generateNewAyah() {
@@ -208,6 +300,17 @@
             const playButton = document.getElementById('playButton');
             playButton.textContent = 'Воспроизвести';
             playButton.classList.remove('playing');
+            
+            // Обновляем информацию, если она видна
+            if (infoVisible) {
+                updateAyahInfo();
+            }
+            
+            // Сбрасываем кнопку информации
+            const infoButton = document.getElementById('infoButton');
+            infoButton.classList.remove('active');
+            infoVisible = false;
+            document.getElementById('ayahInfo').classList.add('hidden');
         }
 
         function togglePlay() {
@@ -265,21 +368,45 @@
             playButton.classList.remove('playing');
         }
 
+        function toggleInfo() {
+            const infoButton = document.getElementById('infoButton');
+            const ayahInfo = document.getElementById('ayahInfo');
+            
+            infoVisible = !infoVisible;
+            
+            if (infoVisible) {
+                updateAyahInfo();
+                ayahInfo.classList.remove('hidden');
+                infoButton.classList.add('active');
+                infoButton.textContent = 'Скрыть';
+            } else {
+                ayahInfo.classList.add('hidden');
+                infoButton.classList.remove('active');
+                infoButton.textContent = 'Узнать что за аят';
+            }
+            
+            if (navigator.vibrate) {
+                navigator.vibrate(10);
+            }
+        }
+
+        function updateAyahInfo() {
+            document.getElementById('surahName').textContent = surahNames[currentSurahId];
+            document.getElementById('ayahNumber').textContent = `аят ${currentAyahNumber}`;
+        }
+
         function formatSurahsList(surahs) {
             if (surahs.length === 0) return '';
             if (surahs.length === 1) return `сура ${surahs[0]}`;
             
-            // Сортируем
             const sorted = [...surahs].sort((a, b) => a - b);
             
-            // Если выбраны все суры (1 и 86-114)
             const allSurahs = [1, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114];
             if (surahs.length === allSurahs.length && 
                 sorted.every((val, idx) => val === allSurahs[idx])) {
                 return 'все суры';
             }
             
-            // Формируем диапазоны
             const ranges = [];
             let rangeStart = sorted[0];
             let rangeEnd = sorted[0];
