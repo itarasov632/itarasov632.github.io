@@ -53,6 +53,11 @@
             font-size: 20px;
         }
         
+        .back-button:active {
+            background: rgba(0, 122, 255, 0.2);
+            transform: scale(0.92);
+        }
+        
         .header-content {
             flex: 1;
             margin: 0 10px;
@@ -65,6 +70,24 @@
             direction: rtl;
             text-align: center;
             margin-bottom: 2px;
+            cursor: pointer;
+            user-select: none;
+            transition: opacity 0.2s, text-shadow 0.2s;
+        }
+        
+        .surah-arabic-name.playing-surah {
+            opacity: 0.7;
+            text-shadow: 0 0 4px rgba(0, 122, 255, 0.5);
+            animation: gentlePulse 1s ease-in-out infinite;
+        }
+        
+        @keyframes gentlePulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; text-shadow: 0 0 8px rgba(0, 122, 255, 0.8); }
+        }
+        
+        .surah-arabic-name:active {
+            transform: scale(0.98);
         }
         
         .surah-info {
@@ -214,6 +237,7 @@
         
         .nav-button:active {
             background: #e5e5ea;
+            transform: scale(0.97);
         }
         
         .nav-button.disabled {
@@ -332,6 +356,11 @@
         let isRecording = false;
         let recordedAudio = null;
         let mediaStream = null;
+        
+        // Переменные для воспроизведения всей суры
+        let fullSurahPlaying = false;
+        let fullSurahQueue = [];
+        let currentQueueIndex = 0;
 
         document.addEventListener('DOMContentLoaded', function() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -353,13 +382,20 @@
                 return;
             }
             
+            // Останавливаем воспроизведение всей суры если было
+            stopFullSurah();
+            
             document.title = `Сура ${surah.number} • ${surah.name}`;
             
             const headerContent = document.getElementById('headerContent');
             headerContent.innerHTML = `
-                <div class="surah-arabic-name">${surah.arabicName}</div>
+                <div class="surah-arabic-name" id="surahArabicName">${surah.arabicName}</div>
                 <div class="surah-info">Сура ${surah.number} • ${surah.name} • ${surah.ayahs.length} аятов</div>
             `;
+            
+            // Добавляем обработчик для пасхалки
+            const arabicNameElement = document.getElementById('surahArabicName');
+            arabicNameElement.addEventListener('click', toggleFullSurah);
             
             const content = document.getElementById('surahContent');
             content.innerHTML = '';
@@ -375,12 +411,14 @@
             
             const ayahsContainer = document.createElement('div');
             ayahsContainer.className = 'ayahs-container';
+            ayahsContainer.id = 'ayahsContainer';
             
-            surah.ayahs.forEach(ayah => {
+            surah.ayahs.forEach((ayah, index) => {
                 const ayahElement = document.createElement('div');
                 ayahElement.className = 'ayah';
                 ayahElement.dataset.ayahNumber = ayah.number;
                 ayahElement.dataset.audioFile = ayah.audio;
+                ayahElement.dataset.ayahIndex = index;
                 ayahElement.innerHTML = `<img src="../assets/images/surahs/${surahId}/${ayah.number}.png" alt="Аят ${ayah.number}" loading="lazy">`;
                 ayahElement.addEventListener('click', () => playAudio(ayah.audio, ayahElement));
                 ayahsContainer.appendChild(ayahElement);
@@ -395,6 +433,11 @@
         }
 
         function playAudio(audioFile, element) {
+            // Если играет вся сура — останавливаем её
+            if (fullSurahPlaying) {
+                stopFullSurah();
+            }
+            
             if (currentAudio) {
                 currentAudio.pause();
                 currentAudio.currentTime = 0;
@@ -426,6 +469,133 @@
             if (navigator.vibrate) navigator.vibrate(30);
         }
 
+        // ========== ВОСПРОИЗВЕДЕНИЕ ВСЕЙ СУРЫ (пасхалка) ==========
+        function toggleFullSurah() {
+            if (fullSurahPlaying) {
+                stopFullSurah();
+            } else {
+                startFullSurah();
+            }
+        }
+        
+        function startFullSurah() {
+            const surah = surahsData[currentSurahId];
+            if (!surah) return;
+            
+            // Останавливаем текущее одиночное воспроизведение
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+                currentAudio = null;
+            }
+            
+            if (currentPlayingElement) {
+                currentPlayingElement.classList.remove('playing');
+                currentPlayingElement = null;
+            }
+            
+            // Создаём очередь: басмала + все аяты
+            fullSurahQueue = [];
+            
+            // Добавляем басмалу
+            const basmalaElement = document.getElementById('basmalaElement');
+            if (basmalaElement) {
+                fullSurahQueue.push({
+                    type: 'basmala',
+                    audioFile: surah.basmalaAudio,
+                    element: basmalaElement
+                });
+            }
+            
+            // Добавляем все аяты
+            const ayahsContainer = document.getElementById('ayahsContainer');
+            if (ayahsContainer) {
+                const ayahElements = ayahsContainer.querySelectorAll('.ayah');
+                ayahElements.forEach((element, index) => {
+                    const audioFile = surah.ayahs[index]?.audio;
+                    if (audioFile) {
+                        fullSurahQueue.push({
+                            type: 'ayah',
+                            audioFile: audioFile,
+                            element: element,
+                            ayahNumber: index + 1
+                        });
+                    }
+                });
+            }
+            
+            if (fullSurahQueue.length === 0) return;
+            
+            fullSurahPlaying = true;
+            currentQueueIndex = 0;
+            
+            // Добавляем визуальный эффект на арабское название
+            const arabicNameElement = document.getElementById('surahArabicName');
+            if (arabicNameElement) {
+                arabicNameElement.classList.add('playing-surah');
+            }
+            
+            // Начинаем воспроизведение с первого элемента
+            playNextInQueue();
+        }
+        
+        function playNextInQueue() {
+            if (!fullSurahPlaying || currentQueueIndex >= fullSurahQueue.length) {
+                // Очередь закончилась
+                stopFullSurah();
+                return;
+            }
+            
+            const item = fullSurahQueue[currentQueueIndex];
+            
+            // Подсвечиваем текущий элемент
+            if (currentPlayingElement) {
+                currentPlayingElement.classList.remove('playing');
+            }
+            if (item.element) {
+                item.element.classList.add('playing');
+                currentPlayingElement = item.element;
+            }
+            
+            const audioPath = `../assets/audio/surahs/${item.audioFile}`;
+            currentAudio = new Audio(audioPath);
+            
+            currentAudio.play().catch(error => {
+                console.log('Аудио не найдено:', audioPath);
+                // Переходим к следующему даже при ошибке
+                currentQueueIndex++;
+                playNextInQueue();
+            });
+            
+            currentAudio.onended = () => {
+                currentQueueIndex++;
+                playNextInQueue();
+            };
+        }
+        
+        function stopFullSurah() {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+                currentAudio = null;
+            }
+            
+            if (currentPlayingElement) {
+                currentPlayingElement.classList.remove('playing');
+                currentPlayingElement = null;
+            }
+            
+            fullSurahPlaying = false;
+            fullSurahQueue = [];
+            currentQueueIndex = 0;
+            
+            // Убираем визуальный эффект
+            const arabicNameElement = document.getElementById('surahArabicName');
+            if (arabicNameElement) {
+                arabicNameElement.classList.remove('playing-surah');
+            }
+        }
+
         function setupNavigation() {
             document.getElementById('prevButton').addEventListener('click', function(e) {
                 e.preventDefault();
@@ -455,6 +625,7 @@
         function navigateToSurah(surahId) {
             if (!surahId) return;
             
+            // Останавливаем всё воспроизведение
             if (currentAudio) {
                 currentAudio.pause();
                 currentAudio.currentTime = 0;
@@ -465,6 +636,8 @@
                 currentPlayingElement.classList.remove('playing');
                 currentPlayingElement = null;
             }
+            
+            stopFullSurah();
             
             currentSurahId = surahId;
             window.history.pushState({}, '', `?id=${surahId}`);
@@ -518,10 +691,11 @@
                     currentPlayingElement.classList.remove('playing');
                     currentPlayingElement = null;
                 }
+                stopFullSurah();
             }
         });
 
-        // ========== ЗАПИСЬ ГОЛОСА (2 кнопки, компактно) ==========
+        // ========== ЗАПИСЬ ГОЛОСА ==========
         function setupRecording() {
             const recordBtn = document.getElementById('recordButton');
             const playbackBtn = document.getElementById('playbackButton');
