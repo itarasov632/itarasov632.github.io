@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ru" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <title>Случайный аят</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f2f2f7;
+            height: 100vh;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+        }
+        
+        .container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background: white;
+        }
+        
+        .header {
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+        }
+        
+        .back-button {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: rgba(0, 122, 255, 0.1);
+            color: #007aff;
+            text-decoration: none;
+            font-size: 20px;
+            transition: all 0.2s;
+            -webkit-transition: all 0.2s;
+        }
+        
+        .back-button:active {
+            background: rgba(0, 122, 255, 0.2);
+            transform: scale(0.92);
+        }
+        
+        .title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #000;
+            text-align: center;
+            flex: 1;
+            margin: 0 10px;
+        }
+        
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .play-button {
+            width: 220px;
+            padding: 20px 0;
+            border-radius: 16px;
+            background: #007aff;
+            border: none;
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+            transition: all 0.15s;
+            -webkit-transition: all 0.15s;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        
+        .play-button:active {
+            transform: scale(0.96);
+            background: #0056cc;
+            box-shadow: 0 2px 6px rgba(0, 122, 255, 0.4);
+        }
+        
+        .play-button.playing {
+            background: #ff3b30;
+        }
+        
+        .play-button.playing:active {
+            background: #d63027;
+        }
+        
+        .new-button {
+            width: 220px;
+            padding: 18px 0;
+            border-radius: 16px;
+            background: #f2f2f7;
+            border: none;
+            color: #000;
+            font-size: 18px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-bottom: 16px;
+            transition: all 0.15s;
+            -webkit-transition: all 0.15s;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+            border: 1px solid rgba(0, 0, 0, 0.02);
+        }
+        
+        .new-button:active {
+            background: #e5e5ea;
+            transform: scale(0.96);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+        
+        .info-button {
+            width: 220px;
+            padding: 14px 0;
+            border-radius: 16px;
+            background: transparent;
+            border: 1px solid #c6c6c8;
+            color: #007aff;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: all 0.15s;
+            -webkit-transition: all 0.15s;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        
+        .info-button:active {
+            background: #f2f2f7;
+            transform: scale(0.96);
+            border-color: #007aff;
+        }
+        
+        .info-button.active {
+            background: #007aff;
+            border-color: #007aff;
+            color: white;
+        }
+        
+        .info-button.active:active {
+            background: #0056cc;
+        }
+        
+        .ayah-info {
+            width: 260px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 20px;
+            text-align: center;
+            margin-top: 10px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            -webkit-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: top center;
+        }
+        
+        .ayah-info.hidden {
+            opacity: 0;
+            transform: translateY(-20px) scale(0.95);
+            pointer-events: none;
+            margin-top: 0;
+            height: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        .surah-name {
+            font-size: 22px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 6px;
+        }
+        
+        .ayah-number {
+            font-size: 18px;
+            color: #007aff;
+            font-weight: 500;
+        }
+        
+        .range-info {
+            font-size: 14px;
+            color: #8e8e93;
+            text-align: center;
+            margin-top: 30px;
+            padding: 12px 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            max-width: 300px;
+            line-height: 1.4;
+            transition: all 0.2s;
+        }
+        
+        @media (max-width: 375px) {
+            .play-button, .new-button, .info-button {
+                width: 200px;
+            }
+            
+            .play-button {
+                padding: 18px 0;
+                font-size: 18px;
+            }
+            
+            .new-button {
+                padding: 16px 0;
+                font-size: 17px;
+            }
+            
+            .info-button {
+                padding: 12px 0;
+                font-size: 15px;
+            }
+            
+            .ayah-info {
+                width: 240px;
+            }
+            
+            .surah-name {
+                font-size: 20px;
+            }
+            
+            .range-info {
+                font-size: 13px;
+                max-width: 260px;
+            }
+        }
+        
+        /* Дополнительная анимация при нажатии */
+        .button-press {
+            animation: press 0.15s ease;
+        }
+        
+        @keyframes press {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.96); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Убираем задержку при нажатии на iOS */
+        a, button {
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="random-setup.html" class="back-button">‹</a>
+            <h1 class="title">Случайный аят</h1>
+            <div style="width: 44px;"></div>
+        </div>
+        
+        <div class="content">
+            <button class="play-button" id="playButton">Воспроизвести</button>
+            <button class="new-button" id="newAyahButton">Случайный аят</button>
+            <button class="info-button" id="infoButton">Узнать что за аят</button>
+            
+            <div class="ayah-info hidden" id="ayahInfo">
+                <div class="surah-name" id="surahName"></div>
+                <div class="ayah-number" id="ayahNumber"></div>
+            </div>
+            
+            <div class="range-info" id="rangeInfo"></div>
+        </div>
+    </div>
+
+    <script>
+        const surahNames = {
+            1: "Аль-Фатиха", 86: "Ат-Тарик", 87: "Аль-А'ля", 88: "Аль-Гашия",
+            89: "Аль-Фаджр", 90: "Аль-Балад", 91: "Аш-Шамс", 92: "Аль-Лайл",
+            93: "Ад-Духа", 94: "Аш-Шарх", 95: "Ат-Тин", 96: "Аль-Алак",
+            97: "Аль-Кадр", 98: "Аль-Баййина", 99: "Аз-Зальзаля", 100: "Аль-Адия́т",
+            101: "Аль-Кариа", 102: "Ат-Такасур", 103: "Аль-Аср", 104: "Аль-Хумаза",
+            105: "Аль-Филь", 106: "Курайш", 107: "Аль-Ма'ун", 108: "Аль-Каусар",
+            109: "Аль-Кафирун", 110: "Ан-Наср", 111: "Аль-Масад", 112: "Аль-Ихлас",
+            113: "Аль-Фалак", 114: "Ан-Нас"
+        };
+
+        const surahAyahCount = {
+            1: 7, 86: 17, 87: 19, 88: 26, 89: 30, 90: 20, 91: 15, 92: 21,
+            93: 11, 94: 8, 95: 8, 96: 19, 97: 5, 98: 8, 99: 8, 100: 11,
+            101: 11, 102: 8, 103: 3, 104: 9, 105: 5, 106: 4, 107: 7, 108: 3,
+            109: 6, 110: 3, 111: 5, 112: 4, 113: 5, 114: 6
+        };
+
+        let currentAudio = null;
+        let currentSurahId = null;
+        let currentAyahNumber = null;
+        let selectedSurahs = [];
+        let infoVisible = false;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const saved = localStorage.getItem('randomSelectedSurahs');
+            if (saved) {
+                selectedSurahs = JSON.parse(saved);
+            }
+            
+            if (selectedSurahs.length === 0) {
+                window.location.href = 'random-setup.html';
+                return;
+            }
+            
+            updateRangeInfo();
+            generateNewAyah();
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            const playButton = document.getElementById('playButton');
+            const newButton = document.getElementById('newAyahButton');
+            const infoButton = document.getElementById('infoButton');
+            
+            playButton.addEventListener('click', function(e) {
+                addPressAnimation(this);
+                togglePlay();
+            });
+            
+            newButton.addEventListener('click', function(e) {
+                addPressAnimation(this);
+                generateNewAyah();
+            });
+            
+            infoButton.addEventListener('click', function(e) {
+                addPressAnimation(this);
+                toggleInfo();
+            });
+        }
+
+        function addPressAnimation(element) {
+            element.classList.add('button-press');
+            setTimeout(() => {
+                element.classList.remove('button-press');
+            }, 150);
+        }
+
+        function generateNewAyah() {
+            const randomIndex = Math.floor(Math.random() * selectedSurahs.length);
+            currentSurahId = selectedSurahs[randomIndex];
+            
+            const maxAyah = surahAyahCount[currentSurahId];
+            currentAyahNumber = Math.floor(Math.random() * maxAyah) + 1;
+            
+            stopAudio();
+            
+            const playButton = document.getElementById('playButton');
+            playButton.textContent = 'Воспроизвести';
+            playButton.classList.remove('playing');
+            
+            // Обновляем информацию, если она видна
+            if (infoVisible) {
+                updateAyahInfo();
+            }
+            
+            // Сбрасываем кнопку информации
+            const infoButton = document.getElementById('infoButton');
+            infoButton.classList.remove('active');
+            infoVisible = false;
+            document.getElementById('ayahInfo').classList.add('hidden');
+            infoButton.textContent = 'Узнать что за аят';
+            
+            // Легкая вибрация для обратной связи
+            if (navigator.vibrate) {
+                navigator.vibrate(10);
+            }
+        }
+
+        function togglePlay() {
+            if (!currentSurahId || !currentAyahNumber) return;
+            
+            const playButton = document.getElementById('playButton');
+            
+            if (currentAudio && !currentAudio.paused) {
+                currentAudio.pause();
+                playButton.textContent = 'Воспроизвести';
+                playButton.classList.remove('playing');
+            } else if (currentAudio && currentAudio.paused) {
+                currentAudio.play();
+                playButton.textContent = 'Пауза';
+                playButton.classList.add('playing');
+            } else {
+                const audioPath = `../assets/audio/surahs/${currentSurahId}_${currentAyahNumber}.mp3`;
+                currentAudio = new Audio(audioPath);
+                
+                currentAudio.play().catch(error => {
+                    console.log('Аудио не найдено:', audioPath);
+                    playButton.textContent = 'Воспроизвести';
+                    playButton.classList.remove('playing');
+                    currentAudio = null;
+                    
+                    if (navigator.vibrate) {
+                        navigator.vibrate([50, 50, 50]);
+                    }
+                });
+                
+                playButton.textContent = 'Пауза';
+                playButton.classList.add('playing');
+                
+                currentAudio.onended = function() {
+                    playButton.textContent = 'Воспроизвести';
+                    playButton.classList.remove('playing');
+                    currentAudio = null;
+                    
+                    // Легкая вибрация при окончании
+                    if (navigator.vibrate) {
+                        navigator.vibrate(10);
+                    }
+                };
+            }
+            
+            if (navigator.vibrate) {
+                navigator.vibrate(20);
+            }
+        }
+
+        function stopAudio() {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+                currentAudio = null;
+            }
+            
+            const playButton = document.getElementById('playButton');
+            playButton.textContent = 'Воспроизвести';
+            playButton.classList.remove('playing');
+        }
+
+        function toggleInfo() {
+            const infoButton = document.getElementById('infoButton');
+            const ayahInfo = document.getElementById('ayahInfo');
+            
+            infoVisible = !infoVisible;
+            
+            if (infoVisible) {
+                updateAyahInfo();
+                ayahInfo.classList.remove('hidden');
+                infoButton.classList.add('active');
+                infoButton.textContent = 'Скрыть';
+            } else {
+                ayahInfo.classList.add('hidden');
+                infoButton.classList.remove('active');
+                infoButton.textContent = 'Узнать что за аят';
+            }
+            
+            if (navigator.vibrate) {
+                navigator.vibrate(10);
+            }
+        }
+
+        function updateAyahInfo() {
+            document.getElementById('surahName').textContent = surahNames[currentSurahId];
+            document.getElementById('ayahNumber').textContent = `аят ${currentAyahNumber}`;
+        }
+
+        function formatSurahsList(surahs) {
+            if (surahs.length === 0) return '';
+            if (surahs.length === 1) return `сура ${surahs[0]}`;
+            
+            const sorted = [...surahs].sort((a, b) => a - b);
+            
+            const allSurahs = [1, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114];
+            if (surahs.length === allSurahs.length && 
+                sorted.every((val, idx) => val === allSurahs[idx])) {
+                return 'все суры';
+            }
+            
+            const ranges = [];
+            let rangeStart = sorted[0];
+            let rangeEnd = sorted[0];
+            
+            for (let i = 1; i < sorted.length; i++) {
+                if (sorted[i] === rangeEnd + 1) {
+                    rangeEnd = sorted[i];
+                } else {
+                    ranges.push(rangeStart === rangeEnd ? `${rangeStart}` : `${rangeStart}-${rangeEnd}`);
+                    rangeStart = sorted[i];
+                    rangeEnd = sorted[i];
+                }
+            }
+            ranges.push(rangeStart === rangeEnd ? `${rangeStart}` : `${rangeStart}-${rangeEnd}`);
+            
+            return ranges.join(', ');
+        }
+
+        function updateRangeInfo() {
+            const formatted = formatSurahsList(selectedSurahs);
+            document.getElementById('rangeInfo').textContent = `Выбрано: ${formatted}`;
+        }
+    </script>
+</body>
+</html>

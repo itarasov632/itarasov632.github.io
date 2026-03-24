@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ru" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <title>Выбор сур</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f2f2f7;
+            height: 100vh;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+        }
+        
+        .container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background: white;
+        }
+        
+        .header {
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+        }
+        
+        .back-button {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: rgba(0, 122, 255, 0.1);
+            color: #007aff;
+            text-decoration: none;
+            font-size: 20px;
+        }
+        
+        .title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #000;
+            text-align: center;
+            flex: 1;
+            margin: 0 10px;
+        }
+        
+        .surah-list {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 16px;
+        }
+        
+        .surah-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        
+        .surah-item:active {
+            background: #e5e5ea;
+        }
+        
+        .surah-checkbox {
+            width: 24px;
+            height: 24px;
+            margin-right: 16px;
+            accent-color: #007aff;
+            pointer-events: none; /* Чтобы клик по чекбоксу тоже срабатывал на родительский div */
+        }
+        
+        .surah-info {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            pointer-events: none; /* Чтобы текст не перехватывал клик */
+        }
+        
+        .surah-number {
+            width: 40px;
+            height: 40px;
+            background: #007aff;
+            color: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 600;
+            margin-right: 12px;
+        }
+        
+        .surah-name {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+        
+        .surah-arabic {
+            font-family: 'SF Pro Arabic', 'Scheherazade', serif;
+            font-size: 16px;
+            color: #666;
+        }
+        
+        .select-all {
+            background: #f8f9fa;
+            margin-bottom: 16px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .select-all:active {
+            background: #e5e5ea;
+        }
+        
+        .select-all-checkbox {
+            width: 24px;
+            height: 24px;
+            margin-right: 16px;
+            accent-color: #007aff;
+            pointer-events: none;
+        }
+        
+        .select-all-text {
+            font-size: 16px;
+            font-weight: 500;
+            color: #000;
+            pointer-events: none;
+        }
+        
+        .footer {
+            padding: 16px;
+            background: white;
+            border-top: 0.5px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .start-button {
+            width: 100%;
+            padding: 16px;
+            background: #007aff;
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        
+        .start-button:active {
+            background: #0056cc;
+            transform: scale(0.98);
+        }
+        
+        .start-button:disabled {
+            background: #ccc;
+            pointer-events: none;
+        }
+        
+        .selected-count {
+            text-align: center;
+            margin-top: 8px;
+            font-size: 13px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="../index.html" class="back-button">‹</a>
+            <h1 class="title">Выберите суры</h1>
+            <div style="width: 44px;"></div>
+        </div>
+        
+        <div class="surah-list" id="surahList">
+            <div class="select-all" id="selectAllDiv">
+                <input type="checkbox" class="select-all-checkbox" id="selectAllCheckbox">
+                <span class="select-all-text">Выбрать все</span>
+            </div>
+            <!-- Суры загрузятся через JS -->
+        </div>
+        
+        <div class="footer">
+            <button class="start-button" id="startButton" disabled>Случайный аят</button>
+            <div class="selected-count" id="selectedCount">Выбрано: 0 сур</div>
+        </div>
+    </div>
+
+    <script>
+        const surahsList = [
+            { id: 1, number: 1, name: "Аль-Фатиха", arabicName: "الْفَاتِحَةِ" },
+            { id: 86, number: 86, name: "Ат-Тарик", arabicName: "الطَّارِقِ" },
+            { id: 87, number: 87, name: "Аль-А'ля", arabicName: "الْأَعْلَى" },
+            { id: 88, number: 88, name: "Аль-Гашия", arabicName: "الْغَاشِيَةِ" },
+            { id: 89, number: 89, name: "Аль-Фаджр", arabicName: "الْفَجْرِ" },
+            { id: 90, number: 90, name: "Аль-Балад", arabicName: "الْبَلَدِ" },
+            { id: 91, number: 91, name: "Аш-Шамс", arabicName: "الشَّمْسِ" },
+            { id: 92, number: 92, name: "Аль-Лайл", arabicName: "اللَّيْلِ" },
+            { id: 93, number: 93, name: "Ад-Духа", arabicName: "الضُّحَىٰ" },
+            { id: 94, number: 94, name: "Аш-Шарх", arabicName: "الشَّرْحِ" },
+            { id: 95, number: 95, name: "Ат-Тин", arabicName: "التِّينِ" },
+            { id: 96, number: 96, name: "Аль-Алак", arabicName: "الْعَلَقِ" },
+            { id: 97, number: 97, name: "Аль-Кадр", arabicName: "الْقَدْرِ" },
+            { id: 98, number: 98, name: "Аль-Баййина", arabicName: "الْبَيِّنَةِ" },
+            { id: 99, number: 99, name: "Аз-Зальзаля", arabicName: "الزَّلْزَلَةِ" },
+            { id: 100, number: 100, name: "Аль-Адия́т", arabicName: "الْعَادِيَاتِ" },
+            { id: 101, number: 101, name: "Аль-Кариа", arabicName: "الْقَارِعَةِ" },
+            { id: 102, number: 102, name: "Ат-Такасур", arabicName: "التَّكَاثُرِ" },
+            { id: 103, number: 103, name: "Аль-Аср", arabicName: "الْعَصْرِ" },
+            { id: 104, number: 104, name: "Аль-Хумаза", arabicName: "الْهُمَزَةِ" },
+            { id: 105, number: 105, name: "Аль-Филь", arabicName: "الْفِيلِ" },
+            { id: 106, number: 106, name: "Курайш", arabicName: "قُرَيْشٍ" },
+            { id: 107, number: 107, name: "Аль-Ма'ун", arabicName: "الْمَاعُونَ" },
+            { id: 108, number: 108, name: "Аль-Каусар", arabicName: "الْكَوْثَرِ" },
+            { id: 109, number: 109, name: "Аль-Кафирун", arabicName: "الْكَافِرُونَ" },
+            { id: 110, number: 110, name: "Ан-Наср", arabicName: "النَّصْرِ" },
+            { id: 111, number: 111, name: "Аль-Масад", arabicName: "الْمَسَدِ" },
+            { id: 112, number: 112, name: "Аль-Ихлас", arabicName: "الْإِخْلَاصِ" },
+            { id: 113, number: 113, name: "Аль-Фалак", arabicName: "الْفَلَقِ" },
+            { id: 114, number: 114, name: "Ан-Нас", arabicName: "النَّاسِ" }
+        ];
+
+        const surahAyahCount = {
+            1: 7, 86: 17, 87: 19, 88: 26, 89: 30, 90: 20, 91: 15, 92: 21,
+            93: 11, 94: 8, 95: 8, 96: 19, 97: 5, 98: 8, 99: 8, 100: 11,
+            101: 11, 102: 8, 103: 3, 104: 9, 105: 5, 106: 4, 107: 7, 108: 3,
+            109: 6, 110: 3, 111: 5, 112: 4, 113: 5, 114: 6
+        };
+
+        let selectedSurahs = new Set();
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderSurahList();
+            setupEventListeners();
+        });
+
+        function renderSurahList() {
+            const listContainer = document.getElementById('surahList');
+            
+            surahsList.forEach(surah => {
+                const item = document.createElement('div');
+                item.className = 'surah-item';
+                item.dataset.surahId = surah.id;
+                
+                item.innerHTML = `
+                    <input type="checkbox" class="surah-checkbox" data-surah-id="${surah.id}" data-surah-number="${surah.number}">
+                    <div class="surah-info">
+                        <div class="surah-number">${surah.number}</div>
+                        <div>
+                            <div class="surah-name">${surah.name}</div>
+                            <div class="surah-arabic">${surah.arabicName}</div>
+                        </div>
+                    </div>
+                `;
+                
+                listContainer.appendChild(item);
+            });
+        }
+
+        function setupEventListeners() {
+            const surahItems = document.querySelectorAll('.surah-item');
+            const selectAllDiv = document.getElementById('selectAllDiv');
+            const selectAllCheckbox = document.getElementById('selectAllCheckbox');
+            const startButton = document.getElementById('startButton');
+            const selectedCountDiv = document.getElementById('selectedCount');
+
+            // Клик по элементу суры
+            surahItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    const checkbox = this.querySelector('.surah-checkbox');
+                    checkbox.checked = !checkbox.checked;
+                    updateSelection();
+                    
+                    // Добавляем вибрацию для тактильного отклика
+                    if (navigator.vibrate) {
+                        navigator.vibrate(10);
+                    }
+                });
+            });
+
+            // Клик по "Выбрать все"
+            selectAllDiv.addEventListener('click', function() {
+                const checkboxes = document.querySelectorAll('.surah-checkbox');
+                const newState = !selectAllCheckbox.checked;
+                
+                checkboxes.forEach(cb => {
+                    cb.checked = newState;
+                });
+                
+                selectAllCheckbox.checked = newState;
+                updateSelection();
+                
+                if (navigator.vibrate) {
+                    navigator.vibrate(10);
+                }
+            });
+
+            function updateSelection() {
+                const checkboxes = document.querySelectorAll('.surah-checkbox');
+                
+                selectedSurahs.clear();
+                checkboxes.forEach(cb => {
+                    if (cb.checked) {
+                        selectedSurahs.add(parseInt(cb.dataset.surahId));
+                    }
+                });
+                
+                const count = selectedSurahs.size;
+                selectedCountDiv.textContent = `Выбрано: ${count} ${getCountText(count)}`;
+                startButton.disabled = count === 0;
+                
+                // Обновляем "Выбрать все"
+                const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+                selectAllCheckbox.checked = allChecked;
+                selectAllCheckbox.indeterminate = !allChecked && Array.from(checkboxes).some(cb => cb.checked);
+            }
+
+            startButton.addEventListener('click', function() {
+                const selectedArray = Array.from(selectedSurahs);
+                localStorage.setItem('randomSelectedSurahs', JSON.stringify(selectedArray));
+                window.location.href = 'random-play.html';
+            });
+        }
+
+        function getCountText(count) {
+            if (count % 10 === 1 && count % 100 !== 11) return 'сура';
+            if ([2, 3, 4].includes(count % 10) && ![12, 13, 14].includes(count % 100)) return 'суры';
+            return 'сур';
+        }
+    </script>
+</body>
+</html>
