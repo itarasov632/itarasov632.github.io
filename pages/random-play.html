@@ -51,7 +51,6 @@
             text-decoration: none;
             font-size: 20px;
             transition: all 0.2s;
-            -webkit-transition: all 0.2s;
         }
         
         .back-button:active {
@@ -90,24 +89,15 @@
             margin-bottom: 16px;
             box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
             transition: all 0.15s;
-            -webkit-transition: all 0.15s;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            user-select: none;
         }
         
         .play-button:active {
             transform: scale(0.96);
             background: #0056cc;
-            box-shadow: 0 2px 6px rgba(0, 122, 255, 0.4);
         }
         
         .play-button.playing {
             background: #ff3b30;
-        }
-        
-        .play-button.playing:active {
-            background: #d63027;
         }
         
         .new-button {
@@ -121,18 +111,12 @@
             font-weight: 500;
             cursor: pointer;
             margin-bottom: 16px;
-            transition: all 0.15s;
-            -webkit-transition: all 0.15s;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            user-select: none;
             border: 1px solid rgba(0, 0, 0, 0.02);
         }
         
         .new-button:active {
             background: #e5e5ea;
             transform: scale(0.96);
-            border-color: rgba(0, 0, 0, 0.1);
         }
         
         .info-button {
@@ -147,26 +131,17 @@
             cursor: pointer;
             margin-bottom: 20px;
             transition: all 0.15s;
-            -webkit-transition: all 0.15s;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            user-select: none;
         }
         
         .info-button:active {
             background: #f2f2f7;
             transform: scale(0.96);
-            border-color: #007aff;
         }
         
         .info-button.active {
             background: #007aff;
             border-color: #007aff;
             color: white;
-        }
-        
-        .info-button.active:active {
-            background: #0056cc;
         }
         
         .ayah-info {
@@ -178,8 +153,6 @@
             margin-top: 10px;
             border: 1px solid rgba(0, 0, 0, 0.05);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            -webkit-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            transform-origin: top center;
         }
         
         .ayah-info.hidden {
@@ -215,44 +188,33 @@
             border-radius: 12px;
             max-width: 300px;
             line-height: 1.4;
-            transition: all 0.2s;
+        }
+        
+        .remaining-info {
+            font-size: 12px;
+            color: #34c759;
+            margin-top: 8px;
+            text-align: center;
         }
         
         @media (max-width: 375px) {
             .play-button, .new-button, .info-button {
                 width: 200px;
             }
-            
-            .play-button {
-                padding: 18px 0;
-                font-size: 18px;
-            }
-            
-            .new-button {
-                padding: 16px 0;
-                font-size: 17px;
-            }
-            
-            .info-button {
-                padding: 12px 0;
-                font-size: 15px;
-            }
-            
-            .ayah-info {
-                width: 240px;
-            }
-            
-            .surah-name {
-                font-size: 20px;
-            }
-            
-            .range-info {
-                font-size: 13px;
-                max-width: 260px;
-            }
+            .play-button { padding: 18px 0; font-size: 18px; }
+            .new-button { padding: 16px 0; font-size: 17px; }
+            .info-button { padding: 12px 0; font-size: 15px; }
+            .ayah-info { width: 240px; }
+            .surah-name { font-size: 20px; }
+            .range-info { font-size: 13px; max-width: 260px; }
         }
         
-        /* Дополнительная анимация при нажатии */
+        button {
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        
         .button-press {
             animation: press 0.15s ease;
         }
@@ -261,13 +223,6 @@
             0% { transform: scale(1); }
             50% { transform: scale(0.96); }
             100% { transform: scale(1); }
-        }
-        
-        /* Убираем задержку при нажатии на iOS */
-        a, button {
-            -webkit-touch-callout: none;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
         }
     </style>
 </head>
@@ -290,6 +245,7 @@
             </div>
             
             <div class="range-info" id="rangeInfo"></div>
+            <div class="remaining-info" id="remainingInfo"></div>
         </div>
     </div>
 
@@ -316,6 +272,7 @@
         let currentSurahId = null;
         let currentAyahNumber = null;
         let selectedSurahs = [];
+        let remainingSurahs = []; // Очередь оставшихся сур
         let infoVisible = false;
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -329,10 +286,53 @@
                 return;
             }
             
+            // Инициализируем очередь
+            resetRemainingSurahs();
+            
             updateRangeInfo();
             generateNewAyah();
             setupEventListeners();
         });
+        
+        // Сброс очереди (восстанавливаем все выбранные суры)
+        function resetRemainingSurahs() {
+            remainingSurahs = [...selectedSurahs];
+            // Перемешиваем для большей случайности
+            for (let i = remainingSurahs.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [remainingSurahs[i], remainingSurahs[j]] = [remainingSurahs[j], remainingSurahs[i]];
+            }
+        }
+        
+        // Получить следующую суру из очереди
+        function getNextSurahFromQueue() {
+            if (remainingSurahs.length === 0) {
+                resetRemainingSurahs();
+            }
+            // Берём случайную из оставшихся (можно и просто .pop(), но так разнообразнее)
+            const randomIndex = Math.floor(Math.random() * remainingSurahs.length);
+            const surahId = remainingSurahs[randomIndex];
+            remainingSurahs.splice(randomIndex, 1);
+            return surahId;
+        }
+        
+        function updateRemainingInfo() {
+            const remainingCount = remainingSurahs.length;
+            const totalCount = selectedSurahs.length;
+            const usedCount = totalCount - remainingCount;
+            
+            const remainingInfo = document.getElementById('remainingInfo');
+            if (remainingCount === 0) {
+                remainingInfo.textContent = `🔄 Цикл завершён! Начинаем новый круг из ${totalCount} сур`;
+                remainingInfo.style.color = '#ff9500';
+            } else if (usedCount > 0) {
+                remainingInfo.textContent = `📖 Осталось ${remainingCount} из ${totalCount} сур до нового круга`;
+                remainingInfo.style.color = '#34c759';
+            } else {
+                remainingInfo.textContent = `🎯 Выбрано ${totalCount} сур, жмите «Случайный аят»`;
+                remainingInfo.style.color = '#8e8e93';
+            }
+        }
 
         function setupEventListeners() {
             const playButton = document.getElementById('playButton');
@@ -363,8 +363,8 @@
         }
 
         function generateNewAyah() {
-            const randomIndex = Math.floor(Math.random() * selectedSurahs.length);
-            currentSurahId = selectedSurahs[randomIndex];
+            // Берём следующую суру из очереди (без повторов)
+            currentSurahId = getNextSurahFromQueue();
             
             const maxAyah = surahAyahCount[currentSurahId];
             currentAyahNumber = Math.floor(Math.random() * maxAyah) + 1;
@@ -375,19 +375,18 @@
             playButton.textContent = 'Воспроизвести';
             playButton.classList.remove('playing');
             
-            // Обновляем информацию, если она видна
             if (infoVisible) {
                 updateAyahInfo();
             }
             
-            // Сбрасываем кнопку информации
             const infoButton = document.getElementById('infoButton');
             infoButton.classList.remove('active');
             infoVisible = false;
             document.getElementById('ayahInfo').classList.add('hidden');
             infoButton.textContent = 'Узнать что за аят';
             
-            // Легкая вибрация для обратной связи
+            updateRemainingInfo();
+            
             if (navigator.vibrate) {
                 navigator.vibrate(10);
             }
@@ -429,7 +428,6 @@
                     playButton.classList.remove('playing');
                     currentAudio = null;
                     
-                    // Легкая вибрация при окончании
                     if (navigator.vibrate) {
                         navigator.vibrate(10);
                     }
@@ -513,6 +511,7 @@
         function updateRangeInfo() {
             const formatted = formatSurahsList(selectedSurahs);
             document.getElementById('rangeInfo').textContent = `Выбрано: ${formatted}`;
+            updateRemainingInfo();
         }
     </script>
 </body>
