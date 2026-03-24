@@ -15,6 +15,91 @@
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
         }
+
+        /* Блок записи */
+        .recording-section {
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 16px 12px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .recording-section h3 {
+            font-size: 17px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        
+        .recording-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+        
+        .record-btn, .playback-btn {
+            flex: 1;
+            max-width: 160px;
+            padding: 14px 0;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        
+        .record-btn {
+            background: #007aff;
+            color: white;
+        }
+        
+        .record-btn:active {
+            background: #0056cc;
+            transform: scale(0.96);
+        }
+        
+        .record-btn.recording {
+            background: #ff3b30;
+        }
+        
+        .playback-btn {
+            background: #f2f2f7;
+            color: #007aff;
+            border: 1px solid rgba(0, 122, 255, 0.3);
+        }
+        
+        .playback-btn:active {
+            background: #e5e5ea;
+            transform: scale(0.96);
+        }
+        
+        .playback-btn:disabled {
+            opacity: 0.4;
+            transform: none;
+            pointer-events: none;
+        }
+        
+        .status-text {
+            text-align: center;
+            font-size: 13px;
+            color: #8e8e93;
+            margin-top: 12px;
+            min-height: 36px;
+        }
+        
+        .status-text.error {
+            color: #ff3b30;
+        }
+        
+        .status-text.success {
+            color: #34c759;
+        }
+
+
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, sans-serif;
@@ -214,7 +299,16 @@
         <div class="surah-content" id="surahContent">
             <!-- Басмала и аяты будут загружены через JS -->
         </div>
-        
+        <!-- Блок записи для самопроверки -->
+        <div class="recording-section">
+            <h3>🎙️ Самопроверка</h3>
+            <div class="recording-buttons">
+                <button class="record-btn" id="recordButton">🎤 Записать</button>
+                <button class="playback-btn" id="playbackButton" disabled>▶ Воспроизвести</button>
+            </div>
+            <div class="status-text" id="recordingStatus">Нажмите «Записать» и прочитайте аят</div>
+        </div>  
+
         <div class="navigation">
             <a href="#" class="nav-button" id="prevButton">← Предыдущая</a>
             <a href="surahs.html" class="nav-button">Список</a>
@@ -874,6 +968,11 @@
         let currentSurahId = 114;
         let currentAudio = null;
         let currentPlayingElement = null;
+        let mediaRecorder = null;
+        let audioChunks = [];
+        let recordedBlob = null;
+        let isRecording = false;
+        let recordedAudio = null;
 
         document.addEventListener('DOMContentLoaded', function() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -885,6 +984,7 @@
             
             loadSurah(currentSurahId);
             setupNavigation();
+	    setupRecording();
         });
 
         function loadSurah(surahId) {
@@ -1003,6 +1103,109 @@ surah.ayahs.forEach(ayah => {
                 navigateToSurah(getNextSurahId(currentSurahId));
             });
         }
+
+
+        // ========== ЗАПИСЬ ГОЛОСА ==========
+        function setupRecording() {
+            const recordBtn = document.getElementById('recordButton');
+            const playbackBtn = document.getElementById('playbackButton');
+            const statusDiv = document.getElementById('recordingStatus');
+            
+            recordBtn.addEventListener('click', async () => {
+                if (isRecording) {
+                    // Останавливаем запись
+                    stopRecording();
+                } else {
+                    // Начинаем запись
+                    await startRecording();
+                }
+            });
+            
+            playbackBtn.addEventListener('click', () => {
+                if (recordedBlob) {
+                    if (recordedAudio) {
+                        recordedAudio.pause();
+                        recordedAudio.currentTime = 0;
+                    }
+                    recordedAudio = new Audio(URL.createObjectURL(recordedBlob));
+                    recordedAudio.play();
+                    recordedAudio.onended = () => {
+                        playbackBtn.textContent = '▶ Воспроизвести';
+                    };
+                    playbackBtn.textContent = '⏸ Остановить';
+                    recordedAudio.onended = () => {
+                        playbackBtn.textContent = '▶ Воспроизвести';
+                    };
+                }
+            });
+        }
+        
+        async function startRecording() {
+            const recordBtn = document.getElementById('recordButton');
+            const playbackBtn = document.getElementById('playbackButton');
+            const statusDiv = document.getElementById('recordingStatus');
+            
+            try {
+                // Запрашиваем доступ к микрофону
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+                
+                mediaRecorder.ondataavailable = (event) => {
+                    if (event.data.size > 0) {
+                        audioChunks.push(event.data);
+                    }
+                };
+                
+                mediaRecorder.onstop = () => {
+                    // Останавливаем все дорожки микрофона
+                    stream.getTracks().forEach(track => track.stop());
+                    
+                    // Создаём Blob из записанных данных
+                    recordedBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                    
+                    // Активируем кнопку воспроизведения
+                    playbackBtn.disabled = false;
+                    statusDiv.textContent = '✓ Запись сохранена. Нажмите «Воспроизвести»';
+                    statusDiv.className = 'status-text success';
+                    
+                    isRecording = false;
+                    recordBtn.textContent = '🎤 Записать';
+                    recordBtn.classList.remove('recording');
+                };
+                
+                mediaRecorder.start();
+                isRecording = true;
+                recordBtn.textContent = '⏹ Остановить';
+                recordBtn.classList.add('recording');
+                statusDiv.textContent = '🔴 Идёт запись... читайте аят';
+                statusDiv.className = 'status-text';
+                
+                // Если пользователь случайно нажал остановку записи через 5 секунд без stop
+                // но это нормально, остановка по кнопке
+                
+            } catch (error) {
+                console.error('Ошибка доступа к микрофону:', error);
+                statusDiv.textContent = '❌ Нет доступа к микрофону. Разрешите доступ в настройках браузера';
+                statusDiv.className = 'status-text error';
+                
+                if (navigator.vibrate) {
+                    navigator.vibrate([100, 50, 100]);
+                }
+            }
+        }
+        
+        function stopRecording() {
+            if (mediaRecorder && isRecording) {
+                mediaRecorder.stop();
+                // mediaRecorder.onstop сработает асинхронно
+            }
+        }
+        
+        // Инициализируем запись при загрузке страницы
+        // Добавляем вызов в DOMContentLoaded или в конец после всех функций
+
 
         function getPrevSurahId(currentId) {
             const currentIndex = navigationOrder.indexOf(currentId);
