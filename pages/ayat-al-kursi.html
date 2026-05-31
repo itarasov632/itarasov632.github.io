@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ru" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <title>Аят аль-Курси</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f2f2f7;
+            height: 100vh;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+        }
+        
+        .container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background: white;
+        }
+        
+        .header {
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        
+        .back-button {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: rgba(0, 122, 255, 0.1);
+            color: #007aff;
+            text-decoration: none;
+            font-size: 20px;
+        }
+        
+        .back-button:active {
+            background: rgba(0, 122, 255, 0.2);
+            transform: scale(0.92);
+        }
+        
+        .header-content {
+            flex: 1;
+            margin: 0 10px;
+        }
+        
+        .ayat-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #000;
+            text-align: center;
+            margin-bottom: 2px;
+            cursor: pointer;
+            user-select: none;
+            transition: opacity 0.2s, text-shadow 0.2s;
+        }
+        
+        .ayat-title.playing-full {
+            opacity: 0.7;
+            text-shadow: 0 0 4px rgba(0, 122, 255, 0.5);
+            animation: gentlePulse 1s ease-in-out infinite;
+        }
+        
+        @keyframes gentlePulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; text-shadow: 0 0 8px rgba(0, 122, 255, 0.8); }
+        }
+        
+        .ayat-title:active {
+            transform: scale(0.98);
+        }
+        
+        .subtitle {
+            font-size: 13px;
+            color: #666;
+            text-align: center;
+        }
+        
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 16px 8px;
+        }
+        
+        .fragments-container {
+            width: 100%;
+        }
+        
+        .fragment {
+            display: flex;
+            justify-content: flex-end;
+            padding: 0;
+            background: transparent;
+            border: none;
+            margin-bottom: 8px;
+            cursor: pointer;
+            width: 100%;
+        }
+        
+        .fragment img {
+            height: 60px;
+            width: auto;
+            max-width: 100%;
+            display: block;
+            border-radius: 12px;
+            transition: all 0.15s;
+        }
+        
+        .fragment.playing img {
+            background: rgba(0, 122, 255, 0.1);
+            border: 1px solid rgba(0, 122, 255, 0.3);
+            border-radius: 12px;
+        }
+        
+        /* Блок записи */
+        .recording-bar {
+            display: flex;
+            gap: 12px;
+            padding: 12px 16px;
+            background: white;
+            border-top: 0.5px solid rgba(0, 0, 0, 0.1);
+            border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
+        }
+        
+        .record-btn, .playback-btn {
+            flex: 1;
+            padding: 12px 0;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        
+        .record-btn {
+            background: #007aff;
+            color: white;
+        }
+        
+        .record-btn:active {
+            background: #0056cc;
+            transform: scale(0.97);
+        }
+        
+        .record-btn.recording {
+            background: #ff3b30;
+        }
+        
+        .playback-btn {
+            background: #f2f2f7;
+            color: #007aff;
+            border: 1px solid rgba(0, 122, 255, 0.3);
+        }
+        
+        .playback-btn:active {
+            background: #e5e5ea;
+            transform: scale(0.97);
+        }
+        
+        .playback-btn:disabled {
+            opacity: 0.4;
+            transform: none;
+            pointer-events: none;
+        }
+        
+        @media (max-width: 375px) {
+            .ayat-title {
+                font-size: 20px;
+            }
+            .fragment img {
+                height: 55px;
+            }
+            .record-btn, .playback-btn {
+                padding: 10px 0;
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="../index.html" class="back-button">‹</a>
+            <div class="header-content">
+                <div class="ayat-title" id="ayatTitle">آية الكرسي</div>
+                <div class="subtitle">Аят аль-Курси</div>
+            </div>
+            <div style="width: 44px;"></div>
+        </div>
+        
+        <div class="content" id="content">
+            <div class="fragments-container" id="fragmentsContainer"></div>
+        </div>
+        
+        <!-- Блок записи -->
+        <div class="recording-bar">
+            <button class="record-btn" id="recordButton">🎤 Записать</button>
+            <button class="playback-btn" id="playbackButton" disabled>▶ Воспроизвести</button>
+        </div>
+    </div>
+
+    <script>
+        // 8 фрагментов Аят аль-Курси
+        const fragmentsData = [
+            { number: 1, audioFile: "1.mp3", imgFile: "1.png" },
+            { number: 2, audioFile: "2.mp3", imgFile: "2.png" },
+            { number: 3, audioFile: "3.mp3", imgFile: "3.png" },
+            { number: 4, audioFile: "4.mp3", imgFile: "4.png" },
+            { number: 5, audioFile: "5.mp3", imgFile: "5.png" },
+            { number: 6, audioFile: "6.mp3", imgFile: "6.png" },
+            { number: 7, audioFile: "7.mp3", imgFile: "7.png" },
+            { number: 8, audioFile: "8.mp3", imgFile: "8.png" }
+        ];
+
+        let currentAudio = null;
+        let currentPlayingElement = null;
+        
+        // Переменные для воспроизведения всей последовательности
+        let fullPlaying = false;
+        let fullQueue = [];
+        let currentQueueIndex = 0;
+        
+        // Переменные для записи
+        let mediaRecorder = null;
+        let audioChunks = [];
+        let recordedBlob = null;
+        let isRecording = false;
+        let recordedAudio = null;
+        let mediaStream = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderFragments();
+            setupRecording();
+            
+            // Пасхалка: клик по заголовку
+            const titleElement = document.getElementById('ayatTitle');
+            titleElement.addEventListener('click', toggleFullPlayback);
+        });
+
+        function renderFragments() {
+            const container = document.getElementById('fragmentsContainer');
+            container.innerHTML = '';
+            
+            fragmentsData.forEach((fragment, index) => {
+                const fragmentElement = document.createElement('div');
+                fragmentElement.className = 'fragment';
+                fragmentElement.dataset.fragmentNumber = fragment.number;
+                fragmentElement.dataset.audioFile = fragment.audioFile;
+                fragmentElement.dataset.fragmentIndex = index;
+                fragmentElement.innerHTML = `<img src="../assets/images/ayat-al-kursi/${fragment.imgFile}" alt="Фрагмент ${fragment.number}" loading="lazy">`;
+                fragmentElement.addEventListener('click', () => playAudio(fragment.audioFile, fragmentElement));
+                container.appendChild(fragmentElement);
+            });
+        }
+
+        function playAudio(audioFile, element) {
+            // Если играет вся последовательность — останавливаем
+            if (fullPlaying) {
+                stopFullPlayback();
+            }
+            
+            // Останавливаем текущее одиночное воспроизведение
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            }
+            
+            if (currentPlayingElement) {
+                currentPlayingElement.classList.remove('playing');
+            }
+            
+            element.classList.add('playing');
+            currentPlayingElement = element;
+            
+            const audioPath = `../assets/audio/ayat-al-kursi/${audioFile}`;
+            currentAudio = new Audio(audioPath);
+            
+            currentAudio.play().catch(error => {
+                console.log('Аудио не найдено:', audioPath);
+                element.classList.remove('playing');
+                currentPlayingElement = null;
+                if (navigator.vibrate) navigator.vibrate([50, 50, 50]);
+            });
+            
+            currentAudio.onended = function() {
+                element.classList.remove('playing');
+                currentPlayingElement = null;
+                currentAudio = null;
+            };
+            
+            if (navigator.vibrate) navigator.vibrate(30);
+        }
+
+        // ========== ВОСПРОИЗВЕДЕНИЕ ВСЕЙ ПОСЛЕДОВАТЕЛЬНОСТИ (пасхалка) ==========
+        function toggleFullPlayback() {
+            if (fullPlaying) {
+                stopFullPlayback();
+            } else {
+                startFullPlayback();
+            }
+        }
+        
+        function startFullPlayback() {
+            // Останавливаем одиночное воспроизведение
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+                currentAudio = null;
+            }
+            
+            if (currentPlayingElement) {
+                currentPlayingElement.classList.remove('playing');
+                currentPlayingElement = null;
+            }
+            
+            // Собираем все фрагменты в очередь
+            const fragments = document.querySelectorAll('.fragment');
+            fullQueue = [];
+            fragments.forEach((element, index) => {
+                const audioFile = fragmentsData[index]?.audioFile;
+                if (audioFile) {
+                    fullQueue.push({
+                        element: element,
+                        audioFile: audioFile
+                    });
+                }
+            });
+            
+            if (fullQueue.length === 0) return;
+            
+            fullPlaying = true;
+            currentQueueIndex = 0;
+            
+            // Визуальный эффект на заголовке
+            const titleElement = document.getElementById('ayatTitle');
+            titleElement.classList.add('playing-full');
+            
+            // Начинаем воспроизведение
+            playNextInQueue();
+        }
+        
+        function playNextInQueue() {
+            if (!fullPlaying || currentQueueIndex >= fullQueue.length) {
+                stopFullPlayback();
+                return;
+            }
+            
+            const item = fullQueue[currentQueueIndex];
+            
+            // Подсвечиваем текущий фрагмент
+            if (currentPlayingElement) {
+                currentPlayingElement.classList.remove('playing');
+            }
+            if (item.element) {
+                item.element.classList.add('playing');
+                currentPlayingElement = item.element;
+            }
+            
+            const audioPath = `../assets/audio/ayat-al-kursi/${item.audioFile}`;
+            currentAudio = new Audio(audioPath);
+            
+            currentAudio.play().catch(error => {
+                console.log('Аудио не найдено:', audioPath);
+                currentQueueIndex++;
+                playNextInQueue();
+            });
+            
+            currentAudio.onended = () => {
+                currentQueueIndex++;
+                playNextInQueue();
+            };
+        }
+        
+        function stopFullPlayback() {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+                currentAudio = null;
+            }
+            
+            if (currentPlayingElement) {
+                currentPlayingElement.classList.remove('playing');
+                currentPlayingElement = null;
+            }
+            
+            fullPlaying = false;
+            fullQueue = [];
+            currentQueueIndex = 0;
+            
+            // Убираем визуальный эффект
+            const titleElement = document.getElementById('ayatTitle');
+            titleElement.classList.remove('playing-full');
+        }
+
+        // ========== ЗАПИСЬ ГОЛОСА ==========
+        function setupRecording() {
+            const recordBtn = document.getElementById('recordButton');
+            const playbackBtn = document.getElementById('playbackButton');
+            
+            recordBtn.addEventListener('click', async () => {
+                if (isRecording) {
+                    stopRecording();
+                } else {
+                    await startRecording();
+                }
+            });
+            
+            playbackBtn.addEventListener('click', () => {
+                if (recordedBlob) {
+                    if (recordedAudio) {
+                        recordedAudio.pause();
+                        recordedAudio.currentTime = 0;
+                    }
+                    const audioUrl = URL.createObjectURL(recordedBlob);
+                    recordedAudio = new Audio(audioUrl);
+                    recordedAudio.play();
+                    playbackBtn.textContent = '⏸ Стоп';
+                    recordedAudio.onended = () => {
+                        playbackBtn.textContent = '▶ Воспроизвести';
+                        URL.revokeObjectURL(audioUrl);
+                    };
+                    recordedAudio.onpause = () => {
+                        playbackBtn.textContent = '▶ Воспроизвести';
+                    };
+                }
+            });
+        }
+        
+        async function startRecording() {
+            const recordBtn = document.getElementById('recordButton');
+            const playbackBtn = document.getElementById('playbackButton');
+            
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaStream = stream;
+                
+                let mimeType = '';
+                const mimeTypes = ['audio/webm', 'audio/mp4', 'audio/mpeg'];
+                for (const type of mimeTypes) {
+                    if (MediaRecorder.isTypeSupported(type)) {
+                        mimeType = type;
+                        break;
+                    }
+                }
+                
+                try {
+                    mediaRecorder = new MediaRecorder(stream, { mimeType: mimeType });
+                } catch (e) {
+                    mediaRecorder = new MediaRecorder(stream);
+                }
+                
+                audioChunks = [];
+                
+                mediaRecorder.ondataavailable = (event) => {
+                    if (event.data && event.data.size > 0) {
+                        audioChunks.push(event.data);
+                    }
+                };
+                
+                mediaRecorder.onstop = () => {
+                    if (mediaStream) {
+                        mediaStream.getTracks().forEach(track => track.stop());
+                        mediaStream = null;
+                    }
+                    recordedBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                    playbackBtn.disabled = false;
+                    isRecording = false;
+                    recordBtn.textContent = '🎤 Записать';
+                    recordBtn.classList.remove('recording');
+                    if (navigator.vibrate) navigator.vibrate(50);
+                };
+                
+                mediaRecorder.start();
+                isRecording = true;
+                recordBtn.textContent = '⏹ Остановить';
+                recordBtn.classList.add('recording');
+                if (navigator.vibrate) navigator.vibrate(30);
+                
+            } catch (error) {
+                console.error('Ошибка микрофона:', error);
+                recordBtn.textContent = '🎤 Ошибка';
+                setTimeout(() => {
+                    recordBtn.textContent = '🎤 Записать';
+                }, 2000);
+                if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+            }
+        }
+        
+        function stopRecording() {
+            if (mediaRecorder && isRecording) {
+                mediaRecorder.stop();
+            }
+        }
+    </script>
+</body>
+</html>
