@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    
     <title>Выбор сур</title>
     <style>
         * {
@@ -89,14 +87,14 @@
             height: 24px;
             margin-right: 16px;
             accent-color: #007aff;
-            pointer-events: none; /* Чтобы клик по чекбоксу тоже срабатывал на родительский div */
+            pointer-events: none;
         }
         
         .surah-info {
             flex: 1;
             display: flex;
             align-items: center;
-            pointer-events: none; /* Чтобы текст не перехватывал клик */
+            pointer-events: none;
         }
         
         .surah-number {
@@ -204,7 +202,6 @@
                 <input type="checkbox" class="select-all-checkbox" id="selectAllCheckbox">
                 <span class="select-all-text">Выбрать все</span>
             </div>
-            <!-- Суры загрузятся через JS -->
         </div>
         
         <div class="footer">
@@ -216,16 +213,7 @@
     <script>
         const surahsList = [
             { id: 1, number: 1, name: "Аль-Фатиха", arabicName: "الْفَاتِحَةِ" },
-            { id: 86, number: 86, name: "Ат-Тарик", arabicName: "الطَّارِقِ" },
-            { id: 87, number: 87, name: "Аль-А'ля", arabicName: "الْأَعْلَى" },
-            { id: 88, number: 88, name: "Аль-Гашия", arabicName: "الْغَاشِيَةِ" },
-            { id: 89, number: 89, name: "Аль-Фаджр", arabicName: "الْفَجْرِ" },
-            { id: 90, number: 90, name: "Аль-Балад", arabicName: "الْبَلَدِ" },
-            { id: 91, number: 91, name: "Аш-Шамс", arabicName: "الشَّمْسِ" },
-            { id: 92, number: 92, name: "Аль-Лайл", arabicName: "اللَّيْلِ" },
-            { id: 93, number: 93, name: "Ад-Духа", arabicName: "الضُّحَىٰ" },
-            { id: 94, number: 94, name: "Аш-Шарх", arabicName: "الشَّرْحِ" },
-            { id: 95, number: 95, name: "Ат-Тин", arabicName: "التِّينِ" },
+            { id: 67, number: 67, name: "Аль-Мульк", arabicName: "الْمُلْكِ" },
             { id: 96, number: 96, name: "Аль-Алак", arabicName: "الْعَلَقِ" },
             { id: 97, number: 97, name: "Аль-Кадр", arabicName: "الْقَدْرِ" },
             { id: 98, number: 98, name: "Аль-Баййина", arabicName: "الْبَيِّنَةِ" },
@@ -247,30 +235,21 @@
             { id: 114, number: 114, name: "Ан-Нас", arabicName: "النَّاسِ" }
         ];
 
-        const surahAyahCount = {
-            1: 7, 86: 17, 87: 19, 88: 26, 89: 30, 90: 20, 91: 15, 92: 21,
-            93: 11, 94: 8, 95: 8, 96: 19, 97: 5, 98: 8, 99: 8, 100: 11,
-            101: 11, 102: 8, 103: 3, 104: 9, 105: 5, 106: 4, 107: 7, 108: 3,
-            109: 6, 110: 3, 111: 5, 112: 4, 113: 5, 114: 6
-        };
-
         let selectedSurahs = new Set();
 
-        document.addEventListener('DOMContentLoaded', function() {
-            renderSurahList();
-            setupEventListeners();
+        document.addEventListener('DOMContentLoaded', () => {
+            renderList();
+            setupEvents();
         });
 
-        function renderSurahList() {
-            const listContainer = document.getElementById('surahList');
-            
+        function renderList() {
+            const container = document.getElementById('surahList');
             surahsList.forEach(surah => {
-                const item = document.createElement('div');
-                item.className = 'surah-item';
-                item.dataset.surahId = surah.id;
-                
-                item.innerHTML = `
-                    <input type="checkbox" class="surah-checkbox" data-surah-id="${surah.id}" data-surah-number="${surah.number}">
+                const div = document.createElement('div');
+                div.className = 'surah-item';
+                div.dataset.surahId = surah.id;
+                div.innerHTML = `
+                    <input type="checkbox" class="surah-checkbox" data-surah-id="${surah.id}">
                     <div class="surah-info">
                         <div class="surah-number">${surah.number}</div>
                         <div>
@@ -279,79 +258,59 @@
                         </div>
                     </div>
                 `;
-                
-                listContainer.appendChild(item);
+                container.appendChild(div);
             });
         }
 
-        function setupEventListeners() {
-            const surahItems = document.querySelectorAll('.surah-item');
+        function setupEvents() {
+            const items = document.querySelectorAll('.surah-item');
             const selectAllDiv = document.getElementById('selectAllDiv');
             const selectAllCheckbox = document.getElementById('selectAllCheckbox');
-            const startButton = document.getElementById('startButton');
-            const selectedCountDiv = document.getElementById('selectedCount');
+            const startBtn = document.getElementById('startButton');
+            const countSpan = document.getElementById('selectedCount');
 
-            // Клик по элементу суры
-            surahItems.forEach(item => {
-                item.addEventListener('click', function(e) {
-                    const checkbox = this.querySelector('.surah-checkbox');
-                    checkbox.checked = !checkbox.checked;
+            items.forEach(item => {
+                item.addEventListener('click', () => {
+                    const cb = item.querySelector('.surah-checkbox');
+                    cb.checked = !cb.checked;
                     updateSelection();
-                    
-                    // Добавляем вибрацию для тактильного отклика
-                    if (navigator.vibrate) {
-                        navigator.vibrate(10);
-                    }
+                    if (navigator.vibrate) navigator.vibrate(10);
                 });
             });
 
-            // Клик по "Выбрать все"
-            selectAllDiv.addEventListener('click', function() {
-                const checkboxes = document.querySelectorAll('.surah-checkbox');
+            selectAllDiv.addEventListener('click', () => {
+                const cbs = document.querySelectorAll('.surah-checkbox');
                 const newState = !selectAllCheckbox.checked;
-                
-                checkboxes.forEach(cb => {
-                    cb.checked = newState;
-                });
-                
+                cbs.forEach(cb => cb.checked = newState);
                 selectAllCheckbox.checked = newState;
                 updateSelection();
-                
-                if (navigator.vibrate) {
-                    navigator.vibrate(10);
-                }
+                if (navigator.vibrate) navigator.vibrate(10);
             });
 
             function updateSelection() {
-                const checkboxes = document.querySelectorAll('.surah-checkbox');
-                
                 selectedSurahs.clear();
-                checkboxes.forEach(cb => {
-                    if (cb.checked) {
-                        selectedSurahs.add(parseInt(cb.dataset.surahId));
-                    }
+                document.querySelectorAll('.surah-checkbox').forEach(cb => {
+                    if (cb.checked) selectedSurahs.add(parseInt(cb.dataset.surahId));
                 });
-                
                 const count = selectedSurahs.size;
-                selectedCountDiv.textContent = `Выбрано: ${count} ${getCountText(count)}`;
-                startButton.disabled = count === 0;
+                countSpan.textContent = `Выбрано: ${count} ${getCountText(count)}`;
+                startBtn.disabled = count === 0;
                 
-                // Обновляем "Выбрать все"
-                const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+                const all = document.querySelectorAll('.surah-checkbox');
+                const allChecked = Array.from(all).every(cb => cb.checked);
                 selectAllCheckbox.checked = allChecked;
-                selectAllCheckbox.indeterminate = !allChecked && Array.from(checkboxes).some(cb => cb.checked);
+                selectAllCheckbox.indeterminate = !allChecked && Array.from(all).some(cb => cb.checked);
             }
 
-            startButton.addEventListener('click', function() {
-                const selectedArray = Array.from(selectedSurahs);
-                localStorage.setItem('randomSelectedSurahs', JSON.stringify(selectedArray));
+            startBtn.addEventListener('click', () => {
+                localStorage.setItem('randomSelectedSurahs', JSON.stringify(Array.from(selectedSurahs)));
                 window.location.href = 'random-play.html';
             });
         }
 
-        function getCountText(count) {
-            if (count % 10 === 1 && count % 100 !== 11) return 'сура';
-            if ([2, 3, 4].includes(count % 10) && ![12, 13, 14].includes(count % 100)) return 'суры';
+        function getCountText(n) {
+            if (n % 10 === 1 && n % 100 !== 11) return 'сура';
+            if ([2,3,4].includes(n % 10) && ![12,13,14].includes(n % 100)) return 'суры';
             return 'сур';
         }
     </script>

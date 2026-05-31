@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
-    <title>Краткие суры</title>
+    <title>Суры</title>
     <style>
         * {
             margin: 0;
@@ -120,282 +120,52 @@
             color: #666;
             direction: rtl;
         }
-        
-        .empty-state {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 40px;
-            text-align: center;
-        }
-        
-        .empty-icon {
-            font-size: 64px;
-            margin-bottom: 24px;
-            color: #8e8e93;
-        }
-        
-        .empty-text {
-            font-size: 18px;
-            color: #666;
-            line-height: 1.4;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <a href="../index.html" class="back-button">‹</a>
-            <h1 class="title">Краткие суры</h1>
+            <h1 class="title">Суры</h1>
             <div style="width: 44px;"></div>
         </div>
         
-        <div class="surahs-list" id="surahsList">
-            <!-- Суры загрузятся через JS -->
-        </div>
+        <div class="surahs-list" id="surahsList"></div>
     </div>
 
     <script>
-        // Полный список сур 86-114 в обратном порядке
+        // Единый список сур: 1, 67, 96-114
         const surahsList = [
-    {
-        id: 1,
-        number: 1,
-        name: "Аль-Фатиха",
-        arabicName: "الْفَاتِحَةِ",
-        ayahCount: 7
-    },
-    {
-        id: 86,
-        number: 86,
-        name: "Ат-Тарик",
-        arabicName: "الطَّارِقِ",
-        ayahCount: 17
-    },
-    {
-        id: 87,
-        number: 87,
-        name: "Аль-А'ля",
-        arabicName: "الْأَعْلَى",
-        ayahCount: 19
-    },
-    {
-        id: 88,
-        number: 88,
-        name: "Аль-Гашия",
-        arabicName: "الْغَاشِيَةِ",
-        ayahCount: 26
-    },
-    {
-        id: 89,
-        number: 89,
-        name: "Аль-Фаджр",
-        arabicName: "الْفَجْرِ",
-        ayahCount: 30
-    },
-    {
-        id: 90,
-        number: 90,
-        name: "Аль-Балад",
-        arabicName: "الْبَلَدِ",
-        ayahCount: 20
-    },
-    {
-        id: 91,
-        number: 91,
-        name: "Аш-Шамс",
-        arabicName: "الشَّمْسِ",
-        ayahCount: 15
-    },
-    {
-        id: 92,
-        number: 92,
-        name: "Аль-Лайл",
-        arabicName: "اللَّيْلِ",
-        ayahCount: 21
-    },
-    {
-        id: 93,
-        number: 93,
-        name: "Ад-Духа",
-        arabicName: "الضُّحَىٰ",
-        ayahCount: 11
-    },
-    {
-        id: 94,
-        number: 94,
-        name: "Аш-Шарх",
-        arabicName: "الشَّرْحِ",
-        ayahCount: 8
-    },
-    {
-        id: 95,
-        number: 95,
-        name: "Ат-Тин",
-        arabicName: "التِّينِ",
-        ayahCount: 8
-    },
-    {
-        id: 96,
-        number: 96,
-        name: "Аль-Алак",
-        arabicName: "الْعَلَقِ",
-        ayahCount: 19
-    },
-    {
-        id: 97,
-        number: 97,
-        name: "Аль-Кадр",
-        arabicName: "الْقَدْرِ",
-        ayahCount: 5
-    },
-    {
-        id: 98,
-        number: 98,
-        name: "Аль-Баййина",
-        arabicName: "الْبَيِّنَةِ",
-        ayahCount: 8
-    },
-    {
-        id: 99,
-        number: 99,
-        name: "Аз-Зальзаля",
-        arabicName: "الزَّلْزَلَةِ",
-        ayahCount: 8
-    },
-    {
-        id: 100,
-        number: 100,
-        name: "Аль-Адия́т",
-        arabicName: "الْعَادِيَاتِ",
-        ayahCount: 11
-    },
-    {
-        id: 101,
-        number: 101,
-        name: "Аль-Кариа",
-        arabicName: "الْقَارِعَةِ",
-        ayahCount: 11
-    },
-    {
-        id: 102,
-        number: 102,
-        name: "Ат-Такасур",
-        arabicName: "التَّكَاثُرِ",
-        ayahCount: 8
-    },
-    {
-        id: 103,
-        number: 103,
-        name: "Аль-Аср",
-        arabicName: "الْعَصْرِ",
-        ayahCount: 3
-    },
-    {
-        id: 104,
-        number: 104,
-        name: "Аль-Хумаза",
-        arabicName: "الْهُمَزَةِ",
-        ayahCount: 9
-    },
-    {
-        id: 105,
-        number: 105,
-        name: "Аль-Филь",
-        arabicName: "الْفِيلِ",
-        ayahCount: 5
-    },
-    {
-        id: 106,
-        number: 106,
-        name: "Курайш",
-        arabicName: "قُرَيْشٍ",
-        ayahCount: 4
-    },
-    {
-        id: 107,
-        number: 107,
-        name: "Аль-Ма'ун",
-        arabicName: "الْمَاعُونَ",
-        ayahCount: 7
-    },
-    {
-        id: 108,
-        number: 108,
-        name: "Аль-Каусар",
-        arabicName: "الْكَوْثَرِ",
-        ayahCount: 3
-    },
-    {
-        id: 109,
-        number: 109,
-        name: "Аль-Кафирун",
-        arabicName: "الْكَافِرُونَ",
-        ayahCount: 6
-    },
-    {
-        id: 110,
-        number: 110,
-        name: "Ан-Наср",
-        arabicName: "النَّصْرِ",
-        ayahCount: 3
-    },
-    {
-        id: 111,
-        number: 111,
-        name: "Аль-Масад",
-        arabicName: "الْمَسَدِ",
-        ayahCount: 5
-    },
-    {
-        id: 112,
-        number: 112,
-        name: "Аль-Ихлас",
-        arabicName: "الْإِخْلَاصِ",
-        ayahCount: 4
-    },
-    {
-        id: 113,
-        number: 113,
-        name: "Аль-Фалак",
-        arabicName: "الْفَلَقِ",
-        ayahCount: 5
-    },
-    {
-        id: 114,
-        number: 114,
-        name: "Ан-Нас",
-        arabicName: "النَّاسِ",
-        ayahCount: 6
-    }
-];
+            { id: 1, number: 1, name: "Аль-Фатиха", arabicName: "الْفَاتِحَةِ", ayahCount: 7 },
+            { id: 67, number: 67, name: "Аль-Мульк", arabicName: "الْمُلْكِ", ayahCount: 30 },
+            { id: 96, number: 96, name: "Аль-Алак", arabicName: "الْعَلَقِ", ayahCount: 19 },
+            { id: 97, number: 97, name: "Аль-Кадр", arabicName: "الْقَدْرِ", ayahCount: 5 },
+            { id: 98, number: 98, name: "Аль-Баййина", arabicName: "الْبَيِّنَةِ", ayahCount: 8 },
+            { id: 99, number: 99, name: "Аз-Зальзаля", arabicName: "الزَّلْزَلَةِ", ayahCount: 8 },
+            { id: 100, number: 100, name: "Аль-Адия́т", arabicName: "الْعَادِيَاتِ", ayahCount: 11 },
+            { id: 101, number: 101, name: "Аль-Кариа", arabicName: "الْقَارِعَةِ", ayahCount: 11 },
+            { id: 102, number: 102, name: "Ат-Такасур", arabicName: "التَّكَاثُرِ", ayahCount: 8 },
+            { id: 103, number: 103, name: "Аль-Аср", arabicName: "الْعَصْرِ", ayahCount: 3 },
+            { id: 104, number: 104, name: "Аль-Хумаза", arabicName: "الْهُمَزَةِ", ayahCount: 9 },
+            { id: 105, number: 105, name: "Аль-Филь", arabicName: "الْفِيلِ", ayahCount: 5 },
+            { id: 106, number: 106, name: "Курайш", arabicName: "قُرَيْشٍ", ayahCount: 4 },
+            { id: 107, number: 107, name: "Аль-Ма'ун", arabicName: "الْمَاعُونَ", ayahCount: 7 },
+            { id: 108, number: 108, name: "Аль-Каусар", arabicName: "الْكَوْثَرِ", ayahCount: 3 },
+            { id: 109, number: 109, name: "Аль-Кафирун", arabicName: "الْكَافِرُونَ", ayahCount: 6 },
+            { id: 110, number: 110, name: "Ан-Наср", arabicName: "النَّصْرِ", ayahCount: 3 },
+            { id: 111, number: 111, name: "Аль-Масад", arabicName: "الْمَسَدِ", ayahCount: 5 },
+            { id: 112, number: 112, name: "Аль-Ихлас", arabicName: "الْإِخْلَاصِ", ayahCount: 4 },
+            { id: 113, number: 113, name: "Аль-Фалак", arabicName: "الْفَلَقِ", ayahCount: 5 },
+            { id: 114, number: 114, name: "Ан-Нас", arabicName: "النَّاسِ", ayahCount: 6 }
+        ];
 
         document.addEventListener('DOMContentLoaded', function() {
-            const listContainer = document.getElementById('surahsList');
-            
-            if (surahsList.length === 0) {
-                listContainer.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-icon">⭐</div>
-                        <div class="empty-text">
-                            Суры скоро появятся<br>
-                            Сначала добавляется 114 сура
-                        </div>
-                    </div>
-                `;
-                return;
-            }
-            
-            // Сортируем по номеру (обратный порядок) - уже в обратном порядке
-            // surahsList.sort((a, b) => b.number - a.number);
+            const container = document.getElementById('surahsList');
             
             surahsList.forEach(surah => {
                 const item = document.createElement('a');
                 item.className = 'surah-item';
                 item.href = `surah.html?id=${surah.id}`;
-                
                 item.innerHTML = `
                     <div class="surah-number">${surah.number}</div>
                     <div class="surah-info">
@@ -403,8 +173,7 @@
                         <div class="surah-arabic">${surah.arabicName}</div>
                     </div>
                 `;
-                
-                listContainer.appendChild(item);
+                container.appendChild(item);
             });
         });
     </script>

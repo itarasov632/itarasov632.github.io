@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    
     <title>Случайный аят</title>
     <style>
         * {
@@ -91,14 +89,8 @@
             transition: all 0.15s;
         }
         
-        .play-button:active {
-            transform: scale(0.96);
-            background: #0056cc;
-        }
-        
-        .play-button.playing {
-            background: #ff3b30;
-        }
+        .play-button:active { transform: scale(0.96); background: #0056cc; }
+        .play-button.playing { background: #ff3b30; }
         
         .new-button {
             width: 220px;
@@ -114,10 +106,7 @@
             border: 1px solid rgba(0, 0, 0, 0.02);
         }
         
-        .new-button:active {
-            background: #e5e5ea;
-            transform: scale(0.96);
-        }
+        .new-button:active { background: #e5e5ea; transform: scale(0.96); }
         
         .info-button {
             width: 220px;
@@ -133,16 +122,8 @@
             transition: all 0.15s;
         }
         
-        .info-button:active {
-            background: #f2f2f7;
-            transform: scale(0.96);
-        }
-        
-        .info-button.active {
-            background: #007aff;
-            border-color: #007aff;
-            color: white;
-        }
+        .info-button:active { background: #f2f2f7; transform: scale(0.96); }
+        .info-button.active { background: #007aff; border-color: #007aff; color: white; }
         
         .ayah-info {
             width: 260px;
@@ -165,18 +146,8 @@
             overflow: hidden;
         }
         
-        .surah-name {
-            font-size: 22px;
-            font-weight: 600;
-            color: #000;
-            margin-bottom: 6px;
-        }
-        
-        .ayah-number {
-            font-size: 18px;
-            color: #007aff;
-            font-weight: 500;
-        }
+        .surah-name { font-size: 22px; font-weight: 600; color: #000; margin-bottom: 6px; }
+        .ayah-number { font-size: 18px; color: #007aff; font-weight: 500; }
         
         .range-info {
             font-size: 14px;
@@ -198,9 +169,7 @@
         }
         
         @media (max-width: 375px) {
-            .play-button, .new-button, .info-button {
-                width: 200px;
-            }
+            .play-button, .new-button, .info-button { width: 200px; }
             .play-button { padding: 18px 0; font-size: 18px; }
             .new-button { padding: 16px 0; font-size: 17px; }
             .info-button { padding: 12px 0; font-size: 15px; }
@@ -209,16 +178,8 @@
             .range-info { font-size: 13px; max-width: 260px; }
         }
         
-        button {
-            -webkit-touch-callout: none;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-        }
-        
-        .button-press {
-            animation: press 0.15s ease;
-        }
-        
+        button { -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+        .button-press { animation: press 0.15s ease; }
         @keyframes press {
             0% { transform: scale(1); }
             50% { transform: scale(0.96); }
@@ -251,28 +212,26 @@
 
     <script>
         const surahNames = {
-            1: "Аль-Фатиха", 86: "Ат-Тарик", 87: "Аль-А'ля", 88: "Аль-Гашия",
-            89: "Аль-Фаджр", 90: "Аль-Балад", 91: "Аш-Шамс", 92: "Аль-Лайл",
-            93: "Ад-Духа", 94: "Аш-Шарх", 95: "Ат-Тин", 96: "Аль-Алак",
-            97: "Аль-Кадр", 98: "Аль-Баййина", 99: "Аз-Зальзаля", 100: "Аль-Адия́т",
-            101: "Аль-Кариа", 102: "Ат-Такасур", 103: "Аль-Аср", 104: "Аль-Хумаза",
-            105: "Аль-Филь", 106: "Курайш", 107: "Аль-Ма'ун", 108: "Аль-Каусар",
-            109: "Аль-Кафирун", 110: "Ан-Наср", 111: "Аль-Масад", 112: "Аль-Ихлас",
-            113: "Аль-Фалак", 114: "Ан-Нас"
+            1: "Аль-Фатиха", 67: "Аль-Мульк",
+            96: "Аль-Алак", 97: "Аль-Кадр", 98: "Аль-Баййина", 99: "Аз-Зальзаля",
+            100: "Аль-Адия́т", 101: "Аль-Кариа", 102: "Ат-Такасур", 103: "Аль-Аср",
+            104: "Аль-Хумаза", 105: "Аль-Филь", 106: "Курайш", 107: "Аль-Ма'ун",
+            108: "Аль-Каусар", 109: "Аль-Кафирун", 110: "Ан-Наср", 111: "Аль-Масад",
+            112: "Аль-Ихлас", 113: "Аль-Фалак", 114: "Ан-Нас"
         };
 
         const surahAyahCount = {
-            1: 7, 86: 17, 87: 19, 88: 26, 89: 30, 90: 20, 91: 15, 92: 21,
-            93: 11, 94: 8, 95: 8, 96: 19, 97: 5, 98: 8, 99: 8, 100: 11,
-            101: 11, 102: 8, 103: 3, 104: 9, 105: 5, 106: 4, 107: 7, 108: 3,
-            109: 6, 110: 3, 111: 5, 112: 4, 113: 5, 114: 6
+            1: 7, 67: 30,
+            96: 19, 97: 5, 98: 8, 99: 8, 100: 11, 101: 11, 102: 8, 103: 3,
+            104: 9, 105: 5, 106: 4, 107: 7, 108: 3, 109: 6, 110: 3, 111: 5,
+            112: 4, 113: 5, 114: 6
         };
 
         let currentAudio = null;
         let currentSurahId = null;
         let currentAyahNumber = null;
         let selectedSurahs = [];
-        let remainingSurahs = []; // Очередь оставшихся сур
+        let remainingSurahs = [];
         let infoVisible = false;
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -280,36 +239,26 @@
             if (saved) {
                 selectedSurahs = JSON.parse(saved);
             }
-            
             if (selectedSurahs.length === 0) {
                 window.location.href = 'random-setup.html';
                 return;
             }
-            
-            // Инициализируем очередь
             resetRemainingSurahs();
-            
             updateRangeInfo();
             generateNewAyah();
             setupEventListeners();
         });
         
-        // Сброс очереди (восстанавливаем все выбранные суры)
         function resetRemainingSurahs() {
             remainingSurahs = [...selectedSurahs];
-            // Перемешиваем для большей случайности
             for (let i = remainingSurahs.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [remainingSurahs[i], remainingSurahs[j]] = [remainingSurahs[j], remainingSurahs[i]];
             }
         }
         
-        // Получить следующую суру из очереди
         function getNextSurahFromQueue() {
-            if (remainingSurahs.length === 0) {
-                resetRemainingSurahs();
-            }
-            // Берём случайную из оставшихся (можно и просто .pop(), но так разнообразнее)
+            if (remainingSurahs.length === 0) resetRemainingSurahs();
             const randomIndex = Math.floor(Math.random() * remainingSurahs.length);
             const surahId = remainingSurahs[randomIndex];
             remainingSurahs.splice(randomIndex, 1);
@@ -320,7 +269,6 @@
             const remainingCount = remainingSurahs.length;
             const totalCount = selectedSurahs.length;
             const usedCount = totalCount - remainingCount;
-            
             const remainingInfo = document.getElementById('remainingInfo');
             if (remainingCount === 0) {
                 remainingInfo.textContent = `🔄 Цикл завершён! Начинаем новый круг из ${totalCount} сур`;
@@ -343,12 +291,10 @@
                 addPressAnimation(this);
                 togglePlay();
             });
-            
             newButton.addEventListener('click', function(e) {
                 addPressAnimation(this);
                 generateNewAyah();
             });
-            
             infoButton.addEventListener('click', function(e) {
                 addPressAnimation(this);
                 toggleInfo();
@@ -357,46 +303,30 @@
 
         function addPressAnimation(element) {
             element.classList.add('button-press');
-            setTimeout(() => {
-                element.classList.remove('button-press');
-            }, 150);
+            setTimeout(() => element.classList.remove('button-press'), 150);
         }
 
         function generateNewAyah() {
-            // Берём следующую суру из очереди (без повторов)
             currentSurahId = getNextSurahFromQueue();
-            
             const maxAyah = surahAyahCount[currentSurahId];
             currentAyahNumber = Math.floor(Math.random() * maxAyah) + 1;
-            
             stopAudio();
-            
             const playButton = document.getElementById('playButton');
             playButton.textContent = 'Воспроизвести';
             playButton.classList.remove('playing');
-            
-            if (infoVisible) {
-                updateAyahInfo();
-            }
-            
+            if (infoVisible) updateAyahInfo();
             const infoButton = document.getElementById('infoButton');
             infoButton.classList.remove('active');
             infoVisible = false;
             document.getElementById('ayahInfo').classList.add('hidden');
             infoButton.textContent = 'Узнать что за аят';
-            
             updateRemainingInfo();
-            
-            if (navigator.vibrate) {
-                navigator.vibrate(10);
-            }
+            if (navigator.vibrate) navigator.vibrate(10);
         }
 
         function togglePlay() {
             if (!currentSurahId || !currentAyahNumber) return;
-            
             const playButton = document.getElementById('playButton');
-            
             if (currentAudio && !currentAudio.paused) {
                 currentAudio.pause();
                 playButton.textContent = 'Воспроизвести';
@@ -408,35 +338,22 @@
             } else {
                 const audioPath = `../assets/audio/surahs/${currentSurahId}_${currentAyahNumber}.mp3`;
                 currentAudio = new Audio(audioPath);
-                
-                currentAudio.play().catch(error => {
-                    console.log('Аудио не найдено:', audioPath);
+                currentAudio.play().catch(() => {
                     playButton.textContent = 'Воспроизвести';
                     playButton.classList.remove('playing');
                     currentAudio = null;
-                    
-                    if (navigator.vibrate) {
-                        navigator.vibrate([50, 50, 50]);
-                    }
+                    if (navigator.vibrate) navigator.vibrate([50, 50, 50]);
                 });
-                
                 playButton.textContent = 'Пауза';
                 playButton.classList.add('playing');
-                
                 currentAudio.onended = function() {
                     playButton.textContent = 'Воспроизвести';
                     playButton.classList.remove('playing');
                     currentAudio = null;
-                    
-                    if (navigator.vibrate) {
-                        navigator.vibrate(10);
-                    }
+                    if (navigator.vibrate) navigator.vibrate(10);
                 };
             }
-            
-            if (navigator.vibrate) {
-                navigator.vibrate(20);
-            }
+            if (navigator.vibrate) navigator.vibrate(20);
         }
 
         function stopAudio() {
@@ -445,7 +362,6 @@
                 currentAudio.currentTime = 0;
                 currentAudio = null;
             }
-            
             const playButton = document.getElementById('playButton');
             playButton.textContent = 'Воспроизвести';
             playButton.classList.remove('playing');
@@ -454,9 +370,7 @@
         function toggleInfo() {
             const infoButton = document.getElementById('infoButton');
             const ayahInfo = document.getElementById('ayahInfo');
-            
             infoVisible = !infoVisible;
-            
             if (infoVisible) {
                 updateAyahInfo();
                 ayahInfo.classList.remove('hidden');
@@ -467,10 +381,7 @@
                 infoButton.classList.remove('active');
                 infoButton.textContent = 'Узнать что за аят';
             }
-            
-            if (navigator.vibrate) {
-                navigator.vibrate(10);
-            }
+            if (navigator.vibrate) navigator.vibrate(10);
         }
 
         function updateAyahInfo() {
@@ -481,36 +392,26 @@
         function formatSurahsList(surahs) {
             if (surahs.length === 0) return '';
             if (surahs.length === 1) return `сура ${surahs[0]}`;
-            
             const sorted = [...surahs].sort((a, b) => a - b);
-            
-            const allSurahs = [1, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114];
-            if (surahs.length === allSurahs.length && 
-                sorted.every((val, idx) => val === allSurahs[idx])) {
+            const allSurahs = [1, 67, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114];
+            if (surahs.length === allSurahs.length && sorted.every((v,i) => v === allSurahs[i])) {
                 return 'все суры';
             }
-            
             const ranges = [];
-            let rangeStart = sorted[0];
-            let rangeEnd = sorted[0];
-            
+            let start = sorted[0], end = sorted[0];
             for (let i = 1; i < sorted.length; i++) {
-                if (sorted[i] === rangeEnd + 1) {
-                    rangeEnd = sorted[i];
-                } else {
-                    ranges.push(rangeStart === rangeEnd ? `${rangeStart}` : `${rangeStart}-${rangeEnd}`);
-                    rangeStart = sorted[i];
-                    rangeEnd = sorted[i];
+                if (sorted[i] === end + 1) end = sorted[i];
+                else {
+                    ranges.push(start === end ? `${start}` : `${start}-${end}`);
+                    start = end = sorted[i];
                 }
             }
-            ranges.push(rangeStart === rangeEnd ? `${rangeStart}` : `${rangeStart}-${rangeEnd}`);
-            
+            ranges.push(start === end ? `${start}` : `${start}-${end}`);
             return ranges.join(', ');
         }
 
         function updateRangeInfo() {
-            const formatted = formatSurahsList(selectedSurahs);
-            document.getElementById('rangeInfo').textContent = `Выбрано: ${formatted}`;
+            document.getElementById('rangeInfo').textContent = `Выбрано: ${formatSurahsList(selectedSurahs)}`;
             updateRemainingInfo();
         }
     </script>
