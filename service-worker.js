@@ -1,6 +1,6 @@
 // Завершаем работу старого quran-app worker, удалённого из проекта в январе 2026.
 // Сохранение файла по прежнему URL позволяет обновить уже установленные PWA.
-const DHIKR_VERSION = '20261027-1';
+const DHIKR_VERSION = '20261027-2';
 const refreshPaths = new Set(['/', '/index.html', '/pages/dhikr.html']);
 const stalePaths = new Set([
     ...refreshPaths,
