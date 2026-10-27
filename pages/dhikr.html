@@ -30,11 +30,11 @@ h2{font-size:14px;color:#666;font-weight:600;margin:0 4px 10px}
 <main>
 <h2>Исти‘аза</h2>
 <section class="card">
-<button class="recite" id="recite" type="button" aria-label="Воспроизвести зикр">
+<button class="recite" id="recite" type="button" aria-label="Воспроизвести зикр" aria-controls="audio">
 <span class="arabic" lang="ar" dir="rtl">أَعُوذُ بِاَللَّهِ السَّمِيعِ الْعَلِيمِ مِنَ الشَّيْطَانِ الرَّجِيمِ</span>
 <span class="action"><span id="state">Нажмите, чтобы прослушать</span><span class="circle" id="icon">▶</span></span>
 </button>
-<audio id="audio" src="../assets/audio/dhikr/istiadhah.ogg" preload="none"></audio>
+<audio id="audio" src="../assets/audio/dhikr/istiadhah.mp3?v=20261027-1" preload="none"></audio>
 <p class="error" id="error" role="status">Запись не воспроизводится.</p>
 </section>
 <h2>Сура «Аль-Хашр», аяты 22–24</h2>
@@ -48,11 +48,29 @@ h2{font-size:14px;color:#666;font-weight:600;margin:0 4px 10px}
 const button=document.getElementById("recite"),audio=document.getElementById("audio");
 const state=document.getElementById("state"),icon=document.getElementById("icon"),error=document.getElementById("error");
 function display(playing){button.classList.toggle("playing",playing);button.setAttribute("aria-label",playing?"Пауза":"Воспроизвести зикр");state.textContent=playing?"Воспроизводится":"Нажмите, чтобы прослушать";icon.textContent=playing?"Ⅱ":"▶"}
-button.addEventListener("click",async()=>{error.classList.remove("show");if(!audio.paused){audio.pause();return}try{await audio.play()}catch(e){display(false);error.classList.add("show")}});
-audio.addEventListener("play",()=>display(true));
+let playRequest=0;
+button.addEventListener("click",async()=>{
+    const request=++playRequest;
+    error.classList.remove("show");
+    if(!audio.paused&&!audio.error){audio.pause();return}
+    try{
+        // Повторная попытка после ошибки загрузки, например после восстановления сети.
+        if(audio.error) audio.load();
+        if(audio.ended) audio.currentTime=0;
+        // Safari требует вызова play() непосредственно из нажатия пользователя.
+        await audio.play();
+    }catch(e){
+        // Быстрая пауза отменяет ожидающий play(); это не ошибка записи.
+        if(request!==playRequest||e.name==="AbortError") return;
+        display(false);
+        error.classList.add("show");
+    }
+});
+audio.addEventListener("playing",()=>display(true));
 audio.addEventListener("pause",()=>display(false));
 audio.addEventListener("ended",()=>display(false));
-audio.addEventListener("error",()=>{display(false);error.classList.add("show")});
+audio.addEventListener("error",()=>{if(audio.error){display(false);error.classList.add("show")}});
 </script>
+<script src="../js/dhikr-cache.js?v=20261027-1"></script>
 </body>
 </html>
