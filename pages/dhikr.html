@@ -1,2 +1,58 @@
-<!doctype html>
-<html lang="ru"><head><meta charset="utf-8"><title>Зикры</title></head><body><a href="../index.html">Назад</a><h1>Зикры</h1></body></html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Зикры — Второй учитель</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f2f2f7;color:#151515;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+header{display:flex;align-items:center;padding:12px 16px;background:#fff;border-bottom:1px solid #e5e5ea;position:sticky;top:0}
+.back{display:grid;place-items:center;width:44px;height:44px;border-radius:10px;background:#eaf3ff;color:#007aff;text-decoration:none;font-size:27px}
+h1{flex:1;text-align:center;font-size:20px;margin:0} .spacer{width:44px}
+main{max-width:680px;margin:auto;padding:18px 14px 36px}
+h2{font-size:14px;color:#666;font-weight:600;margin:0 4px 10px}
+.card{background:#fff;border-radius:18px;padding:20px 16px;margin-bottom:23px}
+.arabic{font-family:"SF Arabic","Geeza Pro","Noto Naskh Arabic",serif;direction:rtl;text-align:right;font-size:29px;line-height:2.05}
+.recite{display:block;width:100%;border:0;border-radius:12px;background:transparent;color:inherit;cursor:pointer;padding:6px;text-align:right}
+.recite:active,.recite.playing{background:#eaf3ff}
+.recite:focus-visible{outline:2px solid #007aff}
+.action{display:flex;justify-content:flex-end;align-items:center;gap:9px;color:#007aff;font-size:13px;direction:ltr}
+.circle{display:grid;place-items:center;border-radius:50%;width:29px;height:29px;background:#eaf3ff}
+.ayah{margin:0}.ayah+.ayah{margin-top:17px}.ayah-no{color:#007aff;white-space:nowrap;font-size:.75em}
+.error{display:none;color:#b3261e;font-size:13px}.error.show{display:block}
+@media(max-width:380px){.arabic{font-size:26px}}
+</style>
+</head>
+<body>
+<header><a class="back" href="../index.html" aria-label="На главную">‹</a><h1>Зикры</h1><span class="spacer"></span></header>
+<main>
+<h2>Исти‘аза</h2>
+<section class="card">
+<button class="recite" id="recite" type="button" aria-label="Воспроизвести зикр">
+<span class="arabic" lang="ar" dir="rtl">أَعُوذُ بِاَللَّهِ السَّمِيعِ الْعَلِيمِ مِنَ الشَّيْطَانِ الرَّجِيمِ</span>
+<span class="action"><span id="state">Нажмите, чтобы прослушать</span><span class="circle" id="icon">▶</span></span>
+</button>
+<audio id="audio" src="../assets/audio/dhikr/istiadhah.ogg" preload="none"></audio>
+<p class="error" id="error" role="status">Запись не воспроизводится.</p>
+</section>
+<h2>Сура «Аль-Хашр», аяты 22–24</h2>
+<section class="card arabic" dir="rtl" lang="ar">
+<p class="ayah">هُوَ ٱللَّهُ ٱلَّذِی لَاۤ إِلَـٰهَ إِلَّا هُوَۖ عَـٰلِمُ ٱلۡغَیۡبِ وَٱلشَّهَـٰدَةِۖ هُوَ ٱلرَّحۡمَـٰنُ ٱلرَّحِیمُ <span class="ayah-no">﴿ ٢٢ ﴾</span></p>
+<p class="ayah">هُوَ ٱللَّهُ ٱلَّذِی لَاۤ إِلَـٰهَ إِلَّا هُوَ ٱلۡمَلِكُ ٱلۡقُدُّوسُ ٱلسَّلَـٰمُ ٱلۡمُؤۡمِنُ ٱلۡمُهَیۡمِنُ ٱلۡعَزِیزُ ٱلۡجَبَّارُ ٱلۡمُتَكَبِّرُۚ سُبۡحَـٰنَ ٱللَّهِ عَمَّا یُشۡرِكُونَ <span class="ayah-no">﴿ ٢٣ ﴾</span></p>
+<p class="ayah">هُوَ ٱللَّهُ ٱلۡخَـٰلِقُ ٱلۡبَارِئُ ٱلۡمُصَوِّرُۖ لَهُ ٱلۡأَسۡمَاۤءُ ٱلۡحُسۡنَىٰۚ یُسَبِّحُ لَهُۥ مَا فِی ٱلسَّمَـٰوَ ٰ⁠تِ وَٱلۡأَرۡضِۖ وَهُوَ ٱلۡعَزِیزُ ٱلۡحَكِیمُ <span class="ayah-no">﴿ ٢٤ ﴾</span></p>
+</section>
+</main>
+<script>
+const button=document.getElementById("recite"),audio=document.getElementById("audio");
+const state=document.getElementById("state"),icon=document.getElementById("icon"),error=document.getElementById("error");
+function display(playing){button.classList.toggle("playing",playing);button.setAttribute("aria-label",playing?"Пауза":"Воспроизвести зикр");state.textContent=playing?"Воспроизводится":"Нажмите, чтобы прослушать";icon.textContent=playing?"Ⅱ":"▶"}
+button.addEventListener("click",async()=>{error.classList.remove("show");if(!audio.paused){audio.pause();return}try{await audio.play()}catch(e){display(false);error.classList.add("show")}});
+audio.addEventListener("play",()=>display(true));
+audio.addEventListener("pause",()=>display(false));
+audio.addEventListener("ended",()=>display(false));
+audio.addEventListener("error",()=>{display(false);error.classList.add("show")});
+</script>
+</body>
+</html>
