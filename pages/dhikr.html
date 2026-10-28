@@ -16,25 +16,25 @@ main{padding:16px 8px 32px}
 .verse{margin-bottom:24px}
 h2{font-size:12px;color:#666;font-weight:500;margin:0 8px 10px;text-align:right}
 .card{margin-bottom:8px}
-.phrase-scroll{width:100%;overflow-x:auto;direction:rtl;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
-.recite{display:block;width:max-content;min-height:60px;margin-left:auto;padding:0;border:0;border-radius:12px;background:transparent;cursor:pointer}
+.phrase{width:300px;max-width:100%;margin-left:auto;direction:rtl}
+.recite{display:block;width:max-content;max-width:100%;margin-left:auto;padding:0;border:0;border-radius:12px;background:transparent;cursor:pointer}
 .recite:active,.recite.playing{background:#eaf3ff;box-shadow:inset 0 0 0 1px rgba(0,122,255,.3)}
 .recite:focus-visible{outline:2px solid #007aff;outline-offset:-2px}
-.dhikr-image{display:block;height:60px;width:auto;max-width:none;border-radius:12px}
+.dhikr-image{display:block;max-width:100%;height:auto;border-radius:12px}
 .error{display:none;color:#b3261e;font-size:13px;text-align:right;margin:8px}.error.show{display:block}
-@media(max-width:375px){.dhikr-image{height:55px}.recite{min-height:55px}}
+
 </style>
 </head>
 <body>
 <header><a class="back" href="../index.html" aria-label="На главную">‹</a><h1>Зикры</h1><span class="spacer"></span></header>
 <main>
-<p class="hint">Нажмите на строку, чтобы прослушать. Повторное нажатие — пауза.<br>Длинные строки можно прокручивать вбок.</p>
+<p class="hint">Нажмите на фрагмент, чтобы прослушать. Повторное нажатие — пауза.</p>
 <section class="verse" aria-label="Исти‘аза">
 <h2>Исти‘аза</h2>
 <div class="card">
-<div class="phrase-scroll">
+<div class="phrase">
 <button class="recite" type="button" data-title="Исти‘аза" aria-label="Воспроизвести: Исти‘аза" aria-controls="audio-istiadhah-line" aria-pressed="false">
-<img class="dhikr-image" src="../assets/images/dhikr/fragments/istiadhah-line.svg" width="488.5" height="63.0" lang="ar" alt="أَعُوذُ بِاَللَّهِ السَّمِيعِ الْعَلِيمِ مِنَ الشَّيْطَانِ الرَّجِيمِ" draggable="false">
+<img class="dhikr-image" src="../assets/images/dhikr/fragments/istiadhah-line.svg?v=20261028-wrap1" width="249.524" height="120.0" lang="ar" alt="أَعُوذُ بِاَللَّهِ السَّمِيعِ الْعَلِيمِ مِنَ الشَّيْطَانِ الرَّجِيمِ" draggable="false">
 </button>
 </div>
 <audio id="audio-istiadhah-line" src="../assets/audio/dhikr/istiadhah.mp3" preload="none"></audio>
@@ -44,27 +44,27 @@ h2{font-size:12px;color:#666;font-weight:500;margin:0 8px 10px;text-align:right}
 <section class="verse" aria-label="Аль-Хашр, аят 22">
 <h2>Аль-Хашр, аят 22</h2>
 <div class="card">
-<div class="phrase-scroll">
+<div class="phrase">
 <button class="recite" type="button" data-title="Аль-Хашр, аят 22, фрагмент 1" aria-label="Воспроизвести: Аль-Хашр, аят 22, фрагмент 1" aria-controls="audio-al-hashr-22-1" aria-pressed="false">
-<img class="dhikr-image" src="../assets/images/dhikr/fragments/al-hashr-22-1.svg" width="292.5" height="63.0" lang="ar" alt="هُوَ ٱللَّهُ ٱلَّذِی لَاۤ إِلَـٰهَ إِلَّا هُوَۖ" draggable="false">
+<img class="dhikr-image" src="../assets/images/dhikr/fragments/al-hashr-22-1.svg?v=20261028-wrap1" width="278.571" height="60.0" lang="ar" alt="هُوَ ٱللَّهُ ٱلَّذِی لَاۤ إِلَـٰهَ إِلَّا هُوَۖ" draggable="false">
 </button>
 </div>
 <audio id="audio-al-hashr-22-1" src="../assets/audio/dhikr/fragments/al-hashr-22-1.mp3" preload="none"></audio>
 <p class="error" role="status">Запись не воспроизводится. Нажмите ещё раз, чтобы повторить.</p>
 </div>
 <div class="card">
-<div class="phrase-scroll">
+<div class="phrase">
 <button class="recite" type="button" data-title="Аль-Хашр, аят 22, фрагмент 2" aria-label="Воспроизвести: Аль-Хашр, аят 22, фрагмент 2" aria-controls="audio-al-hashr-22-2" aria-pressed="false">
-<img class="dhikr-image" src="../assets/images/dhikr/fragments/al-hashr-22-2.svg" width="237.0" height="63.0" lang="ar" alt="عَـٰلِمُ ٱلۡغَیۡبِ وَٱلشَّهَـٰدَةِۖ" draggable="false">
+<img class="dhikr-image" src="../assets/images/dhikr/fragments/al-hashr-22-2.svg?v=20261028-wrap1" width="225.714" height="60.0" lang="ar" alt="عَـٰلِمُ ٱلۡغَیۡبِ وَٱلشَّهَـٰدَةِۖ" draggable="false">
 </button>
 </div>
 <audio id="audio-al-hashr-22-2" src="../assets/audio/dhikr/fragments/al-hashr-22-2.mp3" preload="none"></audio>
 <p class="error" role="status">Запись не воспроизводится. Нажмите ещё раз, чтобы повторить.</p>
 </div>
 <div class="card">
-<div class="phrase-scroll">
+<div class="phrase">
 <button class="recite" type="button" data-title="Аль-Хашр, аят 22, фрагмент 3" aria-label="Воспроизвести: Аль-Хашр, аят 22, фрагмент 3" aria-controls="audio-al-hashr-22-3" aria-pressed="false">
-<img class="dhikr-image" src="../assets/images/dhikr/fragments/al-hashr-22-3.svg" width="224.0" height="63.0" lang="ar" alt="هُوَ ٱلرَّحۡمَـٰنُ ٱلرَّحِیمُ" draggable="false">
+<img class="dhikr-image" src="../assets/images/dhikr/fragments/al-hashr-22-3.svg?v=20261028-wrap1" width="213.333" height="60.0" lang="ar" alt="هُوَ ٱلرَّحۡمَـٰنُ ٱلرَّحِیمُ" draggable="false">
 </button>
 </div>
 <audio id="audio-al-hashr-22-3" src="../assets/audio/dhikr/fragments/al-hashr-22-3.mp3" preload="none"></audio>
@@ -74,27 +74,27 @@ h2{font-size:12px;color:#666;font-weight:500;margin:0 8px 10px;text-align:right}
 <section class="verse" aria-label="Аль-Хашр, аят 23">
 <h2>Аль-Хашр, аят 23</h2>
 <div class="card">
-<div class="phrase-scroll">
+<div class="phrase">
 <button class="recite" type="button" data-title="Аль-Хашр, аят 23, фрагмент 1" aria-label="Воспроизвести: Аль-Хашр, аят 23, фрагмент 1" aria-controls="audio-al-hashr-23-1" aria-pressed="false">
-<img class="dhikr-image" src="../assets/images/dhikr/fragments/al-hashr-23-1.svg" width="292.5" height="63.0" lang="ar" alt="هُوَ ٱللَّهُ ٱلَّذِی لَاۤ إِلَـٰهَ إِلَّا هُوَ" draggable="false">
+<img class="dhikr-image" src="../assets/images/dhikr/fragments/al-hashr-23-1.svg?v=20261028-wrap1" width="278.571" height="60.0" lang="ar" alt="هُوَ ٱللَّهُ ٱلَّذِی لَاۤ إِلَـٰهَ إِلَّا هُوَ" draggable="false">
 </button>
 </div>
 <audio id="audio-al-hashr-23-1" src="../assets/audio/dhikr/fragments/al-hashr-23-1.mp3" preload="none"></audio>
 <p class="error" role="status">Запись не воспроизводится. Нажмите ещё раз, чтобы повторить.</p>
 </div>
 <div class="card">
-<div class="phrase-scroll">
+<div class="phrase">
 <button class="recite" type="button" data-title="Аль-Хашр, аят 23, фрагмент 2" aria-label="Воспроизвести: Аль-Хашр, аят 23, фрагмент 2" aria-controls="audio-al-hashr-23-2" aria-pressed="false">
-<img class="dhikr-image" src="../assets/images/dhikr/fragments/al-hashr-23-2.svg" width="663.0" height="63.0" lang="ar" alt="ٱلۡمَلِكُ ٱلۡقُدُّوسُ ٱلسَّلَـٰمُ ٱلۡمُؤۡمِنُ ٱلۡمُهَیۡمِنُ ٱلۡعَزِیزُ ٱلۡجَبَّارُ ٱلۡمُتَكَبِّرُۚ" draggable="false">
+<img class="dhikr-image" src="../assets/images/dhikr/fragments/al-hashr-23-2.svg?v=20261028-wrap1" width="328.571" height="120.0" lang="ar" alt="ٱلۡمَلِكُ ٱلۡقُدُّوسُ ٱلسَّلَـٰمُ ٱلۡمُؤۡمِنُ ٱلۡمُهَیۡمِنُ ٱلۡعَزِیزُ ٱلۡجَبَّارُ ٱلۡمُتَكَبِّرُۚ" draggable="false">
 </button>
 </div>
 <audio id="audio-al-hashr-23-2" src="../assets/audio/dhikr/fragments/al-hashr-23-2.mp3" preload="none"></audio>
 <p class="error" role="status">Запись не воспроизводится. Нажмите ещё раз, чтобы повторить.</p>
 </div>
 <div class="card">
-<div class="phrase-scroll">
+<div class="phrase">
 <button class="recite" type="button" data-title="Аль-Хашр, аят 23, фрагмент 3" aria-label="Воспроизвести: Аль-Хашр, аят 23, фрагмент 3" aria-controls="audio-al-hashr-23-3" aria-pressed="false">
-<img class="dhikr-image" src="../assets/images/dhikr/fragments/al-hashr-23-3.svg" width="277.5" height="63.0" lang="ar" alt="سُبۡحَـٰنَ ٱللَّهِ عَمَّا یُشۡرِكُونَ" draggable="false">
+<img class="dhikr-image" src="../assets/images/dhikr/fragments/al-hashr-23-3.svg?v=20261028-wrap1" width="264.286" height="60.0" lang="ar" alt="سُبۡحَـٰنَ ٱللَّهِ عَمَّا یُشۡرِكُونَ" draggable="false">
 </button>
 </div>
 <audio id="audio-al-hashr-23-3" src="../assets/audio/dhikr/fragments/al-hashr-23-3.mp3" preload="none"></audio>
@@ -104,36 +104,36 @@ h2{font-size:12px;color:#666;font-weight:500;margin:0 8px 10px;text-align:right}
 <section class="verse" aria-label="Аль-Хашр, аят 24">
 <h2>Аль-Хашр, аят 24</h2>
 <div class="card">
-<div class="phrase-scroll">
+<div class="phrase">
 <button class="recite" type="button" data-title="Аль-Хашр, аят 24, фрагмент 1" aria-label="Воспроизвести: Аль-Хашр, аят 24, фрагмент 1" aria-controls="audio-al-hashr-24-1" aria-pressed="false">
-<img class="dhikr-image" src="../assets/images/dhikr/fragments/al-hashr-24-1.svg" width="344.5" height="63.0" lang="ar" alt="هُوَ ٱللَّهُ ٱلۡخَـٰلِقُ ٱلۡبَارِئُ ٱلۡمُصَوِّرُۖ" draggable="false">
+<img class="dhikr-image" src="../assets/images/dhikr/fragments/al-hashr-24-1.svg?v=20261028-wrap1" width="328.095" height="60.0" lang="ar" alt="هُوَ ٱللَّهُ ٱلۡخَـٰلِقُ ٱلۡبَارِئُ ٱلۡمُصَوِّرُۖ" draggable="false">
 </button>
 </div>
 <audio id="audio-al-hashr-24-1" src="../assets/audio/dhikr/fragments/al-hashr-24-1.mp3" preload="none"></audio>
 <p class="error" role="status">Запись не воспроизводится. Нажмите ещё раз, чтобы повторить.</p>
 </div>
 <div class="card">
-<div class="phrase-scroll">
+<div class="phrase">
 <button class="recite" type="button" data-title="Аль-Хашр, аят 24, фрагмент 2" aria-label="Воспроизвести: Аль-Хашр, аят 24, фрагмент 2" aria-controls="audio-al-hashr-24-2" aria-pressed="false">
-<img class="dhikr-image" src="../assets/images/dhikr/fragments/al-hashr-24-2.svg" width="217.0" height="63.0" lang="ar" alt="لَهُ ٱلۡأَسۡمَاۤءُ ٱلۡحُسۡنَىٰۚ" draggable="false">
+<img class="dhikr-image" src="../assets/images/dhikr/fragments/al-hashr-24-2.svg?v=20261028-wrap1" width="206.667" height="60.0" lang="ar" alt="لَهُ ٱلۡأَسۡمَاۤءُ ٱلۡحُسۡنَىٰۚ" draggable="false">
 </button>
 </div>
 <audio id="audio-al-hashr-24-2" src="../assets/audio/dhikr/fragments/al-hashr-24-2.mp3" preload="none"></audio>
 <p class="error" role="status">Запись не воспроизводится. Нажмите ещё раз, чтобы повторить.</p>
 </div>
 <div class="card">
-<div class="phrase-scroll">
+<div class="phrase">
 <button class="recite" type="button" data-title="Аль-Хашр, аят 24, фрагмент 3" aria-label="Воспроизвести: Аль-Хашр, аят 24, фрагмент 3" aria-controls="audio-al-hashr-24-3" aria-pressed="false">
-<img class="dhikr-image" src="../assets/images/dhikr/fragments/al-hashr-24-3.svg" width="422.5" height="63.0" lang="ar" alt="یُسَبِّحُ لَهُۥ مَا فِی ٱلسَّمَـٰوَ ⁠تِ وَٱلۡأَرۡضِۖ" draggable="false">
+<img class="dhikr-image" src="../assets/images/dhikr/fragments/al-hashr-24-3.svg?v=20261028-wrap1" width="235.714" height="120.0" lang="ar" alt="یُسَبِّحُ لَهُۥ مَا فِی ٱلسَّمَـٰوَ ⁠تِ وَٱلۡأَرۡضِۖ" draggable="false">
 </button>
 </div>
 <audio id="audio-al-hashr-24-3" src="../assets/audio/dhikr/fragments/al-hashr-24-3.mp3" preload="none"></audio>
 <p class="error" role="status">Запись не воспроизводится. Нажмите ещё раз, чтобы повторить.</p>
 </div>
 <div class="card">
-<div class="phrase-scroll">
+<div class="phrase">
 <button class="recite" type="button" data-title="Аль-Хашр, аят 24, фрагмент 4" aria-label="Воспроизвести: Аль-Хашр, аят 24, фрагмент 4" aria-controls="audio-al-hashr-24-4" aria-pressed="false">
-<img class="dhikr-image" src="../assets/images/dhikr/fragments/al-hashr-24-4.svg" width="220.0" height="63.0" lang="ar" alt="وَهُوَ ٱلۡعَزِیزُ ٱلۡحَكِیمُ" draggable="false">
+<img class="dhikr-image" src="../assets/images/dhikr/fragments/al-hashr-24-4.svg?v=20261028-wrap1" width="209.524" height="60.0" lang="ar" alt="وَهُوَ ٱلۡعَزِیزُ ٱلۡحَكِیمُ" draggable="false">
 </button>
 </div>
 <audio id="audio-al-hashr-24-4" src="../assets/audio/dhikr/fragments/al-hashr-24-4.mp3" preload="none"></audio>
