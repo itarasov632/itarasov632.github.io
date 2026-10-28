@@ -1,11 +1,10 @@
-// Each card has its own recording; only one recording may play at a time.
+// Each line has its own recording; only one recording may play at a time.
 (() => {
     const players = [...document.querySelectorAll('.card')].map(card => {
         const button = card.querySelector('.recite');
         const audio = card.querySelector('audio');
         if (!button || !audio) return null;
-        return { button, audio, state: card.querySelector('.state'),
-            icon: card.querySelector('.circle'), error: card.querySelector('.error'),
+        return { button, audio, error: card.querySelector('.error'),
             title: button.dataset.title, request: 0, requested: false };
     }).filter(Boolean);
 
@@ -13,8 +12,6 @@
         player.button.classList.toggle('playing', playing);
         player.button.setAttribute('aria-pressed', String(playing));
         player.button.setAttribute('aria-label', `${playing ? 'Пауза' : 'Воспроизвести'}: ${player.title}`);
-        player.state.textContent = playing ? 'Воспроизводится' : 'Нажмите, чтобы прослушать';
-        player.icon.textContent = playing ? 'Ⅱ' : '▶';
     }
 
     function stop(player, reset = false) {
