@@ -30,44 +30,39 @@ h2{font-size:14px;color:#666;font-weight:600;margin:0 4px 10px}
 <main>
 <h2>Исти‘аза</h2>
 <section class="card">
-<button class="recite" id="recite" type="button" aria-label="Воспроизвести зикр" aria-controls="audio">
+<button class="recite" type="button" data-title="Исти‘аза" aria-label="Воспроизвести: Исти‘аза" aria-controls="audio-istiadhah" aria-pressed="false">
 <img class="dhikr-image" src="../assets/images/dhikr/istiadhah.svg" width="323" height="112" alt="Истиаза">
-<span class="action"><span id="state">Нажмите, чтобы прослушать</span><span class="circle" id="icon">▶</span></span>
+<span class="action"><span class="state">Нажмите, чтобы прослушать</span><span class="circle" aria-hidden="true">▶</span></span>
 </button>
-<audio id="audio" src="../assets/audio/dhikr/istiadhah.mp3?v=20261027-1" preload="none"></audio>
-<p class="error" id="error" role="status">Запись не воспроизводится.</p>
+<audio id="audio-istiadhah" src="../assets/audio/dhikr/istiadhah.mp3?v=20261028-audio1" preload="none"></audio>
+<p class="error" role="status">Запись не воспроизводится. Нажмите ещё раз, чтобы повторить.</p>
 </section>
-<h2>Аль-Хашр, аят 22</h2><section class="card"><img class="dhikr-image" src="../assets/images/dhikr/al-hashr-22.svg" width="368" height="161" alt="Аль-Хашр, аят 22"></section>
-<h2>Аль-Хашр, аят 23</h2><section class="card"><img class="dhikr-image" src="../assets/images/dhikr/al-hashr-23.svg" width="365" height="209" alt="Аль-Хашр, аят 23"></section>
-<h2>Аль-Хашр, аят 24</h2><section class="card"><img class="dhikr-image" src="../assets/images/dhikr/al-hashr-24.svg" width="375" height="199" alt="Аль-Хашр, аят 24"></section>
+<h2>Аль-Хашр, аят 22</h2><section class="card">
+<button class="recite" type="button" data-title="Аль-Хашр, аят 22" aria-label="Воспроизвести: Аль-Хашр, аят 22" aria-controls="audio-al-hashr-22" aria-pressed="false">
+<img class="dhikr-image" src="../assets/images/dhikr/al-hashr-22.svg" width="368" height="161" alt="Аль-Хашр, аят 22">
+<span class="action"><span class="state">Нажмите, чтобы прослушать</span><span class="circle" aria-hidden="true">▶</span></span>
+</button>
+<audio id="audio-al-hashr-22" src="../assets/audio/dhikr/al-hashr-22.mp3?v=20261028-audio1" preload="none"></audio>
+<p class="error" role="status">Запись не воспроизводится. Нажмите ещё раз, чтобы повторить.</p>
+</section>
+<h2>Аль-Хашр, аят 23</h2><section class="card">
+<button class="recite" type="button" data-title="Аль-Хашр, аят 23" aria-label="Воспроизвести: Аль-Хашр, аят 23" aria-controls="audio-al-hashr-23" aria-pressed="false">
+<img class="dhikr-image" src="../assets/images/dhikr/al-hashr-23.svg" width="365" height="209" alt="Аль-Хашр, аят 23">
+<span class="action"><span class="state">Нажмите, чтобы прослушать</span><span class="circle" aria-hidden="true">▶</span></span>
+</button>
+<audio id="audio-al-hashr-23" src="../assets/audio/dhikr/al-hashr-23.mp3?v=20261028-audio1" preload="none"></audio>
+<p class="error" role="status">Запись не воспроизводится. Нажмите ещё раз, чтобы повторить.</p>
+</section>
+<h2>Аль-Хашр, аят 24</h2><section class="card">
+<button class="recite" type="button" data-title="Аль-Хашр, аят 24" aria-label="Воспроизвести: Аль-Хашр, аят 24" aria-controls="audio-al-hashr-24" aria-pressed="false">
+<img class="dhikr-image" src="../assets/images/dhikr/al-hashr-24.svg" width="375" height="199" alt="Аль-Хашр, аят 24">
+<span class="action"><span class="state">Нажмите, чтобы прослушать</span><span class="circle" aria-hidden="true">▶</span></span>
+</button>
+<audio id="audio-al-hashr-24" src="../assets/audio/dhikr/al-hashr-24.mp3?v=20261028-audio1" preload="none"></audio>
+<p class="error" role="status">Запись не воспроизводится. Нажмите ещё раз, чтобы повторить.</p>
+</section>
 </main>
-<script>
-const button=document.getElementById("recite"),audio=document.getElementById("audio");
-const state=document.getElementById("state"),icon=document.getElementById("icon"),error=document.getElementById("error");
-function display(playing){button.classList.toggle("playing",playing);button.setAttribute("aria-label",playing?"Пауза":"Воспроизвести зикр");state.textContent=playing?"Воспроизводится":"Нажмите, чтобы прослушать";icon.textContent=playing?"Ⅱ":"▶"}
-let playRequest=0;
-button.addEventListener("click",async()=>{
-    const request=++playRequest;
-    error.classList.remove("show");
-    if(!audio.paused&&!audio.error){audio.pause();return}
-    try{
-        // Повторная попытка после ошибки загрузки, например после восстановления сети.
-        if(audio.error) audio.load();
-        if(audio.ended) audio.currentTime=0;
-        // Safari требует вызова play() непосредственно из нажатия пользователя.
-        await audio.play();
-    }catch(e){
-        // Быстрая пауза отменяет ожидающий play(); это не ошибка записи.
-        if(request!==playRequest||e.name==="AbortError") return;
-        display(false);
-        error.classList.add("show");
-    }
-});
-audio.addEventListener("playing",()=>display(true));
-audio.addEventListener("pause",()=>display(false));
-audio.addEventListener("ended",()=>display(false));
-audio.addEventListener("error",()=>{if(audio.error){display(false);error.classList.add("show")}});
-</script>
+<script src="../js/dhikr-audio.js?v=20261028-1"></script>
 <script src="../js/dhikr-cache.js?v=20261027-1"></script>
 </body>
 </html>
