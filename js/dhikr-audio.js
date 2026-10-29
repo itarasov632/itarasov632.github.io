@@ -11,7 +11,7 @@
     function display(player, playing) {
         player.button.classList.toggle('playing', playing);
         player.button.setAttribute('aria-pressed', String(playing));
-        player.button.setAttribute('aria-label', `${playing ? 'Пауза' : 'Воспроизвести'}: ${player.title}`);
+        player.button.setAttribute('aria-label', `Воспроизвести заново: ${player.title}`);
     }
 
     function stop(player, reset = false) {
@@ -26,14 +26,13 @@
         const { button, audio, error } = player;
         button.addEventListener('click', async () => {
             error.classList.remove('show');
-            if (player.requested || !audio.paused) {
-                stop(player);
-                return;
-            }
             players.filter(other => other !== player).forEach(other => stop(other, true));
             const request = ++player.request;
             player.requested = true;
             try {
+                // Every tap restarts this recording, even when it is already playing.
+                audio.pause();
+                audio.currentTime = 0;
                 if (audio.error) audio.load();
                 if (audio.ended) audio.currentTime = 0;
                 // Keep play() in the user gesture for Safari and iPhone.
