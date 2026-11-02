@@ -124,8 +124,7 @@
         }
         
         .ayah img, .basmala img {
-            height: 60px;
-            width: auto;
+            height: auto;
             max-width: 100%;
             display: block;
             border-radius: 12px;
@@ -134,8 +133,16 @@
         
         .ayah.playing img, .basmala.playing img {
             background: rgba(0, 122, 255, 0.1);
-            border: 1px solid rgba(0, 122, 255, 0.3);
+            box-shadow: inset 0 0 0 1px rgba(0, 122, 255, 0.3);
             border-radius: 12px;
+        }
+
+        .audio-status {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.4;
+            text-align: right;
+            margin: 0 8px 16px;
         }
         
         .recording-bar {
@@ -220,7 +227,6 @@
         @media (max-width: 375px) {
             .surah-arabic-name { font-size: 22px; }
             .surah-info { font-size: 13px; }
-            .ayah img, .basmala img { height: 55px; }
             .record-btn, .playback-btn { padding: 10px 0; font-size: 15px; }
             .nav-button { padding: 8px 14px; font-size: 14px; }
         }
@@ -248,6 +254,7 @@
         </div>
     </div>
 
+    <script src="../js/data/surah-images.js?v=20261102-1"></script>
     <script>
         // ==================== ДАННЫЕ ====================
         const surahsData = {
@@ -291,6 +298,33 @@
         let isRecording = false;
         let recordedAudio = null;
         let mediaStream = null;
+        let audioRequestId = 0;
+
+        function imageMarkup(surahId, key, alt) {
+            const image = SURAH_IMAGES[surahId][key];
+            return `<img src="../assets/images/surahs/reading/${surahId}/${key}.png?v=20261102-1"
+                width="${image.width}" height="${image.height}" style="width:${image.width}px"
+                alt="${alt}" loading="lazy" decoding="async">`;
+        }
+
+        // The original Al-Mulk recordings are numbered by fragment, not ayah.
+        // Group only matching fragments; the repeated recordings 16-20 are omitted.
+        const mulkAudio = {
+            1: [1], 2: [2, 3], 3: [4, 5, 6], 4: [7], 5: [8, 9],
+            6: [10], 7: [11], 8: [12, 13], 9: [14, 15],
+            10: [21], 11: [22], 12: [23]
+        };
+        function audioFiles(surahId, ayah) {
+            if (surahId === 96 || surahId === 98) return [];
+            if (surahId === 67 && ayah !== 'basmala') {
+                return (mulkAudio[ayah] || []).map(part => `67_${part}.mp3`);
+            }
+            return [`${surahId}_${ayah}.mp3`];
+        }
+
+        function audioStatus(message) {
+            document.getElementById('audioStatus').textContent = message;
+        }
 
         // ==================== ЗАГРУЗКА СУРЫ ====================
         function loadSurah(surahId) {
@@ -332,13 +366,20 @@
             // Контент
             const content = document.getElementById('surahContent');
             content.innerHTML = '';
+            const status = document.createElement('p');
+            status.id = 'audioStatus';
+            status.className = 'audio-status';
+            status.setAttribute('role', 'status');
+            content.appendChild(status);
+            if (surahId === 67) audioStatus('Записи доступны для аятов 1–12. Читать можно всю суру.');
+            if (surahId === 96 || surahId === 98) audioStatus('Аудиозапись этой суры пока не добавлена.');
             
             // Басмала (кроме суры 9, но у нас её нет)
             const basmalaContainer = document.createElement('div');
             basmalaContainer.className = 'basmala-container';
             basmalaContainer.innerHTML = `
                 <div class="basmala" id="basmalaElement">
-                    <img src="../assets/images/surahs/${surahId}/basmala.png" alt="Басмала" loading="lazy">
+                    ${imageMarkup(surahId, 'basmala', 'Басмала')}
                 </div>
             `;
             content.appendChild(basmalaContainer);
@@ -350,22 +391,22 @@
                 const ayahElement = document.createElement('div');
                 ayahElement.className = 'ayah';
                 ayahElement.dataset.ayahNumber = i;
-                ayahElement.dataset.audioFile = `${surahId}_${i}.mp3`;
-                ayahElement.innerHTML = `<img src="../assets/images/surahs/${surahId}/${i}.png" alt="Аят ${i}" loading="lazy">`;
-                ayahElement.addEventListener('click', () => playAudio(`${surahId}_${i}.mp3`, ayahElement));
+                ayahElement.innerHTML = imageMarkup(surahId, i, `Аят ${i}`);
+                ayahElement.addEventListener('click', () => playAudio(audioFiles(surahId, i), ayahElement));
                 ayahsContainer.appendChild(ayahElement);
             }
             content.appendChild(ayahsContainer);
             
             // Басмала клик
-            document.getElementById('basmalaElement').addEventListener('click', () => playAudio(`${surahId}_basmala.mp3`, document.getElementById('basmalaElement')));
+            document.getElementById('basmalaElement').addEventListener('click', () => playAudio(audioFiles(surahId, 'basmala'), document.getElementById('basmalaElement')));
             
             updateNavigation(surahId);
         }
 
         // ==================== АУДИО ====================
-        function playAudio(audioFile, element) {
+        function playAudio(files, element) {
             if (fullSurahPlaying) stopFullSurah();
+            const requestId = ++audioRequestId;
             
             if (currentAudio) {
                 currentAudio.pause();
@@ -374,23 +415,34 @@
             if (currentPlayingElement) {
                 currentPlayingElement.classList.remove('playing');
             }
+            if (!files.length) {
+                currentPlayingElement = null;
+                audioStatus('Аудиозапись этого аята пока не добавлена.');
+                return;
+            }
             
             element.classList.add('playing');
             currentPlayingElement = element;
             
-            const audioPath = `../assets/audio/surahs/${audioFile}`;
-            currentAudio = new Audio(audioPath);
-            currentAudio.play().catch(() => {
-                element.classList.remove('playing');
-                currentPlayingElement = null;
-                if (navigator.vibrate) navigator.vibrate([50, 50, 50]);
-            });
-            
-            currentAudio.onended = () => {
-                element.classList.remove('playing');
-                currentPlayingElement = null;
-                currentAudio = null;
-            };
+            let part = 0;
+            function nextPart() {
+                if (requestId !== audioRequestId) return;
+                if (part === files.length) {
+                    element.classList.remove('playing');
+                    currentPlayingElement = null;
+                    currentAudio = null;
+                    return;
+                }
+                currentAudio = new Audio(`../assets/audio/surahs/${files[part++]}`);
+                currentAudio.onended = nextPart;
+                currentAudio.play().catch(() => {
+                    if (requestId !== audioRequestId) return;
+                    element.classList.remove('playing');
+                    currentPlayingElement = null;
+                    audioStatus('Запись не воспроизводится. Попробуйте нажать ещё раз.');
+                });
+            }
+            nextPart();
             if (navigator.vibrate) navigator.vibrate(30);
         }
 
@@ -403,6 +455,7 @@
         function startFullSurah() {
             const surah = surahsData[currentSurahId];
             if (!surah) return;
+            ++audioRequestId;
             
             if (currentAudio) {
                 currentAudio.pause();
@@ -417,12 +470,14 @@
             fullSurahQueue = [];
             const basmalaElement = document.getElementById('basmalaElement');
             if (basmalaElement) {
-                fullSurahQueue.push({ element: basmalaElement, audioFile: `${currentSurahId}_basmala.mp3` });
+                audioFiles(currentSurahId, 'basmala').forEach(audioFile =>
+                    fullSurahQueue.push({ element: basmalaElement, audioFile }));
             }
             
             const ayahs = document.querySelectorAll('.ayah');
             ayahs.forEach((el, idx) => {
-                fullSurahQueue.push({ element: el, audioFile: `${currentSurahId}_${idx + 1}.mp3` });
+                audioFiles(currentSurahId, idx + 1).forEach(audioFile =>
+                    fullSurahQueue.push({ element: el, audioFile }));
             });
             
             if (fullSurahQueue.length === 0) return;
@@ -447,18 +502,22 @@
             }
             
             const audioPath = `../assets/audio/surahs/${item.audioFile}`;
+            const requestId = audioRequestId;
             currentAudio = new Audio(audioPath);
             currentAudio.play().catch(() => {
+                if (requestId !== audioRequestId) return;
                 currentQueueIndex++;
                 playNextInQueue();
             });
             currentAudio.onended = () => {
+                if (requestId !== audioRequestId) return;
                 currentQueueIndex++;
                 playNextInQueue();
             };
         }
         
         function stopFullSurah() {
+            ++audioRequestId;
             if (currentAudio) {
                 currentAudio.pause();
                 currentAudio.currentTime = 0;
@@ -621,5 +680,6 @@
             }
         });
     </script>
+    <script src="../js/dhikr-cache.js?v=20261102-1"></script>
 </body>
 </html>

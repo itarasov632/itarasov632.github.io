@@ -1,7 +1,7 @@
 // Завершаем работу старого quran-app worker, удалённого из проекта в январе 2026.
 // Сохранение файла по прежнему URL позволяет обновить уже установленные PWA.
-const DHIKR_VERSION = '20261027-2';
-const refreshPaths = new Set(['/', '/index.html', '/pages/dhikr.html']);
+const CONTENT_VERSION = '20261102-surah-images';
+const refreshPaths = new Set(['/', '/index.html', '/pages/dhikr.html', '/pages/surahs.html', '/pages/surah.html']);
 const stalePaths = new Set([
     ...refreshPaths,
     '/assets/audio/dhikr/istiadhah.ogg',
@@ -28,7 +28,7 @@ self.addEventListener('activate', event => {
         await Promise.all(clients.map(client => {
             const url = new URL(client.url);
             if (url.origin !== self.location.origin || !refreshPaths.has(url.pathname)) return;
-            url.searchParams.set('v', DHIKR_VERSION);
+            url.searchParams.set('v', CONTENT_VERSION);
             return client.navigate(url.href).catch(() => {});
         }));
     })());
