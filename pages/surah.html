@@ -231,9 +231,9 @@
             .nav-button { padding: 8px 14px; font-size: 14px; }
         }
     </style>
-<link rel="stylesheet" href="../css/watercolor.css?v=20261102-watercolor-1">
-<script src="../js/data/quran-scans.js?v=20261102-watercolor-1"></script>
-<script src="../js/quran-view.js?v=20261102-watercolor-1"></script>
+<link rel="stylesheet" href="../css/watercolor.css?v=20261103-cards-1">
+<script src="../js/data/reading-cards.js?v=20261103-cards-1"></script>
+<script src="../js/reading-cards.js?v=20261103-cards-1"></script>
 </head>
 <body class="surah">
     <div class="container">
@@ -370,14 +370,12 @@
             if (surahId === 67) audioStatus('Записи доступны для аятов 1–12. Читать можно всю суру.');
             if (surahId === 96 || surahId === 98) audioStatus('Аудиозапись этой суры пока не добавлена.');
             
-            content.insertAdjacentHTML('beforeend', quranScanMarkup(surahId, surah.name));
-            content.insertAdjacentHTML('beforeend', '<h2 class="audio-heading">Слушать по аятам</h2>');
             // Audio controls retain original recording-to-ayah mapping.
             const basmalaContainer = document.createElement('div');
             basmalaContainer.className = 'basmala-container';
             basmalaContainer.innerHTML = `
-                <button type="button" class="basmala" id="basmalaElement">
-                    <span class="audio-card-label">Басмала</span><span class="audio-card-play" aria-hidden="true">▶</span>
+                <button type="button" class="basmala" id="basmalaElement" aria-label="Слушать басмалу">
+                    ${readingCardMarkup(`${surahId}/basmala`, 'Басмала')}
                 </button>
             `;
             content.appendChild(basmalaContainer);
@@ -390,7 +388,7 @@
                 ayahElement.type = 'button';
                 ayahElement.className = 'ayah';
                 ayahElement.dataset.ayahNumber = i;
-                ayahElement.innerHTML = `<span class="audio-card-label">Аят ${i}</span><span class="audio-card-play" aria-hidden="true">▶</span>`;
+                ayahElement.innerHTML = readingCardMarkup(`${surahId}/${i}`, `Аят ${i}`);
                 ayahElement.setAttribute("aria-label", `Слушать аят ${i}`);
                 ayahElement.addEventListener('click', () => playAudio(audioFiles(surahId, i), ayahElement));
                 ayahsContainer.appendChild(ayahElement);

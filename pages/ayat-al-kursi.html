@@ -198,9 +198,9 @@
             }
         }
     </style>
-<link rel="stylesheet" href="../css/watercolor.css?v=20261102-watercolor-1">
-<script src="../js/data/quran-scans.js?v=20261102-watercolor-1"></script>
-<script src="../js/quran-view.js?v=20261102-watercolor-1"></script>
+<link rel="stylesheet" href="../css/watercolor.css?v=20261103-cards-1">
+<script src="../js/data/reading-cards.js?v=20261103-cards-1"></script>
+<script src="../js/reading-cards.js?v=20261103-cards-1"></script>
 </head>
 <body class="ayat-al-kursi">
     <div class="container">
@@ -213,7 +213,7 @@
         </div>
         
         <div class="content" id="content">
-            <div id="kursiScans"></div><h2 class="audio-heading">Слушать по фрагментам</h2><div class="fragments-container" id="fragmentsContainer"></div>
+            <p id="audioStatus" class="audio-status" role="status">Аудиозаписи пока не добавлены. Можно читать и записывать свой голос.</p><div class="fragments-container" id="fragmentsContainer"></div>
         </div>
         
         <!-- Блок записи -->
@@ -226,14 +226,14 @@
     <script>
         // 8 фрагментов Аят аль-Курси
         const fragmentsData = [
-            { number: 1, audioFile: "1.mp3", imgFile: "1.png" },
-            { number: 2, audioFile: "2.mp3", imgFile: "2.png" },
-            { number: 3, audioFile: "3.mp3", imgFile: "3.png" },
-            { number: 4, audioFile: "4.mp3", imgFile: "4.png" },
-            { number: 5, audioFile: "5.mp3", imgFile: "5.png" },
-            { number: 6, audioFile: "6.mp3", imgFile: "6.png" },
-            { number: 7, audioFile: "7.mp3", imgFile: "7.png" },
-            { number: 8, audioFile: "8.mp3", imgFile: "8.png" }
+            { number: 1, audioFile: "1.mp3", available: false, imgFile: "1.png" },
+            { number: 2, audioFile: "2.mp3", available: false, imgFile: "2.png" },
+            { number: 3, audioFile: "3.mp3", available: false, imgFile: "3.png" },
+            { number: 4, audioFile: "4.mp3", available: false, imgFile: "4.png" },
+            { number: 5, audioFile: "5.mp3", available: false, imgFile: "5.png" },
+            { number: 6, audioFile: "6.mp3", available: false, imgFile: "6.png" },
+            { number: 7, audioFile: "7.mp3", available: false, imgFile: "7.png" },
+            { number: 8, audioFile: "8.mp3", available: false, imgFile: "8.png" }
         ];
 
         let currentAudio = null;
@@ -253,7 +253,6 @@
         let mediaStream = null;
 
         document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('kursiScans').innerHTML = quranScanMarkup('kursi', 'Аят аль-Курси');
             renderFragments();
             setupRecording();
             
@@ -273,13 +272,19 @@
                 fragmentElement.dataset.fragmentNumber = fragment.number;
                 fragmentElement.dataset.audioFile = fragment.audioFile;
                 fragmentElement.dataset.fragmentIndex = index;
-                fragmentElement.innerHTML = `<span class="audio-card-label">Фрагмент ${fragment.number}</span><span class="audio-card-play" aria-hidden="true">▶</span>`;
+                fragmentElement.innerHTML = readingCardMarkup(`kursi/${fragment.number}`, `Фрагмент ${fragment.number}`);
+                fragmentElement.setAttribute('aria-label', `Слушать фрагмент ${fragment.number}`);
                 fragmentElement.addEventListener('click', () => playAudio(fragment.audioFile, fragmentElement));
                 container.appendChild(fragmentElement);
             });
         }
 
         function playAudio(audioFile, element) {
+            if (!fragmentsData.find(fragment => fragment.audioFile === audioFile)?.available) {
+                stopFullPlayback();
+                document.getElementById('audioStatus').textContent = 'Аудиозапись этого фрагмента пока не добавлена.';
+                return;
+            }
             // Если играет вся последовательность — останавливаем
             if (fullPlaying) {
                 stopFullPlayback();
@@ -344,7 +349,7 @@
             fullQueue = [];
             fragments.forEach((element, index) => {
                 const audioFile = fragmentsData[index]?.audioFile;
-                if (audioFile) {
+                if (audioFile && fragmentsData[index].available) {
                     fullQueue.push({
                         element: element,
                         audioFile: audioFile
@@ -352,7 +357,7 @@
                 }
             });
             
-            if (fullQueue.length === 0) return;
+            if (fullQueue.length === 0) { document.getElementById('audioStatus').textContent = 'Аудиозаписи пока не добавлены.'; return; }
             
             fullPlaying = true;
             currentQueueIndex = 0;

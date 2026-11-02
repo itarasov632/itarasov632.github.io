@@ -114,3 +114,14 @@ input[type=checkbox]{accent-color:var(--teal);width:23px!important;height:23px!i
 .dhikr .error{font-size:12px;padding:0 16px}.dhikr .page-art{height:100px;width:150px}.dhikr .phrase{padding:0!important;width:100%;direction:ltr}.dhikr h2{text-align:left;font-weight:600}.dhikr>header{position:static}
 @media(min-width:700px){body>.container,body>main,body>header{max-width:560px}.home .feature-icon{height:90px}.home .feature-icon img{height:90px;width:130px}}
 @media(max-width:360px){body>.container,body>main{padding-left:12px!important;padding-right:12px!important}.home .feature-title{font-size:14px!important}.home .feature-card{padding:12px 6px!important}.letters-grid{gap:7px!important}.letter-cell{min-height:60px}.ayahs-container,.fragments-container{gap:8px!important}}
+/* Reading cards: retain watercolor surrounds and unmodified PDF image colors. */
+.surah .ayahs-container,.ayat-al-kursi .fragments-container{grid-template-columns:minmax(0,1fr)!important;gap:12px!important}
+.surah .ayah,.surah .basmala,.ayat-al-kursi .fragment{width:100%;display:flex;justify-content:flex-end;padding:14px 10px!important;margin:0;min-width:0}
+.surah .basmala-container{margin-bottom:12px!important}
+img.reading-image,.basmala img.reading-image{display:block!important;max-width:100%!important;height:auto!important;object-fit:contain;border:0!important;border-radius:0!important;filter:none!important;mix-blend-mode:normal!important;opacity:1!important;box-shadow:none!important;background:transparent!important;flex:none}
+.dhikr .recite{justify-content:flex-end;padding:14px 10px!important}
+.dhikr .dhikr-image{display:block;max-width:100%;height:auto;object-fit:contain}
+.fatiha .lesson .reading-image{margin:14px 0 0 auto}
+.fatiha #shortText{padding:14px 10px;margin:14px 0;background:#fffdf9;border:1px solid var(--line);border-radius:16px}
+.fatiha #shortText .reading-image,.fatiha #fullArabic .reading-image{margin-left:auto}
+.ayah:focus-visible,.fragment:focus-visible,.basmala:focus-visible,.recite:focus-visible{outline:3px solid var(--clay);outline-offset:3px}
