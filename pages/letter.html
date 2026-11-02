@@ -2,7 +2,7 @@
 <html lang="ru" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -73,29 +73,7 @@
             margin-bottom: 30px;
         }
         
-        .makhraj-box {
-            width: 25%;
-            min-width: 80px;
-        }
-        
-        .makhraj-image {
-            width: 100%;
-            aspect-ratio: 1;
-            background: #e5e5ea;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-        
-        .makhraj-image.error::after {
-            content: "error";
-            color: #8e8e93;
-            font-size: 14px;
-        }
-        
-        .letter-info {
+.letter-info {
             flex: 1;
         }
         
@@ -222,8 +200,11 @@
             }
         }
     </style>
+<link rel="stylesheet" href="../css/watercolor.css?v=20261102-watercolor-1">
+<script src="../js/data/quran-scans.js?v=20261102-watercolor-1"></script>
+<script src="../js/quran-view.js?v=20261102-watercolor-1"></script>
 </head>
-<body>
+<body class="letter">
     <div class="container">
         <div class="header">
             <a href="alphabet.html" class="back-button">‹</a>
@@ -233,14 +214,10 @@
         
         <div class="content">
             <div class="letter-top">
-                <div class="makhraj-box">
-                    <div class="makhraj-image" id="makhrajImage"></div>
-                </div>
-                
                 <div class="letter-info">
                     <div class="letter-symbol" id="letterSymbol">ا</div>
                     <div class="letter-name" id="letterName">Алиф</div>
-                    <button class="play-button" id="playButton">▶</button>
+                    <button class="play-button" id="playButton" aria-label="Послушать произношение буквы">▶ Слушать</button>
                 </div>
             </div>
             
@@ -364,32 +341,7 @@
                 document.getElementById('formInitial').textContent = forms.initial;
             }
             
-            loadMakhrajImage(letterId);
             updateNavigation(letterId);
-        }
-
-        function loadMakhrajImage(letterId) {
-            const container = document.getElementById('makhrajImage');
-            const imageName = letterId.toString().padStart(2, '0');
-            const imagePath = `../assets/images/makhraj/${imageName}.png`;
-            
-            const img = new Image();
-            img.onload = function() {
-                container.innerHTML = '';
-                container.appendChild(img);
-                container.classList.remove('error');
-            };
-            
-            img.onerror = function() {
-                container.innerHTML = '';
-                container.classList.add('error');
-                const errorDiv = document.createElement('div');
-                errorDiv.textContent = 'error';
-                container.appendChild(errorDiv);
-            };
-            
-            img.src = imagePath;
-            img.alt = `Махрадж буквы ${letterId}`;
         }
 
         function setupNavigation() {

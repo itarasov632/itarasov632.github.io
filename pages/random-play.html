@@ -2,7 +2,7 @@
 <html lang="ru" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Случайный аят</title>
@@ -186,8 +186,11 @@
             100% { transform: scale(1); }
         }
     </style>
+<link rel="stylesheet" href="../css/watercolor.css?v=20261102-watercolor-1">
+<script src="../js/data/quran-scans.js?v=20261102-watercolor-1"></script>
+<script src="../js/quran-view.js?v=20261102-watercolor-1"></script>
 </head>
-<body>
+<body class="random-play">
     <div class="container">
         <div class="header">
             <a href="random-setup.html" class="back-button">‹</a>
@@ -195,7 +198,7 @@
             <div style="width: 44px;"></div>
         </div>
         
-        <div class="content">
+        <div class="content"><img class="wc-art page-art" src="../assets/images/watercolor/tajweed.png" alt="" aria-hidden="true"><p class="page-intro">Слушайте и вспоминайте суру и аят</p>
             <button class="play-button" id="playButton">Воспроизвести</button>
             <button class="new-button" id="newAyahButton">Случайный аят</button>
             <button class="info-button" id="infoButton">Узнать что за аят</button>

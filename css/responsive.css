@@ -48,10 +48,6 @@
     .form-symbol {
         font-size: 28px;
     }
-    
-    .makhraj-image-container {
-        height: 250px;
-    }
 }
 
 @media (max-height: 700px) {
@@ -61,10 +57,6 @@
     
     .letter-name {
         font-size: 24px;
-    }
-    
-    .makhraj-image-container {
-        height: 200px;
     }
 }
 

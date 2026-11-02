@@ -6,12 +6,15 @@
   <meta name="theme-color" content="#f2f2f7">
   <title>Обучение Аль-Фатихе • Второй учитель</title>
   <link rel="stylesheet" href="../css/pages/al-fatiha.css?v=20261102-1">
-  <script src="../js/pages/al-fatiha.js?v=20261102-1" defer></script>
+  <script src="../js/pages/al-fatiha.js?v=20261102-watercolor-1" defer></script>
+<link rel="stylesheet" href="../css/watercolor.css?v=20261102-watercolor-1">
+<script src="../js/data/quran-scans.js?v=20261102-watercolor-1"></script>
+<script src="../js/quran-view.js?v=20261102-watercolor-1"></script>
 </head>
-<body>
+<body class="fatiha">
   <main>
     <header><a class="back" href="../index.html">← Главная</a><span>Второй учитель</span></header>
-    <h1>Обучение Аль-Фатихе</h1>
+    <img class="wc-art page-art" src="../assets/images/watercolor/tajweed.png" alt="" aria-hidden="true"><h1>Обучение Аль-Фатихе</h1>
     <section id="lessonList" aria-label="Выбор фрагмента">
       <p class="intro">Выберите часть суры и повторяйте за преподавателем.</p>
       <p class="note">7 аятов · 8 объяснений. Седьмой аят разобран в двух частях.</p>
@@ -20,14 +23,14 @@
       <div id="explanations" class="lessons"></div>
       <h2 id="recitationHeading" hidden>Чтение всей суры</h2>
       <div id="recitation" class="lessons"></div>
-      <p class="note source">Текст и нумерация аятов: <a href="https://quran.com/al-fatihah" target="_blank" rel="noopener noreferrer">Quran.com</a>. Басмала — аят 1.</p>
+      <p class="note source">Текст суры — снимок страницы 1 присланного Корана. Басмала — аят 1.</p>
     </section>
     <section id="viewer" aria-labelledby="clipTitle" hidden>
       <button id="backToList" class="back">← К списку</button>
       <p id="clipLabel" class="note"></p>
       <h2 id="clipTitle" tabindex="-1"></h2>
-      <div id="shortText" class="arabic" lang="ar" dir="rtl"></div>
-      <details id="fullText" hidden><summary>Текст всей суры</summary><div id="fullArabic" class="arabic" lang="ar" dir="rtl"></div></details>
+      <div id="shortText"></div>
+      <details id="fullText" hidden><summary>Текст всей суры</summary><div id="fullArabic"></div></details>
       <div id="videoSlot"></div>
       <p id="playerStatus" role="status" aria-live="polite"></p>
       <button id="retry" hidden>Загрузить видео ещё раз</button>

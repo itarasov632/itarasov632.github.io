@@ -2,7 +2,7 @@
 <html lang="ru" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Сура</title>
@@ -231,8 +231,11 @@
             .nav-button { padding: 8px 14px; font-size: 14px; }
         }
     </style>
+<link rel="stylesheet" href="../css/watercolor.css?v=20261102-watercolor-1">
+<script src="../js/data/quran-scans.js?v=20261102-watercolor-1"></script>
+<script src="../js/quran-view.js?v=20261102-watercolor-1"></script>
 </head>
-<body>
+<body class="surah">
     <div class="container">
         <div class="header">
             <a href="surahs.html" class="back-button">‹</a>
@@ -254,7 +257,7 @@
         </div>
     </div>
 
-    <script src="../js/data/surah-images.js?v=20261102-1"></script>
+
     <script>
         // ==================== ДАННЫЕ ====================
         const surahsData = {
@@ -300,12 +303,6 @@
         let mediaStream = null;
         let audioRequestId = 0;
 
-        function imageMarkup(surahId, key, alt) {
-            const image = SURAH_IMAGES[surahId][key];
-            return `<img src="../assets/images/surahs/reading/${surahId}/${key}.png?v=20261102-1"
-                width="${image.width}" height="${image.height}" style="width:${image.width}px"
-                alt="${alt}" loading="lazy" decoding="async">`;
-        }
 
         // The original Al-Mulk recordings are numbered by fragment, not ayah.
         // Group only matching fragments; the repeated recordings 16-20 are omitted.
@@ -358,8 +355,7 @@
             // Хедер
             const headerContent = document.getElementById('headerContent');
             headerContent.innerHTML = `
-                <div class="surah-arabic-name" id="surahArabicName">${surah.arabicName}</div>
-                <div class="surah-info">Сура ${surah.number} • ${surah.name}</div>
+                <div class="surah-info"><strong>${surah.name}</strong><br>Сура ${surah.number} · ${surah.ayahCount} аятов</div><button type="button" class="surah-arabic-name" id="surahArabicName">▶ Слушать суру</button>
             `;
             document.getElementById('surahArabicName').addEventListener('click', toggleFullSurah);
             
@@ -374,13 +370,15 @@
             if (surahId === 67) audioStatus('Записи доступны для аятов 1–12. Читать можно всю суру.');
             if (surahId === 96 || surahId === 98) audioStatus('Аудиозапись этой суры пока не добавлена.');
             
-            // Басмала (кроме суры 9, но у нас её нет)
+            content.insertAdjacentHTML('beforeend', quranScanMarkup(surahId, surah.name));
+            content.insertAdjacentHTML('beforeend', '<h2 class="audio-heading">Слушать по аятам</h2>');
+            // Audio controls retain original recording-to-ayah mapping.
             const basmalaContainer = document.createElement('div');
             basmalaContainer.className = 'basmala-container';
             basmalaContainer.innerHTML = `
-                <div class="basmala" id="basmalaElement">
-                    ${imageMarkup(surahId, 'basmala', 'Басмала')}
-                </div>
+                <button type="button" class="basmala" id="basmalaElement">
+                    <span class="audio-card-label">Басмала</span><span class="audio-card-play" aria-hidden="true">▶</span>
+                </button>
             `;
             content.appendChild(basmalaContainer);
             
@@ -388,10 +386,12 @@
             const ayahsContainer = document.createElement('div');
             ayahsContainer.className = 'ayahs-container';
             for (let i = 1; i <= surah.ayahCount; i++) {
-                const ayahElement = document.createElement('div');
+                const ayahElement = document.createElement('button');
+                ayahElement.type = 'button';
                 ayahElement.className = 'ayah';
                 ayahElement.dataset.ayahNumber = i;
-                ayahElement.innerHTML = imageMarkup(surahId, i, `Аят ${i}`);
+                ayahElement.innerHTML = `<span class="audio-card-label">Аят ${i}</span><span class="audio-card-play" aria-hidden="true">▶</span>`;
+                ayahElement.setAttribute("aria-label", `Слушать аят ${i}`);
                 ayahElement.addEventListener('click', () => playAudio(audioFiles(surahId, i), ayahElement));
                 ayahsContainer.appendChild(ayahElement);
             }

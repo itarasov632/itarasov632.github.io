@@ -1,7 +1,7 @@
 // Завершаем работу старого quran-app worker, удалённого из проекта в январе 2026.
 // Сохранение файла по прежнему URL позволяет обновить уже установленные PWA.
-const CONTENT_VERSION = '20261102-surah-images';
-const refreshPaths = new Set(['/', '/index.html', '/pages/dhikr.html', '/pages/surahs.html', '/pages/surah.html']);
+const CONTENT_VERSION = '20261102-watercolor-scans';
+const refreshPaths = new Set(['/', '/index.html', '/pages/al-fatiha.html', '/pages/alphabet.html', '/pages/ayat-al-kursi.html', '/pages/dhikr.html', '/pages/letter.html', '/pages/random-play.html', '/pages/random-setup.html', '/pages/surah.html', '/pages/surahs.html', '/pages/tajweed.html']);
 const stalePaths = new Set([
     ...refreshPaths,
     '/assets/audio/dhikr/istiadhah.ogg',

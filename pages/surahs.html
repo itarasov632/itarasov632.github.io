@@ -2,7 +2,7 @@
 <html lang="ru" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -121,16 +121,19 @@
             direction: rtl;
         }
     </style>
+<link rel="stylesheet" href="../css/watercolor.css?v=20261102-watercolor-1">
+<script src="../js/data/quran-scans.js?v=20261102-watercolor-1"></script>
+<script src="../js/quran-view.js?v=20261102-watercolor-1"></script>
 </head>
-<body>
+<body class="surahs">
     <div class="container">
         <div class="header">
             <a href="../index.html" class="back-button">‹</a>
-            <h1 class="title">Суры</h1>
+            <h1 class="title">Краткие суры</h1>
             <div style="width: 44px;"></div>
         </div>
         
-        <div class="surahs-list" id="surahsList"></div>
+        <img class="wc-art page-art" src="../assets/images/watercolor/surahs.png" alt="" aria-hidden="true"><div class="surahs-list" id="surahsList"></div>
     </div>
 
     <script>
@@ -169,8 +172,8 @@
                 item.innerHTML = `
                     <div class="surah-number">${surah.number}</div>
                     <div class="surah-info">
-                        <div class="surah-name">${surah.number} • ${surah.name}</div>
-                        <div class="surah-arabic">${surah.arabicName}</div>
+                        <div class="surah-name">${surah.name}</div>
+                        <div class="feature-desc">${surah.ayahCount} аятов</div>
                     </div>
                 `;
                 container.appendChild(item);

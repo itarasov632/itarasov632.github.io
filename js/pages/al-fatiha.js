@@ -51,7 +51,8 @@
     $('clipLabel').textContent = `${label(clip)} · ${duration(clip.duration_seconds)} · ${(clip.size_bytes / 1e6).toFixed(1)} МБ`;
     const full = clip.kind === 'full_recitation';
     $('shortText').hidden = full; $('fullText').hidden = !full; $('fullText').open = false;
-    $(full ? 'fullArabic' : 'shortText').textContent = clip.text_arabic;
+    const scan = quranScanMarkup(1, 'Аль-Фатиха');
+    $(full ? 'fullArabic' : 'shortText').innerHTML = full ? scan : `<details><summary>Текст суры из Корана</summary>${scan}</details>`;
     $('previous').disabled = index === 0; $('next').disabled = index === clips.length - 1;
     mountVideo(clip);
     $('clipTitle').focus({ preventScroll: true }); window.scrollTo(0, 0);
@@ -91,9 +92,7 @@
         meta.append(name, time);
         const title = document.createElement('span'); title.className = 'title'; title.textContent = `▶ ${clip.title}`;
         button.append(meta, title);
-        if (clip.kind === 'explanation') {
-          const text = document.createElement('span'); text.className = 'arabic'; text.lang = 'ar'; text.dir = 'rtl'; text.textContent = clip.text_arabic; button.append(text);
-        }
+
         button.addEventListener('click', () => { lastButton = button; location.hash = clip.id; });
         $(clip.kind === 'explanation' ? 'explanations' : 'recitation').append(button);
       });

@@ -2,7 +2,7 @@
 <html lang="ru" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Выбор сур</title>
@@ -188,8 +188,11 @@
             color: #666;
         }
     </style>
+<link rel="stylesheet" href="../css/watercolor.css?v=20261102-watercolor-1">
+<script src="../js/data/quran-scans.js?v=20261102-watercolor-1"></script>
+<script src="../js/quran-view.js?v=20261102-watercolor-1"></script>
 </head>
-<body>
+<body class="random-setup">
     <div class="container">
         <div class="header">
             <a href="../index.html" class="back-button">‹</a>
@@ -197,7 +200,7 @@
             <div style="width: 44px;"></div>
         </div>
         
-        <div class="surah-list" id="surahList">
+        <img class="wc-art page-art" src="../assets/images/watercolor/random.png" alt="" aria-hidden="true"><p class="page-intro">Выберите суры для тренировки слуха</p><div class="surah-list" id="surahList">
             <div class="select-all" id="selectAllDiv">
                 <input type="checkbox" class="select-all-checkbox" id="selectAllCheckbox">
                 <span class="select-all-text">Выбрать все</span>
@@ -249,7 +252,7 @@
                 div.className = 'surah-item';
                 div.dataset.surahId = surah.id;
                 div.innerHTML = `
-                    <input type="checkbox" class="surah-checkbox" data-surah-id="${surah.id}">
+                    <input type="checkbox" class="surah-checkbox" data-surah-id="${surah.id}" aria-label="Выбрать ${surah.name}">
                     <div class="surah-info">
                         <div class="surah-number">${surah.number}</div>
                         <div>
@@ -270,17 +273,17 @@
             const countSpan = document.getElementById('selectedCount');
 
             items.forEach(item => {
-                item.addEventListener('click', () => {
+                item.addEventListener('click', (event) => {
                     const cb = item.querySelector('.surah-checkbox');
-                    cb.checked = !cb.checked;
+                    if (event.target !== cb) cb.checked = !cb.checked;
                     updateSelection();
                     if (navigator.vibrate) navigator.vibrate(10);
                 });
             });
 
-            selectAllDiv.addEventListener('click', () => {
+            selectAllDiv.addEventListener('click', (event) => {
                 const cbs = document.querySelectorAll('.surah-checkbox');
-                const newState = !selectAllCheckbox.checked;
+                const newState = event.target === selectAllCheckbox ? selectAllCheckbox.checked : !selectAllCheckbox.checked;
                 cbs.forEach(cb => cb.checked = newState);
                 selectAllCheckbox.checked = newState;
                 updateSelection();

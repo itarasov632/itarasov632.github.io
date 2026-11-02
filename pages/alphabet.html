@@ -2,7 +2,7 @@
 <html lang="ru" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -97,8 +97,11 @@
             }
         }
     </style>
+<link rel="stylesheet" href="../css/watercolor.css?v=20261102-watercolor-1">
+<script src="../js/data/quran-scans.js?v=20261102-watercolor-1"></script>
+<script src="../js/quran-view.js?v=20261102-watercolor-1"></script>
 </head>
-<body>
+<body class="alphabet">
     <div class="container">
         <div class="header">
             <a href="../index.html" class="back-button">‹</a>
@@ -106,7 +109,7 @@
             <div style="width: 44px;"></div>
         </div>
         
-        <div class="letters-grid" id="lettersGrid">
+        <p class="page-intro">28 букв · слушайте и повторяйте</p><div class="letters-grid" id="lettersGrid">
             <!-- Буквы загрузятся через JS -->
         </div>
     </div>
@@ -148,10 +151,12 @@
             const grid = document.getElementById('lettersGrid');
             
             arabicAlphabet.forEach(letter => {
-                const cell = document.createElement('div');
+                const cell = document.createElement('button');
+                cell.type = 'button';
                 cell.className = 'letter-cell';
                 cell.textContent = letter.letter;
                 cell.title = letter.name;
+                cell.setAttribute('aria-label', letter.name);
                 
                 cell.addEventListener('click', () => {
                     window.location.href = `letter.html?id=${letter.id}`;

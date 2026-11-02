@@ -1,4 +1,43 @@
-# Surah screenshots
+# Literal Quran screenshots (current)
+
+The watercolor interface uses `assets/images/quran-scans/` and
+`js/data/quran-scans.js`. These are literal, rectangular RGB crops of the
+user-supplied PDF. The original background, ornaments, marks and line layout
+are preserved. No OCR output, font replacement, masking, white removal,
+retouching, color correction or word rearrangement is used. The watercolor
+illustrations are separate decorative assets; no image generator processes
+Quran screenshots.
+
+```sh
+python scripts/build-quran-scans.py /path/to/source.pdf
+python scripts/build-quran-scans.py /path/to/source.pdf --verify
+node scripts/check-watercolor.cjs http://127.0.0.1:8765
+```
+
+`quran-scan-sources.json` records the source SHA-256, one-based page number,
+integer pixel rectangle, render scale and PNG SHA-256 for every screenshot.
+The verification command re-renders the original PDF and requires exact RGB
+pixel equality, not merely matching text or visual similarity. It does not
+modify the supplied PDF. PyMuPDF and Pillow are required.
+
+Screenshots cover Al-Fatiha, all 20 other reading surahs, Ayat al-Kursi and
+Al-Hashr 22-24. Page breaks remain separate images. Audio controls retain the
+existing recording mapping and sit outside the source images. The viewer
+opens full-resolution screenshots with scrolling; mobile pinch zoom remains
+enabled. The Al-Fatiha video and its existing poster remain original media;
+the supplementary Quran text is now a PDF screenshot inside an expandable
+section. Isti'adha is available as the existing audio recording.
+
+Shared styling is in `css/watercolor.css`. Decorative PNGs were cropped from
+the approved watercolor icon board. Anatomy/mahraj is removed from the UI
+and its renderers; original unused assets are retained.
+
+The browser check covers all 11 routes and 13 states, all 20 reading surahs,
+mobile/tablet widths, images, selection, zoom, lesson navigation and grouped
+Al-Mulk audio with a silent stub. It saves screenshots to
+`../design/watercolor-implemented/`.
+
+## Previous image pipeline (not used by the current interface)
 
 `build-surah-images.py` produces 180 transparent PNGs for the 20 reading pages
 (67 and 96-114). Al-Fatiha retains its separate video lessons.

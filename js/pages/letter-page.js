@@ -17,7 +17,6 @@ class LetterPage {
         this.setupNavigation();
         this.renderLetter();
         this.setupAudioPlayer();
-        this.loadMakhrajImage();
         this.setupServiceWorker();
     }
 
@@ -112,45 +111,6 @@ class LetterPage {
         this.audioPlayer = new AudioPlayer('playButton', this.letterId);
     }
 
-    async loadMakhrajImage() {
-        const imageContainer = document.getElementById('makhrajImage');
-        if (!imageContainer) return;
-        
-        const imageName = this.letterData.imageFile;
-        const imagePath = `assets/images/makhraj/${imageName}`;
-        
-        try {
-            // Пробуем загрузить изображение
-            const img = new Image();
-            img.src = imagePath;
-            img.alt = `Махрадж буквы ${this.letterData.name}`;
-            img.loading = 'lazy';
-            
-            img.onload = () => {
-                imageContainer.innerHTML = '';
-                imageContainer.appendChild(img);
-                imageContainer.classList.remove('error');
-            };
-            
-            img.onerror = () => {
-                imageContainer.innerHTML = '<div class="makhraj-error">error</div>';
-                imageContainer.classList.add('error');
-            };
-            
-            // Таймаут на случай долгой загрузки
-            setTimeout(() => {
-                if (!img.complete) {
-                    imageContainer.innerHTML = '<div class="makhraj-error">error</div>';
-                    imageContainer.classList.add('error');
-                }
-            }, 3000);
-            
-        } catch (error) {
-            console.error('Ошибка загрузки изображения:', error);
-            imageContainer.innerHTML = '<div class="makhraj-error">error</div>';
-            imageContainer.classList.add('error');
-        }
-    }
 
     setupServiceWorker() {
         // Предзагрузка соседних букв для быстрой навигации

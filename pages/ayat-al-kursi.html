@@ -2,7 +2,7 @@
 <html lang="ru" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -198,20 +198,22 @@
             }
         }
     </style>
+<link rel="stylesheet" href="../css/watercolor.css?v=20261102-watercolor-1">
+<script src="../js/data/quran-scans.js?v=20261102-watercolor-1"></script>
+<script src="../js/quran-view.js?v=20261102-watercolor-1"></script>
 </head>
-<body>
+<body class="ayat-al-kursi">
     <div class="container">
         <div class="header">
             <a href="../index.html" class="back-button">‹</a>
             <div class="header-content">
-                <div class="ayat-title" id="ayatTitle">آية الكرسي</div>
-                <div class="subtitle">Аят аль-Курси</div>
+                <h1 class="title">Аят аль-Курси</h1><div class="subtitle">8 фрагментов</div><button type="button" class="surah-arabic-name" id="ayatTitle">▶ Слушать целиком</button>
             </div>
             <div style="width: 44px;"></div>
         </div>
         
         <div class="content" id="content">
-            <div class="fragments-container" id="fragmentsContainer"></div>
+            <div id="kursiScans"></div><h2 class="audio-heading">Слушать по фрагментам</h2><div class="fragments-container" id="fragmentsContainer"></div>
         </div>
         
         <!-- Блок записи -->
@@ -251,6 +253,7 @@
         let mediaStream = null;
 
         document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('kursiScans').innerHTML = quranScanMarkup('kursi', 'Аят аль-Курси');
             renderFragments();
             setupRecording();
             
@@ -264,12 +267,13 @@
             container.innerHTML = '';
             
             fragmentsData.forEach((fragment, index) => {
-                const fragmentElement = document.createElement('div');
+                const fragmentElement = document.createElement('button');
+                fragmentElement.type = 'button';
                 fragmentElement.className = 'fragment';
                 fragmentElement.dataset.fragmentNumber = fragment.number;
                 fragmentElement.dataset.audioFile = fragment.audioFile;
                 fragmentElement.dataset.fragmentIndex = index;
-                fragmentElement.innerHTML = `<img src="../assets/images/ayat-al-kursi/${fragment.imgFile}" alt="Фрагмент ${fragment.number}" loading="lazy">`;
+                fragmentElement.innerHTML = `<span class="audio-card-label">Фрагмент ${fragment.number}</span><span class="audio-card-play" aria-hidden="true">▶</span>`;
                 fragmentElement.addEventListener('click', () => playAudio(fragment.audioFile, fragmentElement));
                 container.appendChild(fragmentElement);
             });
