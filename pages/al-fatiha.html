@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f2f2f7">
+  <title>Обучение Аль-Фатихе • Второй учитель</title>
+  <link rel="stylesheet" href="../css/pages/al-fatiha.css?v=20261102-1">
+  <script src="../js/pages/al-fatiha.js?v=20261102-1" defer></script>
+</head>
+<body>
+  <main>
+    <header><a class="back" href="../index.html">← Главная</a><span>Второй учитель</span></header>
+    <h1>Обучение Аль-Фатихе</h1>
+    <section id="lessonList" aria-label="Выбор фрагмента">
+      <p class="intro">Выберите часть суры и повторяйте за преподавателем.</p>
+      <p class="note">7 аятов · 8 объяснений. Седьмой аят разобран в двух частях.</p>
+      <p id="listStatus" role="status">Загрузка списка…</p>
+      <button id="reloadList" hidden>Загрузить список ещё раз</button>
+      <div id="explanations" class="lessons"></div>
+      <h2 id="recitationHeading" hidden>Чтение всей суры</h2>
+      <div id="recitation" class="lessons"></div>
+      <p class="note source">Текст и нумерация аятов: <a href="https://quran.com/al-fatihah" target="_blank" rel="noopener noreferrer">Quran.com</a>. Басмала — аят 1.</p>
+    </section>
+    <section id="viewer" aria-labelledby="clipTitle" hidden>
+      <button id="backToList" class="back">← К списку</button>
+      <p id="clipLabel" class="note"></p>
+      <h2 id="clipTitle" tabindex="-1"></h2>
+      <div id="shortText" class="arabic" lang="ar" dir="rtl"></div>
+      <details id="fullText" hidden><summary>Текст всей суры</summary><div id="fullArabic" class="arabic" lang="ar" dir="rtl"></div></details>
+      <div id="videoSlot"></div>
+      <p id="playerStatus" role="status" aria-live="polite"></p>
+      <button id="retry" hidden>Загрузить видео ещё раз</button>
+      <div class="controls">
+        <button id="togglePlay">▶ Смотреть</button>
+        <button id="repeat">↻ Повторить</button>
+        <button id="rewind" aria-label="Назад на 10 секунд">−10 сек</button>
+        <button id="forward" aria-label="Вперёд на 10 секунд">+10 сек</button>
+      </div>
+      <button id="fullscreen" class="wide">⛶ На весь экран</button>
+      <nav class="controls navigation" aria-label="Переход между фрагментами">
+        <button id="previous">← Предыдущий</button><button id="next">Следующий →</button>
+      </nav>
+    </section>
+    <noscript>Для просмотра обучения включите JavaScript в браузере.</noscript>
+  </main>
+</body>
+</html>

@@ -294,6 +294,14 @@
 
         // ==================== ЗАГРУЗКА СУРЫ ====================
         function loadSurah(surahId) {
+            if (surahId === 1) {
+                stopFullSurah();
+                if (currentAudio) currentAudio.pause();
+                if (recordedAudio) recordedAudio.pause();
+                if (mediaStream) mediaStream.getTracks().forEach(track => track.stop());
+                window.location.replace('al-fatiha.html');
+                return;
+            }
             const surah = surahsData[surahId];
             if (!surah) {
                 window.location.href = 'surahs.html';

@@ -165,7 +165,7 @@
             surahsList.forEach(surah => {
                 const item = document.createElement('a');
                 item.className = 'surah-item';
-                item.href = `surah.html?id=${surah.id}`;
+                item.href = surah.id === 1 ? 'al-fatiha.html' : `surah.html?id=${surah.id}`;
                 item.innerHTML = `
                     <div class="surah-number">${surah.number}</div>
                     <div class="surah-info">
