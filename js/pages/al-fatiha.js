@@ -7,6 +7,12 @@
   const label = clip => clip.kind === 'full_recitation' ? 'Аяты 1–7' :
     `Аят ${clip.ayah_numbers.join(', ')}${clip.ayah_part === 'opening_part' ? ' · часть 1' : clip.ayah_part === 'closing_part' ? ' · часть 2' : ''}`;
   const asset = (name, clip) => new URL(`${name}?v=${clip.sha256.slice(0, 12)}`, base).href;
+  // Match the pronunciation marks in the supplied transcription reference.
+  function titleMarkup(clip) {
+    return clip.title.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')
+      .replace('лязиина', 'ля<u>з</u>иина')
+      .replace('уалядд', 'уаля<u>дд</u>');
+  }
   function stop() {
     if (!video) return;
     const old = video;
@@ -47,7 +53,7 @@
     const clip = clips[index];
     document.querySelectorAll('audio').forEach(audio => audio.pause());
     $('lessonList').hidden = true; $('viewer').hidden = false;
-    $('clipTitle').textContent = clip.title;
+    $('clipTitle').innerHTML = titleMarkup(clip);
     $('clipLabel').textContent = `${label(clip)} · ${duration(clip.duration_seconds)} · ${(clip.size_bytes / 1e6).toFixed(1)} МБ`;
     const full = clip.kind === 'full_recitation';
     $('shortText').hidden = full; $('fullText').hidden = !full; $('fullText').open = false;
@@ -77,7 +83,7 @@
   async function loadList() {
     $('reloadList').hidden = true; $('listStatus').textContent = 'Загрузка списка…';
     try {
-      const response = await fetch(new URL('manifest.json?v=20261102-1', base));
+      const response = await fetch(new URL('manifest.json?v=20261103-transcription-1', base));
       if (!response.ok) throw new Error('Manifest unavailable');
       const data = await response.json();
       clips = data.clips.filter(clip => clip.is_complete && clip.publish_by_default && ['explanation', 'full_recitation'].includes(clip.kind)).sort((a, b) => a.playback_order - b.playback_order);
@@ -89,7 +95,7 @@
         const name = document.createElement('span'); name.textContent = label(clip);
         const time = document.createElement('span'); time.textContent = `${duration(clip.duration_seconds)} · ${(clip.size_bytes / 1e6).toFixed(1)} МБ`;
         meta.append(name, time);
-        const title = document.createElement('span'); title.className = 'title'; title.textContent = `▶ ${clip.title}`;
+        const title = document.createElement('span'); title.className = 'title'; title.innerHTML = `▶ ${titleMarkup(clip)}`;
         button.append(meta, title);
         if (clip.kind === 'explanation') {
           const text = document.createElement('span');

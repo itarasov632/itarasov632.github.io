@@ -10,7 +10,7 @@
     {
       "id": "al-fatiha-bismillah",
       "filename": "01-bismillah.mp4",
-      "title": "Бисмиллях…",
+      "title": "Бисмилляяhир-Рохьмаанир-Рохьиим",
       "playback_order": 1,
       "lesson_index": 1,
       "kind": "explanation",
@@ -55,7 +55,7 @@
     {
       "id": "al-fatiha-alhamdu",
       "filename": "02-alhamdu.mp4",
-      "title": "Альхамду лилляхи…",
+      "title": "Альхьамду лилляяhи Роббиль ъаалямиин",
       "playback_order": 2,
       "lesson_index": 2,
       "kind": "explanation",
@@ -100,7 +100,7 @@
     {
       "id": "al-fatiha-ar-rahman",
       "filename": "03-ar-rahman.mp4",
-      "title": "Ар-Рахманир-Рахим",
+      "title": "Ар-Рохьмаанир-Рохьиим",
       "playback_order": 3,
       "lesson_index": 3,
       "kind": "explanation",
@@ -145,7 +145,7 @@
     {
       "id": "al-fatiha-maliki",
       "filename": "04-maliki.mp4",
-      "title": "Малики яумиддин",
+      "title": "Маалики яумиддиин",
       "playback_order": 4,
       "lesson_index": 4,
       "kind": "explanation",
@@ -190,7 +190,7 @@
     {
       "id": "al-fatiha-iyyaka",
       "filename": "05-iyyaka.mp4",
-      "title": "Ийяка на‘буду…",
+      "title": "Иййяяка наъбуду уа иййяяка настаъиин",
       "playback_order": 5,
       "lesson_index": 5,
       "kind": "explanation",
@@ -235,7 +235,7 @@
     {
       "id": "al-fatiha-ihdina",
       "filename": "06-ihdina.mp4",
-      "title": "Ихдинас-сыраталь-мустакым",
+      "title": "Иhдинас-сыроотоль-мустакъыым",
       "playback_order": 6,
       "lesson_index": 6,
       "kind": "explanation",
@@ -280,7 +280,7 @@
     {
       "id": "al-fatiha-sirat-alladhina",
       "filename": "07-sirat-alladhina.mp4",
-      "title": "Сыраталлязина…",
+      "title": "Сыроотол-лязиина анъамта ъаляйhим,",
       "playback_order": 7,
       "lesson_index": 7,
       "kind": "explanation",
@@ -325,7 +325,7 @@
     {
       "id": "al-fatiha-ghayri",
       "filename": "08-ghayri.mp4",
-      "title": "Гайриль-магдуби…",
+      "title": "Гъойриль-магъдууби ъаляйhим уаляддоооллиин.",
       "playback_order": 8,
       "lesson_index": 8,
       "kind": "explanation",
