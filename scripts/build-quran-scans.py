@@ -1,15 +1,17 @@
-"""Literal rectangular screenshots of the supplied PDF; no ink processing.
+"""Rectangular screenshots of the supplied PDF; no ink processing.
 
-Only rendering and integer pixel cropping are permitted here. No masks,
-transparency, cleanup, color correction, text substitution or word reflow.
+Rendering and integer pixel cropping followed by paper alpha removal.
+No RGB color correction, text substitution or word reflow.
 Usage: python build-quran-scans.py SOURCE.pdf [--verify]
 """
 import argparse
 import hashlib
 import json
+from io import BytesIO
 from pathlib import Path
 import pymupdf
 from PIL import Image
+from transparent_backgrounds import transform
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'assets/images/quran-scans'
@@ -39,12 +41,12 @@ def main():
         manifest=json.loads(MANIFEST.read_text('utf-8'))
         assert sha(args.pdf.read_bytes())==manifest['pdfSha256'], 'Different PDF'
         for rec in manifest['screenshots']:
-            expected=page_image(rec['page']).crop(rec['pixelRect'])
+            expected=transform(page_image(rec['page']).crop(rec['pixelRect']), rec['file'])
             actual=Image.open(ROOT/rec['file'])
-            assert actual.mode=='RGB' and actual.size==expected.size
+            assert actual.mode=='RGBA' and actual.size==expected.size
             assert actual.tobytes()==expected.tobytes(), rec['file']
             assert sha((ROOT/rec['file']).read_bytes())==rec['pngSha256']
-        print(f"PASS: {len(manifest['screenshots'])} screenshots exactly match original PDF pixels.")
+        print(f"PASS: {len(manifest['screenshots'])} screenshots preserve original PDF RGB with transparent paper.")
         return
     OUT.mkdir(parents=True,exist_ok=True)
     records=[]
@@ -54,10 +56,15 @@ def main():
         im=page_image(n).crop(box)
         index=len(data.get(str(key),[]))+1
         path=OUT/f'{key}-{index}.png'
+        source_png=BytesIO()
+        im.save(source_png,format='PNG')
+        source_hash=sha(source_png.getvalue())
+        im=transform(im,path)
         im.save(path)
         entry={'src':path.relative_to(ROOT).as_posix(),'page':n,'width':im.width,'height':im.height}
         data.setdefault(str(key),[]).append(entry)
-        records.append({'key':str(key),'page':n,'pixelRect':box,'file':entry['src'],'pngSha256':sha(path.read_bytes())})
+        records.append({'key':str(key),'page':n,'pixelRect':box,'file':entry['src'],
+                        'pngSha256':sha(path.read_bytes()),'sourceRgbSha256':source_hash})
 
     # The complete reading panel, including original paper and ornamental frame.
     crop(1,1,[170,291,429,708])
@@ -97,6 +104,7 @@ def main():
     assert all(str(sid) in data for sid in COUNTS)
     MANIFEST.write_text(json.dumps({'pdfSha256':sha(args.pdf.read_bytes()),'scale':SCALE,
         'method':'Full original RGB page render followed by unmodified integer rectangular crop',
+        'backgroundProcessing':'Only paper alpha removed by transparent_backgrounds.py; original RGB pixels and geometry unchanged.',
         'screenshots':records},ensure_ascii=False,indent=2)+'\n','utf-8')
     (ROOT/'js/data/quran-scans.js').write_text('// Literal PDF screenshots; see scripts/quran-scan-sources.json.\nwindow.QURAN_SCANS = '+json.dumps(data,separators=(',',':'))+';\n','utf-8')
     print(f'Created {len(records)} literal screenshots from {len(cache)} original pages.')

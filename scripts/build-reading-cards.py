@@ -1,8 +1,9 @@
 """Rebuild/verify reviewed reading cards from literal rectangles of the user's PDF.
 
 python scripts/build-reading-cards.py SOURCE.pdf [--verify]
-Requires pymupdf and Pillow. Never edits the PDF, typesets text, uses masks,
-changes crop colors, or reconstructs marks. The reviewed manifest is the source
+Requires pymupdf, Pillow and numpy. Never edits the PDF, typesets text,
+changes crop RGB colors, or reconstructs marks. Paper is made transparent.
+The reviewed manifest is the source
 of crop coordinates and reading order. Only whole word groups change lines;
 parts within a word always retain their original relative coordinates.
 """
@@ -12,6 +13,7 @@ import json
 from pathlib import Path
 import pymupdf
 from PIL import Image
+from transparent_backgrounds import transform
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / 'scripts/reading-card-sources.json'
@@ -55,9 +57,10 @@ def main():
             canvas.paste(crop, part['paste'])
             count += 1
         target = ROOT / card['file']
+        canvas = transform(canvas, target)
         if args.verify:
             actual = Image.open(target)
-            assert actual.mode == 'RGB' and actual.size == canvas.size, key
+            assert actual.mode == 'RGBA' and actual.size == canvas.size, key
             assert actual.tobytes() == canvas.tobytes(), (key, 'source pixel mismatch')
             assert sha(target.read_bytes()) == card['sha256'], key
         else:
@@ -71,7 +74,7 @@ def main():
         assert js_path.read_text('utf-8') == js
     else:
         js_path.write_text(js, 'utf-8')
-    print(f'PASS: {len(data)} cards, {count} source rectangles, exact original RGB pixels and word geometry.')
+    print(f'PASS: {len(data)} cards, {count} source rectangles, original RGB pixels and word geometry; transparent paper.')
 
 if __name__ == '__main__':
     main()

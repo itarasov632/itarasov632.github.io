@@ -13,7 +13,8 @@
         2124
       ],
       "file": "assets/images/quran-scans/1-1.png",
-      "pngSha256": "7bc95a3ebfce0f89130473d8ee015f84f8b156b4e97051f207f0862e8af593d8"
+      "pngSha256": "18e1778e7490db07e51d2f396fbf1c886f15eed695fce43a33f4449282163dd9",
+      "sourceRgbSha256": "7bc95a3ebfce0f89130473d8ee015f84f8b156b4e97051f207f0862e8af593d8"
     },
     {
       "key": "67",
@@ -25,7 +26,8 @@
         2340
       ],
       "file": "assets/images/quran-scans/67-1.png",
-      "pngSha256": "f6a5b79395467467c926c555f5fbb6fdedfd4505b9b67c94a444f519c57671e1"
+      "pngSha256": "018f8776e8df3162ca4874dc79cd386fe8a1ddc4b4110c2c97bce88d51ca0aa6",
+      "sourceRgbSha256": "f6a5b79395467467c926c555f5fbb6fdedfd4505b9b67c94a444f519c57671e1"
     },
     {
       "key": "67",
@@ -37,7 +39,8 @@
         2340
       ],
       "file": "assets/images/quran-scans/67-2.png",
-      "pngSha256": "73cc319f6da19b4957b34342849b6d5fee8af11a943b1b7ea22048f0d56166da"
+      "pngSha256": "a9b14f36d7b9e7fef923987ab045bfa6a712002ba9a4d81d5a2e206c90723200",
+      "sourceRgbSha256": "73cc319f6da19b4957b34342849b6d5fee8af11a943b1b7ea22048f0d56166da"
     },
     {
       "key": "67",
@@ -49,7 +52,8 @@
         1365
       ],
       "file": "assets/images/quran-scans/67-3.png",
-      "pngSha256": "c5fe1f4464f449c1932bb798b897a23d67ef67c8b426c1462b014fb273f6e0ed"
+      "pngSha256": "a05b84153011431d3d6f3b3c4304d8244aed110e14736357479b868c4b1518d7",
+      "sourceRgbSha256": "c5fe1f4464f449c1932bb798b897a23d67ef67c8b426c1462b014fb273f6e0ed"
     },
     {
       "key": "96",
@@ -61,7 +65,8 @@
         2340
       ],
       "file": "assets/images/quran-scans/96-1.png",
-      "pngSha256": "c3489271c832de755ded051fcacc96104a37b894479989240221dc5a49639999"
+      "pngSha256": "bc9a4bfd52668dd0d5e562c88c471523e9898cbfd7b764a0d7cd6a22853b5bb4",
+      "sourceRgbSha256": "c3489271c832de755ded051fcacc96104a37b894479989240221dc5a49639999"
     },
     {
       "key": "96",
@@ -73,7 +78,8 @@
         690
       ],
       "file": "assets/images/quran-scans/96-2.png",
-      "pngSha256": "612d8b25e033cb810a3a474a97595238b444ab6f6d2ed09676a9c4fa09721c8b"
+      "pngSha256": "e8ea67866d6aa166687a2ddee059507bbe0996be5d3b35de4c97c5453577b27a",
+      "sourceRgbSha256": "612d8b25e033cb810a3a474a97595238b444ab6f6d2ed09676a9c4fa09721c8b"
     },
     {
       "key": "97",
@@ -85,7 +91,8 @@
         1365
       ],
       "file": "assets/images/quran-scans/97-1.png",
-      "pngSha256": "94b67aab1be319a4c163be80d3dd66845f2207fd2dbbd084431044f7d86b8555"
+      "pngSha256": "a9f234fa1655d5ba47e94a6b20a2de1708d75f2e81014c89aee276a3df2c3dc8",
+      "sourceRgbSha256": "94b67aab1be319a4c163be80d3dd66845f2207fd2dbbd084431044f7d86b8555"
     },
     {
       "key": "98",
@@ -97,7 +104,8 @@
         2340
       ],
       "file": "assets/images/quran-scans/98-1.png",
-      "pngSha256": "31be3b78a387ea1a091f752a91f85e6ec8a9ce19a21b023db51d51e1075151be"
+      "pngSha256": "bf91aaf2da6ff6716e7d2e30af10dcedf04419c8ed12c69b3d5eb8bf2bf45e7b",
+      "sourceRgbSha256": "31be3b78a387ea1a091f752a91f85e6ec8a9ce19a21b023db51d51e1075151be"
     },
     {
       "key": "98",
@@ -109,7 +117,8 @@
         960
       ],
       "file": "assets/images/quran-scans/98-2.png",
-      "pngSha256": "750ee19f7c038c4794389cf7fbeef32a6e04ca7aeb5da56d4a7ad05eaeb2a421"
+      "pngSha256": "e6b613c603a68942a94c7edf878a98edd65168d671427464e12fa451ee821de0",
+      "sourceRgbSha256": "750ee19f7c038c4794389cf7fbeef32a6e04ca7aeb5da56d4a7ad05eaeb2a421"
     },
     {
       "key": "99",
@@ -121,7 +130,8 @@
         1905
       ],
       "file": "assets/images/quran-scans/99-1.png",
-      "pngSha256": "2519fa7bc6ff348cbe22632d4f5376738407412913d454bdc25b496a63db7655"
+      "pngSha256": "b0c7522ae469d1937f27f73514f89cca57f7efdf7d4f22d222a757a3aa639e82",
+      "sourceRgbSha256": "2519fa7bc6ff348cbe22632d4f5376738407412913d454bdc25b496a63db7655"
     },
     {
       "key": "100",
@@ -133,7 +143,8 @@
         2340
       ],
       "file": "assets/images/quran-scans/100-1.png",
-      "pngSha256": "182a83c0ce7fb500b8d0016dae94dcd112beee6065cf0b8233cf01e586333996"
+      "pngSha256": "3c43b5b89e8e88c43e36d62ef0e70c2dd8846c8383ecc10d577c93d43acc83c6",
+      "sourceRgbSha256": "182a83c0ce7fb500b8d0016dae94dcd112beee6065cf0b8233cf01e586333996"
     },
     {
       "key": "100",
@@ -145,7 +156,8 @@
         825
       ],
       "file": "assets/images/quran-scans/100-2.png",
-      "pngSha256": "a0b64953d781c2509d243ef8205a5f2c27896c854d35b0607483533eefcf84a9"
+      "pngSha256": "46608c99bb23a0120cd3e51cb9c2580c1ca2c4877dac3ed0d5982d89b108bd3a",
+      "sourceRgbSha256": "a0b64953d781c2509d243ef8205a5f2c27896c854d35b0607483533eefcf84a9"
     },
     {
       "key": "101",
@@ -157,7 +169,8 @@
         1770
       ],
       "file": "assets/images/quran-scans/101-1.png",
-      "pngSha256": "c8c33694ceccbc09f8f6e5034d08888a449763f8a7c551d8df50f9388f3b8f69"
+      "pngSha256": "299d0e825e7003eccce705e209ea7039880f95c95dc99464b5c43654f21806d1",
+      "sourceRgbSha256": "c8c33694ceccbc09f8f6e5034d08888a449763f8a7c551d8df50f9388f3b8f69"
     },
     {
       "key": "102",
@@ -169,7 +182,8 @@
         2340
       ],
       "file": "assets/images/quran-scans/102-1.png",
-      "pngSha256": "bb3fe98485ca6d1d037b7b1d2ca23e4b372655a5c89f46aac69e91a54be53084"
+      "pngSha256": "30a655ec2eb4f4385111c4546a07ff265ccc88dcd323145ae75770290456991f",
+      "sourceRgbSha256": "bb3fe98485ca6d1d037b7b1d2ca23e4b372655a5c89f46aac69e91a54be53084"
     },
     {
       "key": "102",
@@ -181,7 +195,8 @@
         555
       ],
       "file": "assets/images/quran-scans/102-2.png",
-      "pngSha256": "34fd8ad30a726b15f07f8e00557ee429dc9b6758c70602875376867d2380a0bd"
+      "pngSha256": "a48bf10011f8fdb70bee579d4179f1279cc4ea47cf7091e4cbd733da3deee7a5",
+      "sourceRgbSha256": "34fd8ad30a726b15f07f8e00557ee429dc9b6758c70602875376867d2380a0bd"
     },
     {
       "key": "103",
@@ -193,7 +208,8 @@
         1095
       ],
       "file": "assets/images/quran-scans/103-1.png",
-      "pngSha256": "542647f398d38c0a137e01357f5b3704c282357018da5bccf442c8f354117e4c"
+      "pngSha256": "6697ef1ff669dc0d1c2ef3d6a0125906c7fac7db28e1e25488b29f05a85212c8",
+      "sourceRgbSha256": "542647f398d38c0a137e01357f5b3704c282357018da5bccf442c8f354117e4c"
     },
     {
       "key": "104",
@@ -205,7 +221,8 @@
         1905
       ],
       "file": "assets/images/quran-scans/104-1.png",
-      "pngSha256": "fc5fdca96b37633536e42d7f7f0943f6dc2d50279e968c74e78598d136b8a945"
+      "pngSha256": "11e021f4a990792d156dabc3928e6f504d3345675e0b5afcf2e348e85100958c",
+      "sourceRgbSha256": "fc5fdca96b37633536e42d7f7f0943f6dc2d50279e968c74e78598d136b8a945"
     },
     {
       "key": "105",
@@ -217,7 +234,8 @@
         2340
       ],
       "file": "assets/images/quran-scans/105-1.png",
-      "pngSha256": "725107682fe8ceca778fa4fb3d8f808b62e404ea6f347ece3b65515ae78e1c3f"
+      "pngSha256": "cb77e1b08a536a1fc0299405cc8d0cb855292dca13d54852e28af8fb49873314",
+      "sourceRgbSha256": "725107682fe8ceca778fa4fb3d8f808b62e404ea6f347ece3b65515ae78e1c3f"
     },
     {
       "key": "105",
@@ -229,7 +247,8 @@
         555
       ],
       "file": "assets/images/quran-scans/105-2.png",
-      "pngSha256": "86eb4be136f0d722459cce830ac21e5def403c19b21d8438960058fda46d8f23"
+      "pngSha256": "ead13d0fff5e8d8baad4da96c079e96233918b569c06562869c9a2e70ae36320",
+      "sourceRgbSha256": "86eb4be136f0d722459cce830ac21e5def403c19b21d8438960058fda46d8f23"
     },
     {
       "key": "106",
@@ -241,7 +260,8 @@
         1230
       ],
       "file": "assets/images/quran-scans/106-1.png",
-      "pngSha256": "16afab7d047a93e40ac14b8077932216f99c435f70dec9b4fb1a9fae49325709"
+      "pngSha256": "21aec55b6b481145ef2046e0a0cfce46b35c37e28d8fc44c61e487fdf83a5dc7",
+      "sourceRgbSha256": "16afab7d047a93e40ac14b8077932216f99c435f70dec9b4fb1a9fae49325709"
     },
     {
       "key": "107",
@@ -253,7 +273,8 @@
         2040
       ],
       "file": "assets/images/quran-scans/107-1.png",
-      "pngSha256": "a37a252f073bc177d0c55165a1534f27009b6112140c2c37bf46df59d9ec0cdc"
+      "pngSha256": "4e2add947b7804d5d375c8d573713863fb4739c352371b0d2e7aadfea1cc1379",
+      "sourceRgbSha256": "a37a252f073bc177d0c55165a1534f27009b6112140c2c37bf46df59d9ec0cdc"
     },
     {
       "key": "108",
@@ -265,7 +286,8 @@
         2340
       ],
       "file": "assets/images/quran-scans/108-1.png",
-      "pngSha256": "31dbb8b424c4c820bbf9cbbaa01a5f46066e2b1f5b0f3b0fb6dcbe6c188c07ed"
+      "pngSha256": "0419bd7269eaa913c6a969b5ab9e2916b7cca5afaa75481f551c675847baa6cb",
+      "sourceRgbSha256": "31dbb8b424c4c820bbf9cbbaa01a5f46066e2b1f5b0f3b0fb6dcbe6c188c07ed"
     },
     {
       "key": "108",
@@ -277,7 +299,8 @@
         555
       ],
       "file": "assets/images/quran-scans/108-2.png",
-      "pngSha256": "d722558b39a50d7161964f7f94d1bd6233cc1a6ef08e8a7eaf420c347f9cb701"
+      "pngSha256": "c83a2d3ac9bbbcd1cc16d504d4184a097920dd29803c6715bd18db2b6842e13e",
+      "sourceRgbSha256": "d722558b39a50d7161964f7f94d1bd6233cc1a6ef08e8a7eaf420c347f9cb701"
     },
     {
       "key": "109",
@@ -289,7 +312,8 @@
         1230
       ],
       "file": "assets/images/quran-scans/109-1.png",
-      "pngSha256": "721f31f577765514e731066150bcfdc6416897855a650c5422179a8a4b8d4357"
+      "pngSha256": "7b48e805e5ac4e2d4452f151845be2a1ded4d08c827ca76b7022a85a09600a7f",
+      "sourceRgbSha256": "721f31f577765514e731066150bcfdc6416897855a650c5422179a8a4b8d4357"
     },
     {
       "key": "110",
@@ -301,7 +325,8 @@
         1770
       ],
       "file": "assets/images/quran-scans/110-1.png",
-      "pngSha256": "1b4885ac3c6716695398b452e9b152e347b09e45dad109fb78d5568bb91366a9"
+      "pngSha256": "bd22cd3e2304cab6930e9f1673949f220403b51f626b73870cc7c8a15e6e2ee8",
+      "sourceRgbSha256": "1b4885ac3c6716695398b452e9b152e347b09e45dad109fb78d5568bb91366a9"
     },
     {
       "key": "111",
@@ -313,7 +338,8 @@
         2340
       ],
       "file": "assets/images/quran-scans/111-1.png",
-      "pngSha256": "15c1a91b1eecae5f11b0db5623fef2d7b746f8e33c3b08898dd6338645956bde"
+      "pngSha256": "69683dea86f32099da47d4d92dcf00ed9c8eba2ade4bce34c6cf007db37830b0",
+      "sourceRgbSha256": "15c1a91b1eecae5f11b0db5623fef2d7b746f8e33c3b08898dd6338645956bde"
     },
     {
       "key": "111",
@@ -325,7 +351,8 @@
         420
       ],
       "file": "assets/images/quran-scans/111-2.png",
-      "pngSha256": "6a7e990938db1a4cd7c610c8306a9c15fd97147d377f28734ceca323e228d826"
+      "pngSha256": "db14d2ce080cf6c5c9a56524b2e53664e76443d7336950143872ba9ce204a329",
+      "sourceRgbSha256": "6a7e990938db1a4cd7c610c8306a9c15fd97147d377f28734ceca323e228d826"
     },
     {
       "key": "112",
@@ -337,7 +364,8 @@
         960
       ],
       "file": "assets/images/quran-scans/112-1.png",
-      "pngSha256": "420bc59f6a4cb3ab3d88c7a933572eb6432735399c1d646fdf09371f5898a9df"
+      "pngSha256": "0b647f90c3eff7a1a0c5989fe3f9a94cabbc4ff9b65659568af393f80843b4c0",
+      "sourceRgbSha256": "420bc59f6a4cb3ab3d88c7a933572eb6432735399c1d646fdf09371f5898a9df"
     },
     {
       "key": "113",
@@ -349,7 +377,8 @@
         1635
       ],
       "file": "assets/images/quran-scans/113-1.png",
-      "pngSha256": "94b96b4ea34ddf725bbfa3f9cd6e49b5e99ddce0fc88473c210e93caf6edd85c"
+      "pngSha256": "76dc30a5c5416770b616448a11f00b18b236fa70d6594064e89a659d59c2c585",
+      "sourceRgbSha256": "94b96b4ea34ddf725bbfa3f9cd6e49b5e99ddce0fc88473c210e93caf6edd85c"
     },
     {
       "key": "114",
@@ -361,7 +390,8 @@
         2340
       ],
       "file": "assets/images/quran-scans/114-1.png",
-      "pngSha256": "61bc52250299805fe58a5c70724ab52832c895bca92b4329178e0d6ef4e76788"
+      "pngSha256": "841d012835ba314e856ae91b2f6fbaad75625f3a3e5d0ed1c9193496254b43c8",
+      "sourceRgbSha256": "61bc52250299805fe58a5c70724ab52832c895bca92b4329178e0d6ef4e76788"
     },
     {
       "key": "kursi",
@@ -373,7 +403,8 @@
         1896
       ],
       "file": "assets/images/quran-scans/kursi-1.png",
-      "pngSha256": "0895beebd87296cee0407071fcc263d18b9314721a0691645c31878befdddf38"
+      "pngSha256": "c5979038896b0373156dfb0e8fb31f0b288d1260a64de6b187f70f9ea5aadeab",
+      "sourceRgbSha256": "0895beebd87296cee0407071fcc263d18b9314721a0691645c31878befdddf38"
     },
     {
       "key": "kursi",
@@ -385,7 +416,8 @@
         2340
       ],
       "file": "assets/images/quran-scans/kursi-2.png",
-      "pngSha256": "3770b6022ca8c40ba0fde94f2c3ebea65e14bcee9b00802146eb5fea7df8bc55"
+      "pngSha256": "6c34afe15468cee98886093f7107659e625798fec418da8c09f795d01763ee3f",
+      "sourceRgbSha256": "3770b6022ca8c40ba0fde94f2c3ebea65e14bcee9b00802146eb5fea7df8bc55"
     },
     {
       "key": "kursi",
@@ -397,7 +429,8 @@
         408
       ],
       "file": "assets/images/quran-scans/kursi-3.png",
-      "pngSha256": "03ae1f31d9861d35f2217319778491271a0b682098e5c8b1fa69f5103f3d5739"
+      "pngSha256": "e2d17601e464688369e01da5c04d84944bc0e98cee07504b0697c4b0d5285741",
+      "sourceRgbSha256": "03ae1f31d9861d35f2217319778491271a0b682098e5c8b1fa69f5103f3d5739"
     },
     {
       "key": "hashr",
@@ -409,7 +442,8 @@
         1347
       ],
       "file": "assets/images/quran-scans/hashr-1.png",
-      "pngSha256": "82965cb30dd01a62764ff9970f76b42d513d19560bf0667a8dba62d5bccfbbea"
+      "pngSha256": "13082dea1dfada0db5a58ae066866c0da9371da6fbcdae3ba64f0b33a02e2960",
+      "sourceRgbSha256": "82965cb30dd01a62764ff9970f76b42d513d19560bf0667a8dba62d5bccfbbea"
     },
     {
       "key": "hashr",
@@ -421,7 +455,9 @@
         2040
       ],
       "file": "assets/images/quran-scans/hashr-2.png",
-      "pngSha256": "bffd9cc0e1fb4513b9104d6e939c744bbf63bd2cf1c12fe6dddf69c712adef45"
+      "pngSha256": "7fa5935800087332f5b9786598b0a61bf7590b3a377c651544c7c07657e0805a",
+      "sourceRgbSha256": "bffd9cc0e1fb4513b9104d6e939c744bbf63bd2cf1c12fe6dddf69c712adef45"
     }
-  ]
+  ],
+  "backgroundProcessing": "Only paper alpha removed by transparent_backgrounds.py; original RGB pixels and geometry unchanged."
 }
