@@ -88,3 +88,21 @@ are unchanged. Historical `quran-scans` and `surahs/reading` assets and their
 builders remain in the repository for provenance; the four reading pages now
 use `reading-cards.js`. Historical browser checks for the previous page-scan
 layout are superseded by `check-reading-cards.cjs`.
+
+## An-Nas tafsir
+
+Holding one of the six An-Nas ayah cards for 550 ms opens a native dialog.
+Short taps still play audio; scrolling cancels the hold. Shift+F10 or the
+context-menu key provides keyboard access. The Close button and the backdrop
+dismiss the dialog and return focus to the card. Escape also works while focus
+is on the application's dialog controls; the embedded publisher page handles
+its own keyboard events.
+
+The dialog embeds the publisher's original page at
+`https://azan.info/tafsir/an-nas/1` through `/6`, with an external source link.
+Each URL contains only the corresponding ayah and its full tafsir; the
+publisher's own script scrolls to that ayah. No tafsir text is copied or
+paraphrased in this repository. Loading it requires access to Azan.info.
+
+`check-tafsir.cjs` exercises the gesture, keyboard access, dismissal, per-ayah
+URLs, audio behavior and mobile layouts with isolated publisher-page fixtures.

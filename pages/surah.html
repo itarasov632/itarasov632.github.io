@@ -234,6 +234,8 @@
 <link rel="stylesheet" href="../css/watercolor.css?v=20261103-cards-1">
 <script src="../js/data/reading-cards.js?v=20261103-cards-1"></script>
 <script src="../js/reading-cards.js?v=20261103-cards-1"></script>
+<link rel="stylesheet" href="../css/ayah-tafsir.css?v=20261113-1">
+<script src="../js/ayah-tafsir.js?v=20261113-1"></script>
 </head>
 <body class="surah">
     <div class="container">
@@ -326,6 +328,7 @@
 
         // ==================== ЗАГРУЗКА СУРЫ ====================
         function loadSurah(surahId) {
+            window.ayahTafsir.close();
             if (surahId === 1) {
                 stopFullSurah();
                 if (currentAudio) currentAudio.pause();
@@ -368,6 +371,13 @@
             status.className = 'audio-status';
             status.setAttribute('role', 'status');
             content.appendChild(status);
+            if (surahId === 114) {
+                const hint = document.createElement('p');
+                hint.id = 'tafsirHint';
+                hint.className = 'tafsir-hint';
+                hint.textContent = 'Удерживайте аят, чтобы открыть тафсир.';
+                content.appendChild(hint);
+            }
             if (surahId === 67) audioStatus('Записи доступны для аятов 1–12. Читать можно всю суру.');
             if (surahId === 96 || surahId === 98) audioStatus('Аудиозапись этой суры пока не добавлена.');
             
@@ -392,6 +402,7 @@
                 ayahElement.innerHTML = readingCardMarkup(`${surahId}/${i}`, `Аят ${i}`);
                 ayahElement.setAttribute("aria-label", `Слушать аят ${i}`);
                 ayahElement.addEventListener('click', () => playAudio(audioFiles(surahId, i), ayahElement));
+                window.ayahTafsir.bind(ayahElement, surahId, i, stopFullSurah);
                 ayahsContainer.appendChild(ayahElement);
             }
             content.appendChild(ayahsContainer);
