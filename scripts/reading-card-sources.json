@@ -8249,6 +8249,1057 @@
       "displayHeight": 185.25,
       "sourceRgbSha256": "f1f50405fb8a9d660c162ee262420120ac37f3cc05836f648d4984d1ffd95fc9"
     },
+    "94/basmala": {
+      "file": "assets/images/reading-cards/94/basmala.png",
+      "sha256": "077b27b72a85c0b3ce9ea14fc7fbd14811806563126f50609e4e5298c020855c",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "parts": [
+        {
+          "page": 561,
+          "pixelRect": [
+            1429,
+            2241,
+            1556,
+            2367
+          ],
+          "paste": [
+            621,
+            29,
+            748,
+            155
+          ],
+          "wordGroup": 0,
+          "wordSourceRect": [
+            1429,
+            2241,
+            1556,
+            2367
+          ]
+        },
+        {
+          "page": 561,
+          "pixelRect": [
+            1318,
+            2220,
+            1418,
+            2329
+          ],
+          "paste": [
+            507,
+            8,
+            607,
+            117
+          ],
+          "wordGroup": 1,
+          "wordSourceRect": [
+            1318,
+            2220,
+            1418,
+            2329
+          ]
+        },
+        {
+          "page": 561,
+          "pixelRect": [
+            1052,
+            2220,
+            1308,
+            2348
+          ],
+          "paste": [
+            237,
+            8,
+            493,
+            136
+          ],
+          "wordGroup": 2,
+          "wordSourceRect": [
+            1052,
+            2220,
+            1308,
+            2348
+          ]
+        },
+        {
+          "page": 561,
+          "pixelRect": [
+            822,
+            2220,
+            1037,
+            2367
+          ],
+          "paste": [
+            8,
+            8,
+            223,
+            155
+          ],
+          "wordGroup": 3,
+          "wordSourceRect": [
+            822,
+            2220,
+            1037,
+            2367
+          ]
+        }
+      ],
+      "lines": 1,
+      "pixelSize": [
+        756,
+        163
+      ],
+      "displayWidth": 283.5,
+      "displayHeight": 61.125,
+      "sourceRgbSha256": "28afb4b44e7b7151eaca985a69584dc36c97e32beed755867b8a183d065a074c"
+    },
+    "94/1": {
+      "file": "assets/images/reading-cards/94/1.png",
+      "sha256": "dfeac3e667ce14a2e53f7776ce57a3e63dc5d35c67fa800d8221eb6640083ab3",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "parts": [
+        {
+          "page": 561,
+          "pixelRect": [
+            1999,
+            2428,
+            2052,
+            2480
+          ],
+          "paste": [
+            424,
+            51,
+            477,
+            103
+          ],
+          "wordGroup": 0,
+          "wordSourceRect": [
+            1999,
+            2428,
+            2052,
+            2480
+          ]
+        },
+        {
+          "page": 561,
+          "pixelRect": [
+            1871,
+            2385,
+            1984,
+            2523
+          ],
+          "paste": [
+            297,
+            8,
+            410,
+            146
+          ],
+          "wordGroup": 1,
+          "wordSourceRect": [
+            1871,
+            2385,
+            1984,
+            2523
+          ]
+        },
+        {
+          "page": 561,
+          "pixelRect": [
+            1687,
+            2397,
+            1850,
+            2523
+          ],
+          "paste": [
+            120,
+            20,
+            283,
+            146
+          ],
+          "wordGroup": 2,
+          "wordSourceRect": [
+            1687,
+            2397,
+            1850,
+            2523
+          ]
+        },
+        {
+          "page": 561,
+          "pixelRect": [
+            1573,
+            2385,
+            1671,
+            2482
+          ],
+          "paste": [
+            8,
+            8,
+            106,
+            105
+          ],
+          "wordGroup": 3,
+          "wordSourceRect": [
+            1573,
+            2385,
+            1671,
+            2482
+          ]
+        },
+        {
+          "page": 561,
+          "pixelRect": [
+            1337,
+            2397,
+            1551,
+            2499
+          ],
+          "paste": [
+            263,
+            170,
+            477,
+            272
+          ],
+          "wordGroup": 4,
+          "wordSourceRect": [
+            1337,
+            2397,
+            1551,
+            2499
+          ]
+        },
+        {
+          "page": 561,
+          "pixelRect": [
+            1227,
+            2406,
+            1318,
+            2498
+          ],
+          "paste": [
+            158,
+            179,
+            249,
+            271
+          ],
+          "wordGroup": 5,
+          "wordSourceRect": [
+            1227,
+            2406,
+            1318,
+            2498
+          ]
+        }
+      ],
+      "lines": 2,
+      "pixelSize": [
+        485,
+        280
+      ],
+      "displayWidth": 181.875,
+      "displayHeight": 105.0,
+      "sourceRgbSha256": "fbb3bd6f380810576a63f385e948930ef5389d7bd825f37a8386bd4140077616"
+    },
+    "94/2": {
+      "file": "assets/images/reading-cards/94/2.png",
+      "sha256": "acd8dc5997e9b7d3f99740c2027412dcf1fd26ea1729cb21c0961947ade98db4",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "parts": [
+        {
+          "page": 561,
+          "pixelRect": [
+            963,
+            2399,
+            1211,
+            2499
+          ],
+          "paste": [
+            461,
+            10,
+            709,
+            110
+          ],
+          "wordGroup": 0,
+          "wordSourceRect": [
+            963,
+            2399,
+            1211,
+            2499
+          ]
+        },
+        {
+          "page": 561,
+          "pixelRect": [
+            777,
+            2399,
+            942,
+            2482
+          ],
+          "paste": [
+            282,
+            10,
+            447,
+            93
+          ],
+          "wordGroup": 1,
+          "wordSourceRect": [
+            777,
+            2399,
+            942,
+            2482
+          ]
+        },
+        {
+          "page": 561,
+          "pixelRect": [
+            601,
+            2397,
+            756,
+            2528
+          ],
+          "paste": [
+            113,
+            8,
+            268,
+            139
+          ],
+          "wordGroup": 2,
+          "wordSourceRect": [
+            601,
+            2397,
+            756,
+            2528
+          ]
+        },
+        {
+          "page": 561,
+          "pixelRect": [
+            490,
+            2406,
+            581,
+            2498
+          ],
+          "paste": [
+            8,
+            17,
+            99,
+            109
+          ],
+          "wordGroup": 3,
+          "wordSourceRect": [
+            490,
+            2406,
+            581,
+            2498
+          ]
+        }
+      ],
+      "lines": 1,
+      "pixelSize": [
+        717,
+        147
+      ],
+      "displayWidth": 268.875,
+      "displayHeight": 55.125,
+      "sourceRgbSha256": "0d4fe57113072cd1791fc9a97d62f892e93642ca75d15b99175a715484ff3c3f"
+    },
+    "94/3": {
+      "file": "assets/images/reading-cards/94/3.png",
+      "sha256": "bfa59a4859e470e15793bf1076791812a1266a5a3dd41d6f4fee667b5808426b",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "parts": [
+        {
+          "page": 561,
+          "pixelRect": [
+            329,
+            2368,
+            477,
+            2509
+          ],
+          "paste": [
+            490,
+            8,
+            638,
+            149
+          ],
+          "wordGroup": 0,
+          "wordSourceRect": [
+            329,
+            2368,
+            477,
+            2509
+          ]
+        },
+        {
+          "page": 561,
+          "pixelRect": [
+            1877,
+            2565,
+            2059,
+            2688
+          ],
+          "paste": [
+            294,
+            25,
+            476,
+            148
+          ],
+          "wordGroup": 1,
+          "wordSourceRect": [
+            1877,
+            2565,
+            2059,
+            2688
+          ]
+        },
+        {
+          "page": 561,
+          "pixelRect": [
+            1689,
+            2565,
+            1856,
+            2685
+          ],
+          "paste": [
+            113,
+            25,
+            280,
+            145
+          ],
+          "wordGroup": 2,
+          "wordSourceRect": [
+            1689,
+            2565,
+            1856,
+            2685
+          ]
+        },
+        {
+          "page": 561,
+          "pixelRect": [
+            1578,
+            2586,
+            1669,
+            2678
+          ],
+          "paste": [
+            8,
+            46,
+            99,
+            138
+          ],
+          "wordGroup": 3,
+          "wordSourceRect": [
+            1578,
+            2586,
+            1669,
+            2678
+          ]
+        }
+      ],
+      "lines": 1,
+      "pixelSize": [
+        646,
+        157
+      ],
+      "displayWidth": 242.25,
+      "displayHeight": 58.875,
+      "sourceRgbSha256": "34f35db8a92901c4ac7367c5d7af4682e516c136897cf1e3096a6169cc4e60fd"
+    },
+    "94/4": {
+      "file": "assets/images/reading-cards/94/4.png",
+      "sha256": "1aed190d572aa937254eef68b9a15065d956d879a37567c446cc02abe32db30b",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "parts": [
+        {
+          "page": 561,
+          "pixelRect": [
+            1385,
+            2579,
+            1562,
+            2679
+          ],
+          "paste": [
+            398,
+            22,
+            575,
+            122
+          ],
+          "wordGroup": 0,
+          "wordSourceRect": [
+            1385,
+            2579,
+            1562,
+            2679
+          ]
+        },
+        {
+          "page": 561,
+          "pixelRect": [
+            1269,
+            2565,
+            1368,
+            2662
+          ],
+          "paste": [
+            285,
+            8,
+            384,
+            105
+          ],
+          "wordGroup": 1,
+          "wordSourceRect": [
+            1269,
+            2565,
+            1368,
+            2662
+          ]
+        },
+        {
+          "page": 561,
+          "pixelRect": [
+            1090,
+            2577,
+            1248,
+            2689
+          ],
+          "paste": [
+            113,
+            20,
+            271,
+            132
+          ],
+          "wordGroup": 2,
+          "wordSourceRect": [
+            1090,
+            2577,
+            1248,
+            2689
+          ]
+        },
+        {
+          "page": 561,
+          "pixelRect": [
+            979,
+            2586,
+            1070,
+            2678
+          ],
+          "paste": [
+            8,
+            29,
+            99,
+            121
+          ],
+          "wordGroup": 3,
+          "wordSourceRect": [
+            979,
+            2586,
+            1070,
+            2678
+          ]
+        }
+      ],
+      "lines": 1,
+      "pixelSize": [
+        583,
+        140
+      ],
+      "displayWidth": 218.625,
+      "displayHeight": 52.5,
+      "sourceRgbSha256": "b2670158893b2a08b348dd7a27eea440f3566bff9c61bf8b1f68cfd7a939943f"
+    },
+    "94/5": {
+      "file": "assets/images/reading-cards/94/5.png",
+      "sha256": "638e3833ae69c285239e42bb9aaa5bf7774bba37f0b0361daa7e273c162a24eb",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "parts": [
+        {
+          "page": 561,
+          "pixelRect": [
+            862,
+            2561,
+            963,
+            2708
+          ],
+          "paste": [
+            537,
+            8,
+            638,
+            155
+          ],
+          "wordGroup": 0,
+          "wordSourceRect": [
+            862,
+            2561,
+            963,
+            2708
+          ]
+        },
+        {
+          "page": 561,
+          "pixelRect": [
+            771,
+            2602,
+            848,
+            2704
+          ],
+          "paste": [
+            446,
+            49,
+            523,
+            151
+          ],
+          "wordGroup": 1,
+          "wordSourceRect": [
+            771,
+            2602,
+            848,
+            2704
+          ]
+        },
+        {
+          "page": 561,
+          "pixelRect": [
+            575,
+            2563,
+            754,
+            2708
+          ],
+          "paste": [
+            253,
+            10,
+            432,
+            155
+          ],
+          "wordGroup": 2,
+          "wordSourceRect": [
+            575,
+            2563,
+            754,
+            2708
+          ]
+        },
+        {
+          "page": 561,
+          "pixelRect": [
+            435,
+            2588,
+            561,
+            2685
+          ],
+          "paste": [
+            113,
+            35,
+            239,
+            132
+          ],
+          "wordGroup": 3,
+          "wordSourceRect": [
+            435,
+            2588,
+            561,
+            2685
+          ]
+        },
+        {
+          "page": 561,
+          "pixelRect": [
+            324,
+            2586,
+            415,
+            2678
+          ],
+          "paste": [
+            8,
+            33,
+            99,
+            125
+          ],
+          "wordGroup": 4,
+          "wordSourceRect": [
+            324,
+            2586,
+            415,
+            2678
+          ]
+        }
+      ],
+      "lines": 1,
+      "pixelSize": [
+        646,
+        163
+      ],
+      "displayWidth": 242.25,
+      "displayHeight": 61.125,
+      "sourceRgbSha256": "85f6490882c2d13e5618a3b043a1c57ab35cde673d5482dfd47fba7ac33b9890"
+    },
+    "94/6": {
+      "file": "assets/images/reading-cards/94/6.png",
+      "sha256": "0eb29e9d82a9b1e1073f5975219b4d421e17d534a7f8caaf2cb473074c1bf11c",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "parts": [
+        {
+          "page": 561,
+          "pixelRect": [
+            1980,
+            2741,
+            2057,
+            2888
+          ],
+          "paste": [
+            559,
+            8,
+            636,
+            155
+          ],
+          "wordGroup": 0,
+          "wordSourceRect": [
+            1980,
+            2741,
+            2057,
+            2888
+          ]
+        },
+        {
+          "page": 561,
+          "pixelRect": [
+            1887,
+            2782,
+            1964,
+            2884
+          ],
+          "paste": [
+            468,
+            49,
+            545,
+            151
+          ],
+          "wordGroup": 1,
+          "wordSourceRect": [
+            1887,
+            2782,
+            1964,
+            2884
+          ]
+        },
+        {
+          "page": 561,
+          "pixelRect": [
+            1666,
+            2743,
+            1867,
+            2888
+          ],
+          "paste": [
+            253,
+            10,
+            454,
+            155
+          ],
+          "wordGroup": 2,
+          "wordSourceRect": [
+            1666,
+            2743,
+            1867,
+            2888
+          ]
+        },
+        {
+          "page": 561,
+          "pixelRect": [
+            1524,
+            2768,
+            1650,
+            2865
+          ],
+          "paste": [
+            113,
+            35,
+            239,
+            132
+          ],
+          "wordGroup": 3,
+          "wordSourceRect": [
+            1524,
+            2768,
+            1650,
+            2865
+          ]
+        },
+        {
+          "page": 561,
+          "pixelRect": [
+            1413,
+            2766,
+            1504,
+            2858
+          ],
+          "paste": [
+            8,
+            33,
+            99,
+            125
+          ],
+          "wordGroup": 4,
+          "wordSourceRect": [
+            1413,
+            2766,
+            1504,
+            2858
+          ]
+        }
+      ],
+      "lines": 1,
+      "pixelSize": [
+        644,
+        163
+      ],
+      "displayWidth": 241.5,
+      "displayHeight": 61.125,
+      "sourceRgbSha256": "5d1c9b4d2a48cbcc000af8bf1889f307e8ddd5550f802269fcc9c50f0bd3d687"
+    },
+    "94/7": {
+      "file": "assets/images/reading-cards/94/7.png",
+      "sha256": "7ae0097144a673dc13a8eb45902618cf0a407ad09d14d1f6ce98171197fcb902",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "parts": [
+        {
+          "page": 561,
+          "pixelRect": [
+            1269,
+            2759,
+            1393,
+            2888
+          ],
+          "paste": [
+            580,
+            10,
+            704,
+            139
+          ],
+          "wordGroup": 0,
+          "wordSourceRect": [
+            1269,
+            2759,
+            1393,
+            2888
+          ]
+        },
+        {
+          "page": 561,
+          "pixelRect": [
+            1047,
+            2757,
+            1244,
+            2865
+          ],
+          "paste": [
+            369,
+            8,
+            566,
+            116
+          ],
+          "wordGroup": 1,
+          "wordSourceRect": [
+            1047,
+            2757,
+            1244,
+            2865
+          ]
+        },
+        {
+          "page": 561,
+          "pixelRect": [
+            781,
+            2759,
+            1023,
+            2865
+          ],
+          "paste": [
+            113,
+            10,
+            355,
+            116
+          ],
+          "wordGroup": 2,
+          "wordSourceRect": [
+            781,
+            2759,
+            1023,
+            2865
+          ]
+        },
+        {
+          "page": 561,
+          "pixelRect": [
+            669,
+            2766,
+            760,
+            2858
+          ],
+          "paste": [
+            8,
+            17,
+            99,
+            109
+          ],
+          "wordGroup": 3,
+          "wordSourceRect": [
+            669,
+            2766,
+            760,
+            2858
+          ]
+        }
+      ],
+      "lines": 1,
+      "pixelSize": [
+        712,
+        147
+      ],
+      "displayWidth": 267.0,
+      "displayHeight": 55.125,
+      "sourceRgbSha256": "c881735cff7847ca6e87a9be1f4c5cfade88491c0536f6a33fa90ee52d1d1ec8"
+    },
+    "94/8": {
+      "file": "assets/images/reading-cards/94/8.png",
+      "sha256": "1e397da06c5dba5c8c00c1e13f1db3d58fc6dc97a4958e599319bbc6194a599f",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "parts": [
+        {
+          "page": 561,
+          "pixelRect": [
+            485,
+            2745,
+            651,
+            2888
+          ],
+          "paste": [
+            475,
+            8,
+            641,
+            151
+          ],
+          "wordGroup": 0,
+          "wordSourceRect": [
+            485,
+            2745,
+            651,
+            2888
+          ]
+        },
+        {
+          "page": 561,
+          "pixelRect": [
+            329,
+            2759,
+            466,
+            2888
+          ],
+          "paste": [
+            324,
+            22,
+            461,
+            151
+          ],
+          "wordGroup": 1,
+          "wordSourceRect": [
+            329,
+            2759,
+            466,
+            2888
+          ]
+        },
+        {
+          "page": 561,
+          "pixelRect": [
+            1153,
+            2939,
+            1350,
+            3045
+          ],
+          "paste": [
+            113,
+            22,
+            310,
+            128
+          ],
+          "wordGroup": 2,
+          "wordSourceRect": [
+            1153,
+            2939,
+            1350,
+            3045
+          ]
+        },
+        {
+          "page": 561,
+          "pixelRect": [
+            1042,
+            2946,
+            1133,
+            3038
+          ],
+          "paste": [
+            8,
+            29,
+            99,
+            121
+          ],
+          "wordGroup": 3,
+          "wordSourceRect": [
+            1042,
+            2946,
+            1133,
+            3038
+          ]
+        }
+      ],
+      "lines": 1,
+      "pixelSize": [
+        649,
+        159
+      ],
+      "displayWidth": 243.375,
+      "displayHeight": 59.625,
+      "sourceRgbSha256": "82103c1859cac108500b3053f191cd12effa432a12d0a93c2562bcf82f2ae0fd"
+    },
     "96/basmala": {
       "file": "assets/images/reading-cards/96/basmala.png",
       "sha256": "b19a4711f5a0c1344503518fa310b8719d67cd5b6e9d0cb10baad7c61591e77e",

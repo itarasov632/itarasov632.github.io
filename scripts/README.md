@@ -3,7 +3,7 @@
 The current reader combines the watercolor shell from `9bbe694` with the
 individual text-card interaction of `5a496d0`. Each surah ayah, Kursi clause,
 Al-Hashr audio fragment and Fatiha explanation has its own image. Clicking the
-image activates its existing card handler. Audio and video assets were not changed.
+image activates its existing card handler. Existing video assets are unchanged; the Ash-Sharh audio correction is documented below.
 
 ## Reproducible images
 
@@ -20,8 +20,9 @@ The only Quran image source is the supplied PDF with SHA-256
 4x render scale, integer source rectangles, output positions, word grouping,
 canvas dimensions, paper color, PNG hashes and display dimensions. The builder
 renders each original page, crops RGB rectangles and pastes them unchanged.
-It does not edit PDF content, generate text, apply masks, remove paper, recolor,
-retouch or reconstruct symbols. Verification compares every output pixel with
+It does not edit PDF content, generate text, apply masks, recolor, retouch or
+reconstruct symbols. Only paper alpha is removed by `transparent_backgrounds.py`;
+source RGB pixels and within-word geometry remain unchanged. Verification compares every output pixel with
 a reconstruction from those source rectangles and checks within-word geometry.
 
 Only whole word groups move to new lines. In three places where neighboring
@@ -30,9 +31,9 @@ rectangles retaining exactly their original relative positions. This excludes
 unrelated neighboring marks while preserving all its own strokes and marks.
 The source's own border overlaps the lowest marks in 105:4-5; the small original
 border fragments are deliberately retained without reconstructing hidden ink.
-Page 1's pale lavender paper is also preserved.
+Page 1's pale lavender paper is made transparent without altering its RGB pixels.
 
-There are 207 images: 160 ayahs and 20 basmalas for surahs 67 and 96-114,
+There are 216 images: 168 ayahs and 21 basmalas for surahs 67, 94 and 96-114,
 8 Kursi clauses, 10 Al-Hashr fragments, 8 Fatiha explanation fragments and
 1 complete Fatiha image. Fatiha explanations 7 and 8 split the seventh ayah at
 `opening_part` / `closing_part` as in the unchanged video manifest.
@@ -42,6 +43,18 @@ There are 207 images: 160 ayahs and 20 basmalas for surahs 67 and 96-114,
 Al-Mulk retains the exact audio groups from the reference commit: ayahs 1-12
 use their existing fragments; duplicate files 16-20 are not inserted. Surahs
 96 and 98 and Al-Mulk 13-30 still have no recordings. No audio is invented.
+
+Ash-Sharh cards are literal 4x screenshots from PDF page 561, displayed at
+0.375 of their native dimensions, matching adjacent surahs. Ayahs spanning
+source lines are joined only at whole-word boundaries. All nine cards have
+transparent paper; no letters or marks are drawn or enhanced with generated detail.
+
+The original Ash-Sharh archive mislabeled its recordings: `94_basmala.mp3`
+contained ayah 1, and `94_1.mp3` through `94_7.mp3` contained ayahs 2–8.
+These eight recordings are now stored under their matching ayah numbers,
+without re-encoding. The unrelated final clip is excluded. A verified existing
+basmala supplies the basmala card. `ash-sharh-audio-sources.json` records the
+source files, content and SHA-256 hashes for the correction.
 
 Neither referenced commit, nor earlier repository history, contains the eight
 Kursi PNGs/MP3s: only placeholder README files and references to `1` through `8`.

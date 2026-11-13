@@ -1,0 +1,84 @@
+{
+  "surah": 94,
+  "correction": "The supplied 94_basmala.mp3 contained ayah 1; supplied 94_1.mp3 through 94_7.mp3 contained ayahs 2 through 8. Reassigned files without transcoding. Basmala copied from the existing verified recording for surah 97.",
+  "verification": "Local faster-whisper base, Arabic, CPU int8; existing basmalas 97, 99 and 112 all recognized as بسم الله الرحمن الرحيم. No external transcription service.",
+  "mappings": [
+    {
+      "target": "assets/audio/surahs/94_basmala.mp3",
+      "source": "assets/audio/surahs/97_basmala.mp3",
+      "sourceRef": "12289e9dc3dda70bf67712e2d69ba70439bed9c2",
+      "sourceSha256": "e3eceafffd7b1e6c67e75fbfd5ef2c0bfd99f19a67a1493b0ddce8f97d8b2b5b",
+      "sha256": "e3eceafffd7b1e6c67e75fbfd5ef2c0bfd99f19a67a1493b0ddce8f97d8b2b5b",
+      "expectedArabic": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ"
+    },
+    {
+      "target": "assets/audio/surahs/94_1.mp3",
+      "source": "assets/audio/surahs/94_basmala.mp3",
+      "sourceRef": "12289e9dc3dda70bf67712e2d69ba70439bed9c2",
+      "sourceSha256": "7b937e0b14d8fbbd6cffebe9a2c9d24a3dcfffdbd7b9bd5c12624acf63ec308b",
+      "sha256": "7b937e0b14d8fbbd6cffebe9a2c9d24a3dcfffdbd7b9bd5c12624acf63ec308b",
+      "expectedArabic": "أَلَمْ نَشْرَحْ لَكَ صَدْرَكَ"
+    },
+    {
+      "target": "assets/audio/surahs/94_2.mp3",
+      "source": "assets/audio/surahs/94_1.mp3",
+      "sourceRef": "12289e9dc3dda70bf67712e2d69ba70439bed9c2",
+      "sourceSha256": "4dc60212939b209af63859fc0882cb4f1b54f3801593cd7f22125139a781b41f",
+      "sha256": "4dc60212939b209af63859fc0882cb4f1b54f3801593cd7f22125139a781b41f",
+      "expectedArabic": "وَوَضَعْنَا عَنْكَ وِزْرَكَ"
+    },
+    {
+      "target": "assets/audio/surahs/94_3.mp3",
+      "source": "assets/audio/surahs/94_2.mp3",
+      "sourceRef": "12289e9dc3dda70bf67712e2d69ba70439bed9c2",
+      "sourceSha256": "9b21f56335a1ab17e0e672be76f27adfafc1ab05bf86b98a4f9170939bb649c2",
+      "sha256": "9b21f56335a1ab17e0e672be76f27adfafc1ab05bf86b98a4f9170939bb649c2",
+      "expectedArabic": "الَّذِي أَنْقَضَ ظَهْرَكَ"
+    },
+    {
+      "target": "assets/audio/surahs/94_4.mp3",
+      "source": "assets/audio/surahs/94_3.mp3",
+      "sourceRef": "12289e9dc3dda70bf67712e2d69ba70439bed9c2",
+      "sourceSha256": "80075ebf50625749912254ba9bedb7a58fbbf1059e9f144f939e5a572058657d",
+      "sha256": "80075ebf50625749912254ba9bedb7a58fbbf1059e9f144f939e5a572058657d",
+      "expectedArabic": "وَرَفَعْنَا لَكَ ذِكْرَكَ"
+    },
+    {
+      "target": "assets/audio/surahs/94_5.mp3",
+      "source": "assets/audio/surahs/94_4.mp3",
+      "sourceRef": "12289e9dc3dda70bf67712e2d69ba70439bed9c2",
+      "sourceSha256": "d3f166459021bffd5bf3a2800c2009193870b6deb79154f9464cc777df275c37",
+      "sha256": "d3f166459021bffd5bf3a2800c2009193870b6deb79154f9464cc777df275c37",
+      "expectedArabic": "فَإِنَّ مَعَ الْعُسْرِ يُسْرًا"
+    },
+    {
+      "target": "assets/audio/surahs/94_6.mp3",
+      "source": "assets/audio/surahs/94_5.mp3",
+      "sourceRef": "12289e9dc3dda70bf67712e2d69ba70439bed9c2",
+      "sourceSha256": "172bf68b482d21200a7e90f18985834f14a09a714cdee0a989f02c2b952035cc",
+      "sha256": "172bf68b482d21200a7e90f18985834f14a09a714cdee0a989f02c2b952035cc",
+      "expectedArabic": "إِنَّ مَعَ الْعُسْرِ يُسْرًا"
+    },
+    {
+      "target": "assets/audio/surahs/94_7.mp3",
+      "source": "assets/audio/surahs/94_6.mp3",
+      "sourceRef": "12289e9dc3dda70bf67712e2d69ba70439bed9c2",
+      "sourceSha256": "e9f4a39ffea48b286893937b408f4724c67f28e63da2c8afee58798ea060b31b",
+      "sha256": "e9f4a39ffea48b286893937b408f4724c67f28e63da2c8afee58798ea060b31b",
+      "expectedArabic": "فَإِذَا فَرَغْتَ فَانْصَبْ"
+    },
+    {
+      "target": "assets/audio/surahs/94_8.mp3",
+      "source": "assets/audio/surahs/94_7.mp3",
+      "sourceRef": "12289e9dc3dda70bf67712e2d69ba70439bed9c2",
+      "sourceSha256": "1f1e45813252c2980ce50339ce06f3ac7d9570e22dde2ead853ff3f09126a659",
+      "sha256": "1f1e45813252c2980ce50339ce06f3ac7d9570e22dde2ead853ff3f09126a659",
+      "expectedArabic": "وَإِلَىٰ رَبِّكَ فَارْغَبْ"
+    }
+  ],
+  "excludedSource": {
+    "path": "assets/audio/surahs/94_8.mp3",
+    "sha256": "90f63364e91be9ebe489644606210be35d3a475afd33e2256d6802668ce5a67e",
+    "reason": "Extra trailing clip after ayah 8; not an ayah of surah 94."
+  }
+}

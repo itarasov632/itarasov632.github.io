@@ -14,16 +14,16 @@ const files=(s,a)=>[96,98].includes(s)?[]:s===67&&a!=='basmala'?(mulk[a]||[]).ma
   const st=await page.evaluate(async()=>{
    const ims=[...document.images];ims.forEach(i=>i.loading='eager');await Promise.all(ims.map(i=>i.decode()));
    return {overflow:document.documentElement.scrollWidth>innerWidth,mahraj:/махрадж/i.test(document.body.innerText),watercolor:[...document.styleSheets].some(s=>s.href?.includes('watercolor.css')),
-    images:ims.filter(i=>i.classList.contains('reading-image')&&i.getClientRects().length).map(i=>{const b=i.getBoundingClientRect(),s=getComputedStyle(i);return {src:i.src,width:b.width,height:b.height,ratio:i.naturalWidth/i.naturalHeight,filter:s.filter,blend:s.mixBlendMode}})};
+    images:ims.filter(i=>i.classList.contains('reading-image')&&i.getClientRects().length).map(i=>{const b=i.getBoundingClientRect(),s=getComputedStyle(i);return {src:i.src,width:b.width,height:b.height,naturalWidth:i.naturalWidth,ratio:i.naturalWidth/i.naturalHeight,filter:s.filter,blend:s.mixBlendMode}})};
   });assert(!st.overflow,name+' overflow');assert(!st.mahraj,name+' mahraj');assert(st.watercolor);
-  for(const i of st.images){assert(i.width>0&&i.width<310);assert(Math.abs(i.width/i.height-i.ratio)<.02,name+' distorted');assert.equal(i.filter,'none');assert.equal(i.blend,'normal')}
+  for(const i of st.images){assert(i.width>0&&i.width<310);assert(Math.abs(i.width/i.height-i.ratio)<.02,name+' distorted');assert.equal(i.filter,'none');assert.equal(i.blend,'normal');assert(i.naturalWidth>=i.width*2,name+' low resolution')}
   report.layouts.push({name,width:page.viewportSize().width,images:st.images.length});
   if(screenshot)await page.screenshot({path:path.join(out,name+'.png'),fullPage:true});
  }
  async function mockAudio(){await page.evaluate(()=>{window.played=[];window.instances=[];window.Audio=class{constructor(src){this.src=src;this.currentTime=0;this.paused=true;instances.push(this)}play(){this.paused=false;played.push(this.src);return Promise.resolve()}pause(){this.paused=true}}})}
  if(process.env.READING_QA_PHASE !== 'media'){
  for(const [sid,count] of Object.entries(counts)){
-  const s=+sid;await goto('/pages/surah.html?id='+s);await inspect('surah-'+s,[67,112,105].includes(s));
+  const s=+sid;await goto('/pages/surah.html?id='+s);await inspect('surah-'+s,[67,94,112,105].includes(s));
   assert.equal(await page.locator('.ayah img').count(),count);assert.equal(await page.locator('.basmala img').count(),1);assert.equal(await page.locator('.quran-scans').count(),0);
   await mockAudio();
   for(const a of ['basmala',...Array.from({length:count},(_,i)=>i+1)]){
@@ -49,7 +49,7 @@ const files=(s,a)=>[96,98].includes(s)?[]:s===67&&a!=='basmala'?(mulk[a]||[]).ma
  for(let i=1;i<=8;i++){await page.locator(`[data-fragment-number="${i}"] img`).click();assert((await page.evaluate(()=>currentAudio.src)).endsWith('/'+i+'.mp3'));assert.equal(await page.locator('.fragment.playing').count(),1)}
  await page.locator('#ayatTitle').click();assert.deepEqual(await page.evaluate(()=>fullQueue.map(i=>i.audioFile)),Array.from({length:8},(_,i)=>(i+1)+'.mp3'));
  for(let i=1;i<=8;i++){assert((await page.evaluate(()=>currentAudio.src)).endsWith('/'+i+'.mp3'));await page.evaluate(()=>currentAudio.onended())}assert.equal(await page.locator('.playing').count(),0);
- console.log('PASS: 180 surah cards, grouped audio, repeat/switch, navigation, full sequences, eight Kursi fixtures.');
+ console.log('PASS: 189 surah cards, grouped audio, repeat/switch, navigation, full sequences, eight Kursi fixtures.');
  }
  await goto('/pages/dhikr.html');await inspect('dhikr',true);assert.equal(await page.locator('.recite img').count(),11);
  // Real MP3 decoding, card matching, restart and exclusive playback in WebKit.
@@ -66,6 +66,21 @@ const files=(s,a)=>[96,98].includes(s)?[]:s===67&&a!=='basmala'?(mulk[a]||[]).ma
  }
  await page.evaluate(()=>document.querySelectorAll('audio').forEach(a=>a.pause()));
  await goto('/pages/surah.html?id=112');await page.locator('.ayah img').first().click();await page.waitForFunction(()=>currentAudio&&!currentAudio.paused&&currentAudio.currentTime>0);report.realMedia.push('112_1.mp3');await page.evaluate(()=>stopFullSurah());
+ // Ash-Sharh must have transparent PDF screenshots and nine independently playable clips.
+ await goto('/pages/surah.html?id=94');await inspect('surah-94-media',true);
+ const transparent=await page.locator('.surah-content img').evaluateAll(images=>images.map(image=>{
+  const canvas=document.createElement('canvas');canvas.width=image.naturalWidth;canvas.height=image.naturalHeight;
+  const ctx=canvas.getContext('2d');ctx.drawImage(image,0,0);const pixels=ctx.getImageData(0,0,canvas.width,canvas.height).data;
+  let clear=0,ink=0,white=0;for(let i=0;i<pixels.length;i+=4){if(!pixels[i+3])clear++;else{ink++;if(pixels[i]===255&&pixels[i+1]===255&&pixels[i+2]===255)white++}}
+  return {src:image.src,clear,ink,white};
+ }));
+ assert.equal(transparent.length,9);for(const image of transparent){assert(image.clear>0,image.src+' opaque paper');assert(image.ink>0);assert.equal(image.white,0,image.src+' white matte')}
+ for(const ayah of ['basmala',1,2,3,4,5,6,7,8]){
+  await page.locator(ayah==='basmala'?'#basmalaElement':`[data-ayah-number="${ayah}"]`).locator('img').click();
+  await page.waitForFunction(()=>currentAudio&&!currentAudio.paused&&currentAudio.currentTime>0&&currentAudio.readyState>=2);
+  assert((await page.evaluate(()=>currentAudio.src)).endsWith(`/94_${ayah}.mp3`));assert.equal(await page.locator('.playing').count(),1);report.realMedia.push(`94_${ayah}.mp3`);
+ }
+ await page.evaluate(()=>stopFullSurah());
  await goto('/pages/al-fatiha.html');await page.locator('.lesson').first().waitFor();await inspect('fatiha',true);assert.equal(await page.locator('.lesson').count(),9);assert.equal(await page.locator('.lesson img').count(),8);
  for(let i=0;i<9;i++){
   await page.locator('.lesson').nth(i).click();await page.locator('#viewer').waitFor();const full=i===8;
@@ -76,7 +91,7 @@ const files=(s,a)=>[96,98].includes(s)?[]:s===67&&a!=='basmala'?(mulk[a]||[]).ma
   if(i===0){await page.locator('#togglePlay').click();await page.waitForFunction(()=>document.querySelector('video').currentTime>0);await page.locator('#togglePlay').click();assert(await page.locator('video').evaluate(v=>v.paused));await page.locator('#forward').click();assert(await page.locator('video').evaluate(v=>v.currentTime>=10));await page.locator('#repeat').click();await page.waitForFunction(()=>{const v=document.querySelector('video');return !v.paused&&v.currentTime<3});report.realMedia.push('01-bismillah.mp4')}
   await page.locator('#backToList').click();await page.locator('#lessonList').waitFor();assert.equal(await page.locator('video').count(),0);
  }
- const routes=['/','/pages/alphabet.html','/pages/letter.html?id=2','/pages/tajweed.html','/pages/surahs.html','/pages/random-setup.html','/pages/random-play.html','/pages/surah.html?id=67','/pages/surah.html?id=112','/pages/ayat-al-kursi.html','/pages/dhikr.html','/pages/al-fatiha.html'];
+ const routes=['/','/pages/alphabet.html','/pages/letter.html?id=2','/pages/tajweed.html','/pages/surahs.html','/pages/random-setup.html','/pages/random-play.html','/pages/surah.html?id=67','/pages/surah.html?id=94','/pages/surah.html?id=112','/pages/ayat-al-kursi.html','/pages/dhikr.html','/pages/al-fatiha.html'];
  await page.evaluate(()=>localStorage.setItem('randomSelectedSurahs','[112,113,114]'));
  for(const width of [320,390,768]){await page.setViewportSize({width,height:844});for(const route of routes){await goto(route);await inspect(route.replaceAll('/','_').replaceAll('?','_')+'-'+width,route==='/'&&width===390)}}
  assert.deepEqual(errors,[]);assert.deepEqual(bad,[]);await browser.close();console.log('PASS: real MP3/video playback, video controls and 320/390/768px layouts.');
