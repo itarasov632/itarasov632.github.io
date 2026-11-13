@@ -10,7 +10,7 @@ if (output) fs.mkdirSync(output, {recursive:true});
  const page=await context.newPage(); const errors=[];
  page.on('pageerror', e=>errors.push(e.message));
  const base=process.argv[2]||'http://127.0.0.1:8765';
- const ids=[67,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114];
+ const ids=[67,94,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114];
  const results=[];
  for(const id of ids){
   await page.goto(`${base}/pages/surah.html?id=${id}`,{waitUntil:'networkidle'});
@@ -46,7 +46,7 @@ if (output) fs.mkdirSync(output, {recursive:true});
  await page.locator('#surahArabicName').click();
  assert.equal(await page.evaluate(()=>fullSurahQueue.length),19);
  await page.locator('#nextButton').click();
- assert.equal(await page.evaluate(()=>currentSurahId),96);
+ assert.equal(await page.evaluate(()=>currentSurahId),94);
  await page.goto(`${base}/pages/surah.html?id=1`); await page.waitForURL('**/al-fatiha.html');
  assert.equal(await page.locator('h1').count(),1);
  for(const width of [375,320]){

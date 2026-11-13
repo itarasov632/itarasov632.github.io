@@ -2,7 +2,7 @@ const fs=require('node:fs'),path=require('node:path'),assert=require('node:asser
 let pw;try{pw=require('playwright')}catch{pw=require('C:/Users/Admin/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright')}
 const base=(process.argv[2]||'http://127.0.0.1:8767/site').replace(/\/$/,'');
 const out=process.env.READING_QA_DIR||path.resolve(__dirname,'../../design/reading-restored');fs.mkdirSync(out,{recursive:true});
-const counts={67:30,96:19,97:5,98:8,99:8,100:11,101:11,102:8,103:3,104:9,105:5,106:4,107:7,108:3,109:6,110:3,111:5,112:4,113:5,114:6};
+const counts={67:30,94:8,96:19,97:5,98:8,99:8,100:11,101:11,102:8,103:3,104:9,105:5,106:4,107:7,108:3,109:6,110:3,111:5,112:4,113:5,114:6};
 const mulk={1:[1],2:[2,3],3:[4,5,6],4:[7],5:[8,9],6:[10],7:[11],8:[12,13],9:[14,15],10:[21],11:[22],12:[23]};
 const files=(s,a)=>[96,98].includes(s)?[]:s===67&&a!=='basmala'?(mulk[a]||[]).map(n=>`67_${n}.mp3`):[`${s}_${a}.mp3`];
 (async()=>{
@@ -40,7 +40,7 @@ const files=(s,a)=>[96,98].includes(s)?[]:s===67&&a!=='basmala'?(mulk[a]||[]).ma
  await page.locator('[data-ayah-number="2"] img').click();await page.evaluate(()=>{currentAudio.currentTime=8;window.old=currentAudio;window.stale=currentAudio.onended});
  await page.locator('[data-ayah-number="2"] img').click();assert(await page.evaluate(()=>old.paused&&old.currentTime===0&&currentAudio!==old));
  await page.locator('[data-ayah-number="3"] img').click();const before=await page.evaluate(()=>played.length);await page.evaluate(()=>stale());assert.equal(await page.evaluate(()=>played.length),before);
- assert.equal(await page.locator('.ayah.playing').getAttribute('data-ayah-number'),'3');await page.locator('#nextButton').click();assert(page.url().includes('id=96'));assert(await page.evaluate(()=>instances.every(a=>a.paused)));
+ assert.equal(await page.locator('.ayah.playing').getAttribute('data-ayah-number'),'3');await page.locator('#nextButton').click();assert(page.url().includes('id=94'));assert(await page.evaluate(()=>instances.every(a=>a.paused)));
  await page.goBack();assert(page.url().includes('id=67'));
  await goto('/pages/ayat-al-kursi.html');await inspect('kursi',true);assert.equal(await page.locator('.fragment img').count(),8);
  await page.locator('.fragment img').first().click();assert.match(await page.locator('#audioStatus').innerText(),/пока не добавлена/);assert.equal(await page.locator('.playing').count(),0);
