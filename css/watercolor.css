@@ -2,7 +2,7 @@
 :root{--paper:#faf7f0;--ink:#254d48;--teal:#326b63;--muted:#697773;--clay:#ad5737;--line:#e8dfd2;--shadow:0 4px 16px #5445330a;--radius:20px;color-scheme:light}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{background:var(--paper);min-height:100%;font-size:16px}
-body{margin:0!important;background:linear-gradient(#faf7f0dc,#faf7f0dc),url('../assets/images/watercolor/paper.png') repeat!important;color:var(--ink)!important;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;height:auto!important;min-height:100svh;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)!important;display:block!important}
+body{margin:0!important;background:linear-gradient(#faf7f0dc,#faf7f0dc),url('../assets/images/watercolor/paper.webp') repeat!important;color:var(--ink)!important;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;height:auto!important;min-height:100svh;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)!important;display:block!important}
 body::before{content:'';position:fixed;z-index:-1;inset:0;pointer-events:none;background:radial-gradient(ellipse at 100% 2%,#9ecbc326,transparent 45%),radial-gradient(ellipse at 0 95%,#e7bb9320,transparent 45%)}
 body>.container,body>main{width:100%;max-width:520px;margin:0 auto!important;min-height:100svh;height:auto!important;background:transparent!important;display:flex;flex-direction:column;padding:0 18px 24px!important}
 body>header{max-width:520px;margin:auto;padding:16px 18px!important;background:transparent!important;border:0!important}
@@ -125,3 +125,4 @@ img.reading-image,.basmala img.reading-image{display:block!important;max-width:1
 .fatiha #shortText{padding:14px 10px;margin:14px 0;background:#fffdf9;border:1px solid var(--line);border-radius:16px}
 .fatiha #shortText .reading-image,.fatiha #fullArabic .reading-image{margin-left:auto}
 .ayah:focus-visible,.fragment:focus-visible,.basmala:focus-visible,.recite:focus-visible{outline:3px solid var(--clay);outline-offset:3px}
+
