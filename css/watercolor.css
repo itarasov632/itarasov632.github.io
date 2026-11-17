@@ -40,12 +40,10 @@ button:disabled,[aria-disabled=true]{opacity:.45;cursor:default}
 .home .description{font-size:14px!important;line-height:1.5;margin:0 10px 18px!important;text-align:center}
 .home .features{gap:12px!important;margin:0 0 22px!important}
 .home .feature-card{background:#fffdf9db!important;border:1px solid var(--line);border-radius:20px!important;padding:15px 9px!important;box-shadow:var(--shadow)!important;min-width:0}
-.home .feature-icon{height:68px;width:100%;margin:0 0 6px!important;display:flex;align-items:center;justify-content:center}
-.home .feature-icon img{width:110px;height:75px}
-.home .feature-title{font-size:15px!important;line-height:1.25}
-.home .feature-desc{font-size:12px!important;margin-top:5px;line-height:1.3}
-.home .featured-lesson{display:grid!important;grid-template-columns:1fr 80px;text-align:left;align-items:center;padding:18px!important;column-gap:6px}
-.featured-lesson .lesson-copy{min-width:0}.featured-lesson img{width:80px;height:66px;grid-column:2;grid-row:1}
+.home .feature-icon{height:78px;width:100%;margin:0 0 6px;display:flex;align-items:center;justify-content:center}
+.home .feature-icon img{width:128px;max-width:100%;height:100%;mask-image:none}
+.home .feature-title{font-size:17px!important;line-height:1.2;letter-spacing:-.025em}
+.home .feature-desc{font-size:13px!important;margin-top:4px;line-height:1.3;text-wrap:balance}
 .home footer{font-size:12px!important;margin-top:auto;text-align:center;padding:12px 0!important}
 .install-hint{background:#e4eee8!important;color:var(--teal)!important}
 .letters-grid{padding:4px 0 16px!important;gap:10px!important;grid-template-rows:repeat(7,minmax(64px,1fr))!important;flex:none!important}
@@ -160,29 +158,6 @@ body>.container>.header, .dhikr>header, .fatiha main>header {
 .home .logo img {object-fit:contain}
 .home h1 {font-size:clamp(30px,8vw,40px)!important;letter-spacing:-.055em;margin-bottom:20px!important}
 .home .features {grid-template-columns:repeat(2,minmax(0,1fr))}
-.home .feature-card {
-  position:relative;isolation:isolate;overflow:hidden;
-  align-items:flex-start;text-align:left;justify-content:flex-start;
-  border-radius:16px!important;min-height:130px;padding:15px!important;
-}
-.home .feature-card:not(.pronunciation-hero) {padding-bottom:58px!important}
-.home .feature-card .feature-icon {
-  position:absolute;bottom:-3px;right:2px;width:90px;height:63px;margin:0!important;
-}
-.home .feature-icon img {width:100%;height:100%}
-.home .feature-card .feature-title {font-size:17px!important;font-weight:700;letter-spacing:-.025em}
-.home .feature-desc {font-size:12px!important;line-height:1.35}
-.home .pronunciation-hero {
-  grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) 36%;align-items:center;
-  min-height:164px;padding:19px 16px!important;gap:6px;
-  background:radial-gradient(ellipse at 80% 80%,#d2dec1 0%,transparent 58%),linear-gradient(115deg,#edf0e1,#e6e9d6)!important;
-  border:1.5px solid #93a083;
-}
-.hero-copy {min-width:0;display:grid;gap:8px}
-.hero-title {font-size:clamp(23px,6.4vw,32px);line-height:1.05;font-weight:740;letter-spacing:-.045em;color:var(--ink)}
-.hero-desc,.hero-action {font-size:14px;line-height:1.35}
-.hero-action {margin-top:7px;color:var(--teal);font-weight:700}
-.home .pronunciation-hero img {width:100%;height:auto;align-self:end;object-fit:contain}
 .library {font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 .library main {display:block;padding-bottom:40px!important}
 .library-back {display:inline-flex;align-items:center;min-height:44px;font-weight:600;text-decoration:none}
@@ -212,7 +187,6 @@ body>.container>.header, .dhikr>header, .fatiha main>header {
 .prayer-text p+p {border-top:1px solid #e3dacb}
 .reference {font-size:14px;text-underline-offset:3px}
 @media (max-width:355px) {
-  .home .pronunciation-hero {grid-template-columns:minmax(0,1fr) 29%;padding:16px 12px!important}
   .library-card {grid-template-columns:42px minmax(0,1fr) 10px;gap:10px;padding:12px}
 }
 
