@@ -177,6 +177,55 @@
             opacity: 0.3;
             pointer-events: none;
         }
+
+        .letter-lesson {
+            margin-bottom: 24px;
+        }
+
+        .lesson-heading {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .lesson-heading h2 {
+            font-size: 20px;
+        }
+
+        .lesson-duration, .lesson-description, .lesson-error {
+            font-size: 14px;
+            color: var(--muted, #697773);
+        }
+
+        .lesson-description {
+            margin-bottom: 14px;
+        }
+
+        .lesson-play {
+            width: 100%;
+            margin-bottom: 12px;
+            padding: 14px;
+            color: #fff;
+            background: var(--teal, #326b63);
+            border: 0;
+        }
+
+        .lesson-video {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-height: 78svh;
+            object-fit: contain;
+            background: #fff;
+            border: 1px solid var(--line, #e8dfd2);
+            border-radius: 18px;
+        }
+
+        .lesson-error {
+            margin-top: 10px;
+        }
         
         @media (max-width: 375px) {
             .letter-symbol {
@@ -203,6 +252,7 @@
 <link rel="stylesheet" href="../css/watercolor.css?v=20261115-webp-2">
 <script src="../js/data/quran-scans.js?v=20261102-watercolor-1"></script>
 <script src="../js/quran-view.js?v=20261102-watercolor-1"></script>
+<script src="../js/data/letter-lessons.js?v=20261117-ro-1"></script>
 </head>
 <body class="letter">
     <div class="container">
@@ -238,6 +288,19 @@
                     </div>
                 </div>
             </section>
+
+            <section class="letter-lesson" id="letterLesson" aria-labelledby="lessonTitle" hidden>
+                <div class="lesson-heading">
+                    <h2 id="lessonTitle">Обучающее видео</h2>
+                    <span class="lesson-duration" id="lessonDuration"></span>
+                </div>
+                <p class="lesson-description" id="lessonDescription"></p>
+                <button class="lesson-play" id="lessonPlay" type="button">▶ Смотреть видео</button>
+                <video class="lesson-video" id="lessonVideo" controls playsinline preload="none"></video>
+                <p class="lesson-error" id="lessonError" role="status" hidden>
+                    Видео не загрузилось. <a id="lessonVideoLink">Открыть ролик отдельно</a>
+                </p>
+            </section>
         </div>
         
         <div class="navigation">
@@ -257,7 +320,7 @@
             { id: 7, letter: "خ", name: "Ха" },
             { id: 8, letter: "د", name: "Даль" },
             { id: 9, letter: "ذ", name: "Заль" },
-            { id: 10, letter: "ر", name: "Ра" },
+            { id: 10, letter: "ر", name: "Ро" },
             { id: 11, letter: "ز", name: "За" },
             { id: 12, letter: "س", name: "Син" },
             { id: 13, letter: "ش", name: "Шин" },
@@ -323,6 +386,7 @@
             loadLetter(currentLetterId);
             setupNavigation();
             setupAudio();
+            setupLessonVideo();
         });
 
         function loadLetter(letterId) {
@@ -342,6 +406,72 @@
             }
             
             updateNavigation(letterId);
+            loadLessonVideo(letterId);
+        }
+
+        function stopLetterAudio() {
+            if (!currentAudio) return;
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+            currentAudio = null;
+        }
+
+        function loadLessonVideo(letterId) {
+            const section = document.getElementById('letterLesson');
+            const video = document.getElementById('lessonVideo');
+            const lesson = window.LETTER_LESSONS?.[letterId];
+            video.pause();
+            video.removeAttribute('src');
+            video.removeAttribute('poster');
+            video.load();
+            section.hidden = !lesson;
+            document.getElementById('lessonError').hidden = true;
+            document.getElementById('lessonPlay').textContent = '▶ Смотреть видео';
+            if (!lesson) return;
+
+            document.getElementById('lessonTitle').textContent = `Буква ${lesson.name} · видеоурок`;
+            document.getElementById('lessonDescription').textContent = lesson.description;
+            const seconds = Math.round(lesson.durationSeconds);
+            document.getElementById('lessonDuration').textContent = `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
+            video.width = lesson.width;
+            video.height = lesson.height;
+            video.poster = lesson.poster;
+            video.src = lesson.video;
+            video.setAttribute('aria-label', `Обучающее видео: буква ${lesson.name}`);
+            document.getElementById('lessonVideoLink').href = lesson.video;
+        }
+
+        function setupLessonVideo() {
+            const video = document.getElementById('lessonVideo');
+            const button = document.getElementById('lessonPlay');
+            button.addEventListener('click', () => {
+                if (!video.paused) {
+                    video.pause();
+                    return;
+                }
+                if (video.ended) video.currentTime = 0;
+                video.play().catch(() => {
+                    document.getElementById('lessonError').hidden = false;
+                });
+            });
+            video.addEventListener('play', () => {
+                stopLetterAudio();
+                document.getElementById('lessonError').hidden = true;
+                button.textContent = '⏸ Пауза';
+            });
+            video.addEventListener('pause', () => {
+                button.textContent = video.currentTime > 0 ? '▶ Продолжить' : '▶ Смотреть видео';
+            });
+            video.addEventListener('ended', () => {
+                button.textContent = '↻ Посмотреть ещё раз';
+            });
+            video.addEventListener('error', () => {
+                if (video.getAttribute('src')) document.getElementById('lessonError').hidden = false;
+            });
+            window.addEventListener('pagehide', () => {
+                video.pause();
+                stopLetterAudio();
+            });
         }
 
         function setupNavigation() {
@@ -389,6 +519,7 @@
         }
 
         function playAudio() {
+            document.getElementById('lessonVideo').pause();
             if (currentAudio) {
                 currentAudio.pause();
                 currentAudio.currentTime = 0;
