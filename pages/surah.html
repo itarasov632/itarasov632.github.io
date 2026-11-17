@@ -231,7 +231,7 @@
             .nav-button { padding: 8px 14px; font-size: 14px; }
         }
     </style>
-<link rel="stylesheet" href="../css/watercolor.css?v=20261115-webp-2">
+<link rel="stylesheet" href="../css/watercolor.css?v=20261117-library">
 <script src="../js/data/reading-cards.js?v=20261115-webp-2"></script>
 <script src="../js/reading-cards.js?v=20261103-cards-1"></script>
 <link rel="stylesheet" href="../css/ayah-tafsir.css?v=20261113-1">
@@ -240,7 +240,7 @@
 <body class="surah">
     <div class="container">
         <div class="header">
-            <a href="surahs.html" class="back-button">‹</a>
+            <a href="surahs.html" class="back-button" aria-label="Назад">‹</a>
             <div class="header-content" id="headerContent"></div>
             <div style="width: 44px;"></div>
         </div>
@@ -574,7 +574,9 @@
                 currentPlayingElement = null;
             }
             currentSurahId = id;
-            window.history.pushState({}, '', `?id=${id}`);
+            const url = new URL(location.href);
+            url.searchParams.set('id', id);
+            window.history.pushState({}, '', url);
             loadSurah(id);
             document.getElementById('surahContent').scrollTop = 0;
         }
@@ -664,6 +666,11 @@
         document.addEventListener('DOMContentLoaded', () => {
             const params = new URLSearchParams(window.location.search);
             const id = parseInt(params.get('id'));
+            if (params.get('from') === 'pronunciation') {
+                document.querySelectorAll('a[href="surahs.html"]').forEach(link => {
+                    link.href = 'pronunciation.html#reading';
+                });
+            }
             if (id && surahsData[id]) currentSurahId = id;
             loadSurah(currentSurahId);
             setupRecording();

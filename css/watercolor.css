@@ -1,5 +1,5 @@
 /* Shared watercolor shell. Quran screenshots are never filtered or blended. */
-:root{--paper:#faf7f0;--ink:#254d48;--teal:#326b63;--muted:#697773;--clay:#ad5737;--line:#e8dfd2;--shadow:0 4px 16px #5445330a;--radius:20px;color-scheme:light}
+:root{--paper:#faf6ee;--ink:#153e38;--teal:#31594c;--muted:#53645a;--clay:#965235;--line:#cfc4ae;--shadow:0 2px 7px #65533808;--radius:18px;color-scheme:light}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{background:var(--paper);min-height:100%;font-size:16px}
 body{margin:0!important;background:linear-gradient(#faf7f0dc,#faf7f0dc),url('../assets/images/watercolor/paper.webp') repeat!important;color:var(--ink)!important;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;height:auto!important;min-height:100svh;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)!important;display:block!important}
@@ -125,4 +125,94 @@ img.reading-image,.basmala img.reading-image{display:block!important;max-width:1
 .fatiha #shortText{padding:14px 10px;margin:14px 0;background:#fffdf9;border:1px solid var(--line);border-radius:16px}
 .fatiha #shortText .reading-image,.fatiha #fullArabic .reading-image{margin-left:auto}
 .ayah:focus-visible,.fragment:focus-visible,.basmala:focus-visible,.recite:focus-visible{outline:3px solid var(--clay);outline-offset:3px}
+
+/* Paper, illustrated covers and reading surfaces across the public app. */
+body {
+  background:linear-gradient(#faf6eef2,#faf6eedc),url('../assets/images/watercolor/paper.webp') repeat!important;
+}
+body>.container>.header, .dhikr>header, .fatiha main>header {
+  border-bottom:1px solid var(--line)!important;
+  margin-bottom:12px;
+}
+.header .title, .dhikr>header h1, .fatiha h1 {
+  font-weight:730;
+  letter-spacing:-.035em;
+}
+.surah .header-content strong {font-size:22px;letter-spacing:-.035em}
+.letter-top,.form-card,.letter-cell,.random-setup .surah-item,.ayah-info,
+.ayat-al-kursi .fragment,.surah .ayah,.surah .basmala,.dhikr .card,.fatiha .lesson {
+  background:linear-gradient(120deg,#fffdf9,#f8f4ea)!important;
+  border-color:var(--line)!important;
+}
+.surah .ayah.playing,.surah .basmala.playing,.ayat-al-kursi .fragment.playing,
+.dhikr .recite.playing,.random-setup .surah-item:has(input:checked) {
+  background:#e2ebd9!important;border-color:#829571!important;
+}
+.letter .letter-top,.random-play .ayah-info,.tajweed .content {
+  background:radial-gradient(ellipse at 90% 8%,#dce5cd80,transparent 60%),#fffbf5!important;
+  border:1px solid var(--line);border-radius:var(--radius);
+}
+.tajweed .content {flex:0;min-height:380px}
+.random-play .play-button,.record-btn,.start-button,.surah-arabic-name {
+  font-weight:600;
+}
+.home .logo {height:74px;width:112px;margin:17px auto 3px!important}
+.home .logo img {object-fit:contain}
+.home h1 {font-size:clamp(30px,8vw,40px)!important;letter-spacing:-.055em;margin-bottom:20px!important}
+.home .features {grid-template-columns:repeat(2,minmax(0,1fr))}
+.home .feature-card {
+  position:relative;isolation:isolate;overflow:hidden;
+  align-items:flex-start;text-align:left;justify-content:flex-start;
+  border-radius:16px!important;min-height:130px;padding:15px!important;
+}
+.home .feature-card:not(.pronunciation-hero) {padding-bottom:58px!important}
+.home .feature-card .feature-icon {
+  position:absolute;bottom:-3px;right:2px;width:90px;height:63px;margin:0!important;
+}
+.home .feature-icon img {width:100%;height:100%}
+.home .feature-card .feature-title {font-size:17px!important;font-weight:700;letter-spacing:-.025em}
+.home .feature-desc {font-size:12px!important;line-height:1.35}
+.home .pronunciation-hero {
+  grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) 36%;align-items:center;
+  min-height:164px;padding:19px 16px!important;gap:6px;
+  background:radial-gradient(ellipse at 80% 80%,#d2dec1 0%,transparent 58%),linear-gradient(115deg,#edf0e1,#e6e9d6)!important;
+  border:1.5px solid #93a083;
+}
+.hero-copy {min-width:0;display:grid;gap:8px}
+.hero-title {font-size:clamp(23px,6.4vw,32px);line-height:1.05;font-weight:740;letter-spacing:-.045em;color:var(--ink)}
+.hero-desc,.hero-action {font-size:14px;line-height:1.35}
+.hero-action {margin-top:7px;color:var(--teal);font-weight:700}
+.home .pronunciation-hero img {width:100%;height:auto;align-self:end;object-fit:contain}
+.library {font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.library main {display:block;padding-bottom:40px!important}
+.library-back {display:inline-flex;align-items:center;min-height:44px;font-weight:600;text-decoration:none}
+.library h1 {font-size:clamp(29px,7.3vw,39px);letter-spacing:-.045em;line-height:1.12;margin:8px 0 22px}
+.library h2 {font-size:20px;letter-spacing:-.025em;margin:0 0 12px}
+.library section {margin:24px 0;scroll-margin-top:14px}
+.jump-links {display:flex;flex-wrap:wrap;gap:4px 8px;border-block:1px solid var(--line)}
+.jump-links a {display:inline-flex;align-items:center;min-height:44px;padding:0 6px;font-size:14px;font-weight:600;text-underline-offset:4px}
+.catalog-list {display:grid;gap:10px}
+.library-card {
+  display:grid;grid-template-columns:50px minmax(0,1fr) 14px;align-items:center;gap:13px;
+  padding:14px 15px;border:1px solid #abb297;border-radius:15px;
+  background:linear-gradient(105deg,#f4f2e7,#fffaf4 52%);text-decoration:none;color:var(--ink);min-height:84px;
+}
+.library-card:hover,.home .feature-card:hover {border-color:#7d8e73}
+.library-card img {width:100%;height:59px;object-fit:contain}
+.card-copy {display:grid;gap:3px}
+.card-copy strong {font-size:20px;line-height:1.2;letter-spacing:-.025em}
+.card-copy small {font-size:13px;line-height:1.35;color:var(--muted)}
+.card-copy .book-number {font-size:12px;font-weight:600}
+.chevron {font-size:27px;text-align:right;color:var(--teal)}
+.prayer-heading {display:flex;align-items:center;justify-content:space-between;gap:12px;margin:4px 0 18px}
+.prayer-heading h1 {margin:0}
+.prayer-heading img {width:76px;height:68px;object-fit:contain}
+.prayer-text {padding:4px 20px;background:#fffbf5;border:1px solid var(--line);border-radius:var(--radius)}
+.prayer-text p {margin:0;padding:14px 0;font:28px/1.95 "Traditional Arabic","Geeza Pro",serif}
+.prayer-text p+p {border-top:1px solid #e3dacb}
+.reference {font-size:14px;text-underline-offset:3px}
+@media (max-width:355px) {
+  .home .pronunciation-hero {grid-template-columns:minmax(0,1fr) 29%;padding:16px 12px!important}
+  .library-card {grid-template-columns:42px minmax(0,1fr) 10px;gap:10px;padding:12px}
+}
 
