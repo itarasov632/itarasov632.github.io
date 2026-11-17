@@ -1,6 +1,11 @@
 (() => {
   'use strict';
   const $ = id => document.getElementById(id);
+  if (new URLSearchParams(location.search).get('from') === 'namaz') {
+    const backLink = document.querySelector('header a.back');
+    backLink.href = 'namaz.html';
+    backLink.textContent = '‹ Для намаза';
+  }
   const {mediaFolder = 'al-fatiha', cardFolder = 'fatiha', manifestVersion = '20261103-transcription-1'} = document.body.dataset;
   const base = new URL(`../media/${mediaFolder}/`, location.href);
   let clips = [], selected = -1, video = null, lastButton = null;
