@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "asset_version": "2026-11-17-v1",
+  "total_video_bytes": 21607050,
+  "clips": [
+    {
+      "id": "al-ikhlas-qul-huwa",
+      "filename": "01-qul-huwa.mp4",
+      "title": "Къуль hуваллааhу ахьад",
+      "playback_order": 1,
+      "lesson_index": 1,
+      "kind": "explanation",
+      "surah": 112,
+      "ayah_numbers": [
+        1
+      ],
+      "ayah_part": "whole",
+      "text_arabic": "قُلْ هُوَ ٱللَّهُ أَحَدٌ",
+      "duration_seconds": 177.813,
+      "width": 540,
+      "height": 584,
+      "size_bytes": 8423929,
+      "poster": "01-qul-huwa.jpg",
+      "mime_type": "video/mp4",
+      "is_complete": true,
+      "publish_by_default": true,
+      "sha256": "cea16ed8ec7259e321dd57f3faf554b1d0b37407eb5fab47586a28325865f99c"
+    },
+    {
+      "id": "al-ikhlas-allahu-s-samad",
+      "filename": "02-allahu-s-samad.mp4",
+      "title": "Аллааhус-сомад",
+      "playback_order": 2,
+      "lesson_index": 2,
+      "kind": "explanation",
+      "surah": 112,
+      "ayah_numbers": [
+        2
+      ],
+      "ayah_part": "whole",
+      "text_arabic": "ٱللَّهُ ٱلصَّمَدُ",
+      "duration_seconds": 102.016,
+      "width": 540,
+      "height": 584,
+      "size_bytes": 4784652,
+      "poster": "02-allahu-s-samad.jpg",
+      "mime_type": "video/mp4",
+      "is_complete": true,
+      "publish_by_default": true,
+      "sha256": "86a8b27a48a741b9bd070724ab8a6863f44b42e4487505308549c24c9c44c837"
+    },
+    {
+      "id": "al-ikhlas-lam-yalid",
+      "filename": "03-lam-yalid.mp4",
+      "title": "Лям йялид уа лям йууляд",
+      "playback_order": 3,
+      "lesson_index": 3,
+      "kind": "explanation",
+      "surah": 112,
+      "ayah_numbers": [
+        3
+      ],
+      "ayah_part": "whole",
+      "text_arabic": "لَمْ يَلِدْ وَلَمْ يُولَدْ",
+      "duration_seconds": 57.109,
+      "width": 540,
+      "height": 584,
+      "size_bytes": 2487401,
+      "poster": "03-lam-yalid.jpg",
+      "mime_type": "video/mp4",
+      "is_complete": true,
+      "publish_by_default": true,
+      "sha256": "9f3f2b9f2ae7f4721669931327ab9b43a55acdd130de26380792f57a47382f7d"
+    },
+    {
+      "id": "al-ikhlas-wa-lam-yakun",
+      "filename": "04-wa-lam-yakun.mp4",
+      "title": "Уа лям йякулляhуу куфууан ахьад",
+      "playback_order": 4,
+      "lesson_index": 4,
+      "kind": "explanation",
+      "surah": 112,
+      "ayah_numbers": [
+        4
+      ],
+      "ayah_part": "whole",
+      "text_arabic": "وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌ",
+      "duration_seconds": 97.002,
+      "width": 540,
+      "height": 584,
+      "size_bytes": 4564009,
+      "poster": "04-wa-lam-yakun.jpg",
+      "mime_type": "video/mp4",
+      "is_complete": true,
+      "publish_by_default": true,
+      "sha256": "c9a798386fcca98a3adb911323fb2de52f212e9b377f802850147b8c2a1ae936"
+    },
+    {
+      "id": "al-ikhlas-full-recitation",
+      "filename": "05-full-recitation.mp4",
+      "title": "Чтение всей суры Аль-Ихлас",
+      "playback_order": 5,
+      "lesson_index": null,
+      "kind": "full_recitation",
+      "surah": 112,
+      "ayah_numbers": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "ayah_part": null,
+      "text_arabic": "قُلْ هُوَ ٱللَّهُ أَحَدٌ\nٱللَّهُ ٱلصَّمَدُ\nلَمْ يَلِدْ وَلَمْ يُولَدْ\nوَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌ",
+      "duration_seconds": 30.912,
+      "width": 540,
+      "height": 682,
+      "size_bytes": 1347059,
+      "poster": "05-full-recitation.jpg",
+      "mime_type": "video/mp4",
+      "is_complete": true,
+      "publish_by_default": true,
+      "sha256": "78e5ecca17769f9434d6af0e74c903c6055f44d8250f4b5a1414c5202f82a5db"
+    }
+  ]
+}

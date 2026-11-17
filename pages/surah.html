@@ -371,6 +371,13 @@
             status.className = 'audio-status';
             status.setAttribute('role', 'status');
             content.appendChild(status);
+            if (surahId === 112) {
+                const lesson = document.createElement('a');
+                lesson.className = 'nav-button';
+                lesson.href = 'al-ikhlas.html';
+                lesson.textContent = '▶ Видеоуроки по суре Аль-Ихлас';
+                content.appendChild(lesson);
+            }
             if (surahId === 114) {
                 const hint = document.createElement('p');
                 hint.id = 'tafsirHint';

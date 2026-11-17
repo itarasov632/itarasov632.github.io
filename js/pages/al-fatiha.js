@@ -1,10 +1,11 @@
 (() => {
   'use strict';
   const $ = id => document.getElementById(id);
-  const base = new URL('../media/al-fatiha/', location.href);
+  const {mediaFolder = 'al-fatiha', cardFolder = 'fatiha', manifestVersion = '20261103-transcription-1'} = document.body.dataset;
+  const base = new URL(`../media/${mediaFolder}/`, location.href);
   let clips = [], selected = -1, video = null, lastButton = null;
   const duration = seconds => `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`;
-  const label = clip => clip.kind === 'full_recitation' ? 'Аяты 1–7' :
+  const label = clip => clip.kind === 'full_recitation' ? `Аяты ${clip.ayah_numbers[0]}–${clip.ayah_numbers[clip.ayah_numbers.length - 1]}` :
     `Аят ${clip.ayah_numbers.join(', ')}${clip.ayah_part === 'opening_part' ? ' · часть 1' : clip.ayah_part === 'closing_part' ? ' · часть 2' : ''}`;
   const asset = (name, clip) => new URL(`${name}?v=${clip.sha256.slice(0, 12)}`, base).href;
   // Match the pronunciation marks in the supplied transcription reference.
@@ -57,7 +58,9 @@
     $('clipLabel').textContent = `${label(clip)} · ${duration(clip.duration_seconds)} · ${(clip.size_bytes / 1e6).toFixed(1)} МБ`;
     const full = clip.kind === 'full_recitation';
     $('shortText').hidden = full; $('fullText').hidden = !full; $('fullText').open = false;
-    $(full ? 'fullArabic' : 'shortText').innerHTML = readingCardMarkup(`fatiha/${full ? 'full' : clip.lesson_index}`, label(clip));
+    $(full ? 'fullArabic' : 'shortText').innerHTML = full && cardFolder !== 'fatiha'
+      ? clip.ayah_numbers.map(number => readingCardMarkup(`${cardFolder}/${number}`, `Аят ${number}`)).join('')
+      : readingCardMarkup(`${cardFolder}/${full ? 'full' : clip.lesson_index}`, label(clip));
     $('previous').disabled = index === 0; $('next').disabled = index === clips.length - 1;
     mountVideo(clip);
     $('clipTitle').focus({ preventScroll: true }); window.scrollTo(0, 0);
@@ -83,7 +86,7 @@
   async function loadList() {
     $('reloadList').hidden = true; $('listStatus').textContent = 'Загрузка списка…';
     try {
-      const response = await fetch(new URL('manifest.json?v=20261103-transcription-1', base));
+      const response = await fetch(new URL(`manifest.json?v=${manifestVersion}`, base));
       if (!response.ok) throw new Error('Manifest unavailable');
       const data = await response.json();
       clips = data.clips.filter(clip => clip.is_complete && clip.publish_by_default && ['explanation', 'full_recitation'].includes(clip.kind)).sort((a, b) => a.playback_order - b.playback_order);
@@ -99,7 +102,7 @@
         button.append(meta, title);
         if (clip.kind === 'explanation') {
           const text = document.createElement('span');
-          text.innerHTML = readingCardMarkup(`fatiha/${clip.lesson_index}`, label(clip));
+          text.innerHTML = readingCardMarkup(`${cardFolder}/${clip.lesson_index}`, label(clip));
           button.append(text);
         }
 

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f2f2f7">
+  <title>Обучение суре Аль-Ихлас • Второй учитель</title>
+  <link rel="stylesheet" href="../css/pages/al-fatiha.css?v=20261102-1">
+  <script src="../js/pages/al-fatiha.js?v=20261117-lessons" defer></script>
+<link rel="stylesheet" href="../css/watercolor.css?v=20261115-webp-2">
+<script src="../js/data/reading-cards.js?v=20261115-webp-2"></script>
+<script src="../js/reading-cards.js?v=20261103-cards-1"></script>
+</head>
+<body class="fatiha" data-media-folder="al-ikhlas" data-card-folder="112" data-manifest-version="20261117-1">
+  <main>
+    <header><a class="back" href="../index.html">← Главная</a><span>Второй учитель</span></header>
+    <img class="wc-art page-art" src="../assets/images/watercolor/tajweed.webp" alt="" aria-hidden="true"><h1>Обучение суре Аль-Ихлас</h1>
+    <section id="lessonList" aria-label="Выбор фрагмента">
+      <p class="intro">Выберите часть суры и повторяйте за преподавателем.</p>
+      <p class="note">4 аята · 4 объяснения</p>
+      <p id="listStatus" role="status">Загрузка списка…</p>
+      <button id="reloadList" hidden>Загрузить список ещё раз</button>
+      <div id="explanations" class="lessons"></div>
+      <h2 id="recitationHeading" hidden>Чтение всей суры</h2>
+      <div id="recitation" class="lessons"></div>
+      <p class="note source"><a href="surah.html?id=112">Читать и слушать суру Аль-Ихлас</a></p>
+    </section>
+    <section id="viewer" aria-labelledby="clipTitle" hidden>
+      <button id="backToList" class="back">← К списку</button>
+      <p id="clipLabel" class="note"></p>
+      <h2 id="clipTitle" tabindex="-1"></h2>
+      <div id="shortText"></div>
+      <details id="fullText" hidden><summary>Текст всей суры</summary><div id="fullArabic"></div></details>
+      <div id="videoSlot"></div>
+      <p id="playerStatus" role="status" aria-live="polite"></p>
+      <button id="retry" hidden>Загрузить видео ещё раз</button>
+      <div class="controls">
+        <button id="togglePlay">▶ Смотреть</button>
+        <button id="repeat">↻ Повторить</button>
+        <button id="rewind" aria-label="Назад на 10 секунд">−10 сек</button>
+        <button id="forward" aria-label="Вперёд на 10 секунд">+10 сек</button>
+      </div>
+      <button id="fullscreen" class="wide">⛶ На весь экран</button>
+      <nav class="controls navigation" aria-label="Переход между фрагментами">
+        <button id="previous">← Предыдущий</button><button id="next">Следующий →</button>
+      </nav>
+    </section>
+    <noscript>Для просмотра обучения включите JavaScript в браузере.</noscript>
+  </main>
+</body>
+</html>
