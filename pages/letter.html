@@ -336,7 +336,7 @@
             { id: 23, letter: "ل", name: "Лям" },
             { id: 24, letter: "م", name: "Мим" },
             { id: 25, letter: "ن", name: "Нун" },
-            { id: 26, letter: "ه", name: "Ха" },
+            { id: 26, letter: "ه", name: "Ха", showInitialForm: true },
             { id: 27, letter: "و", name: "Вав" },
             { id: 28, letter: "ي", name: "Йа" }
         ];
@@ -393,12 +393,12 @@
             const letter = arabicAlphabet[letterId - 1];
             if (!letter) return;
             
+            const forms = letterForms[letterId];
             document.title = `${letter.letter} - ${letter.name}`;
             document.getElementById('pageTitle').textContent = letter.name;
-            document.getElementById('letterSymbol').textContent = letter.letter;
+            document.getElementById('letterSymbol').textContent = letter.showInitialForm ? forms.initial : letter.letter;
             document.getElementById('letterName').textContent = letter.name;
             
-            const forms = letterForms[letterId];
             if (forms) {
                 document.getElementById('formFinal').textContent = forms.final;
                 document.getElementById('formMedial').textContent = forms.medial;
